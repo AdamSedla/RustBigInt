@@ -22,3 +22,5 @@ mod tests {
         assert_eq!(def.numbers, [0].to_vec());
     }
 }
+
+fn main() {}
