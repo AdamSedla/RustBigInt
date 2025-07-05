@@ -14,6 +14,7 @@ impl Default for BigInt {
 
 #[cfg(test)]
 mod tests {
+    use crate::BigInt;
 
     #[test]
     fn default() {
