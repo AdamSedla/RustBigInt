@@ -12,6 +12,12 @@ impl Default for BigInt {
     }
 }
 
+impl BigInt {
+    fn new() -> BigInt {
+        BigInt::default()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::BigInt;
