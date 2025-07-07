@@ -1,13 +1,13 @@
 struct BigInt {
     positive: bool,
-    numbers: Vec<i32>,
+    numbers: Vec<u8>,
 }
 
 impl Default for BigInt {
     fn default() -> Self {
         BigInt {
             positive: true,
-            numbers: [0].to_vec(),
+            numbers: vec![0],
         }
     }
 }
