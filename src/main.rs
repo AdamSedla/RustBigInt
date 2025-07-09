@@ -174,6 +174,28 @@ mod tests {
             "minus two zero zero zero zero zero zero zero zero zero zero zero one"
         );
     }
+
+    #[test]
+    fn equal() {
+        let x = BigInt::from(10);
+        let y = BigInt::from(10);
+        assert!(x == y);
+        let x = BigInt::from(101010);
+        let y = BigInt::from(101010);
+        assert!(x == y);
+        let x = BigInt::from(0);
+        let y = BigInt::from(0);
+        assert!(x == y);
+        let x = BigInt::from(10);
+        let y = BigInt::from(-10);
+        assert!(x != y);
+        let x = BigInt::from(11);
+        let y = BigInt::from(10);
+        assert!(x != y);
+        let x = BigInt::from(-0);
+        let y = BigInt::from(0);
+        assert!(x == y);
+    }
 }
 
 fn main() {}
