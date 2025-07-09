@@ -121,6 +121,25 @@ mod tests {
         let x = BigInt::try_from("twenty thousand hundred");
         assert!(x.is_err());
     }
+
+    #[test]
+    fn display() {
+        let x = BigInt::from(1003);
+        assert_eq!(format!("Number is: {x}"), "Number is: 1003");
+        let x = BigInt::from(0);
+        assert_eq!(format!("Number is: {x}"), "Number is: 0");
+        let x = BigInt::from(-100);
+        assert_eq!(format!("Number is: {x}"), "Number is: -100");
+        let x = BigInt::from(-0);
+        assert_eq!(format!("Number is: {x}"), "Number is: -0");
+        let x = BigInt::from(-1);
+        assert_eq!(format!("Number is: {x}"), "Number is: -1");
+        let x = BigInt::from(320020000981234567890);
+        assert_eq!(
+            format!("Number is: {x}"),
+            "Number is: 320020000981234567890"
+        );
+    }
 }
 
 fn main() {}
