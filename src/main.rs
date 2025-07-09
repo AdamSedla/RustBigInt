@@ -224,8 +224,11 @@ mod tests {
 
     #[test]
     fn greater() {
-        let x = BigInt::from(15);
+        let x: BigInt = BigInt::from(15);
         let y = BigInt::from(10);
+        assert!(x > y);
+        let x: BigInt = BigInt::from(8);
+        let y = BigInt::from(7);
         assert!(x > y);
         let x = BigInt::from(10);
         let y = BigInt::from(10);
