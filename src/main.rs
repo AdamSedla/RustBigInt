@@ -159,6 +159,21 @@ mod tests {
             "Number is: +320020000981234567890"
         );
     }
+
+    #[test]
+    fn to_words() {
+        let x = BigInt::from(20);
+        assert_eq!(x.to_words(), "two zero");
+        let x = BigInt::from(-24);
+        assert_eq!(x.to_words(), "minus two four");
+        let x = BigInt::from(2550021);
+        assert_eq!(x.to_words(), "two five five zero zero two one");
+        let x = BigInt::from(-2000000000001);
+        assert_eq!(
+            x.to_words(),
+            "minus two zero zero zero zero zero zero zero zero zero zero zero one"
+        );
+    }
 }
 
 fn main() {}
