@@ -1,3 +1,4 @@
+#[derive(Clone)]
 struct BigInt {
     positive: bool,
     numbers: Vec<u8>,
