@@ -557,6 +557,58 @@ mod tests {
         assert_eq!(z, 3);
         assert!(x == y);
     }
+
+    #[test]
+    fn reminder() {
+        let mut x: BigInt = BigInt::from(10000);
+        let y = BigInt::from(10);
+        let z = x % y;
+        x %= y;
+        assert_eq!(z, 0);
+        assert_eq!(z, x);
+
+        let mut x: BigInt = BigInt::from(10);
+        let y = BigInt::from(0);
+        let z = x % y;
+        x %= y;
+        assert_eq!(z, 0);
+        assert_eq!(z, x);
+
+        let mut x: BigInt = BigInt::from(10);
+        let y = BigInt::from(7);
+        let z = x % y;
+        x %= y;
+        assert_eq!(z, 3);
+        assert_eq!(z, x);
+
+        let mut x: BigInt = BigInt::from(10000);
+        let y = BigInt::from(10);
+        let z = x % y;
+        x %= y;
+        assert_eq!(z, 0);
+        assert_eq!(z, x);
+
+        let mut x: BigInt = BigInt::from(-104);
+        let y = BigInt::from(10);
+        let z = x % y;
+        x %= y;
+        assert_eq!(z, 4);
+        assert_eq!(z, x);
+
+        let mut x: BigInt = BigInt::from(24);
+        let y = BigInt::from(3);
+        let z = x % y;
+        x %= y;
+        assert_eq!(z, 0);
+        assert_eq!(z, x);
+
+        let mut x: BigInt = BigInt::from(33);
+        let y = BigInt::from(7);
+        let z = x % y;
+        x %= y;
+        assert_eq!(z, 5);
+        assert_eq!(z, x);
+    }
 }
 
 fn main() {}
