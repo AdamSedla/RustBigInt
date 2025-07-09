@@ -277,6 +277,48 @@ mod tests {
         let y = BigInt::from(99999999999);
         assert!(x < y);
     }
+
+    #[test]
+    fn add() {
+        let mut x = BigInt::from(10);
+        let y = BigInt::from(10);
+        let z = x + y;
+        x += y;
+        assert_eq!(z, 20);
+        assert_eq!(z, x);
+
+        let x = BigInt::from(101010);
+        let y = BigInt::from(101010);
+        let z = x + y;
+        x += y;
+        assert_eq!(z, 202020);
+        assert_eq!(z, x);
+
+        let x = BigInt::from(0);
+        let y = BigInt::from(0);
+        let z = x + y;
+        x += y;
+        assert_eq!(z, 0);
+        assert_eq!(z, x);
+
+        let x = BigInt::from(10);
+        let y = BigInt::from(-10);
+        let z = x + y;
+        assert_eq!(z, 0);
+        assert!(x != y);
+
+        let x = BigInt::from(11);
+        let y = BigInt::from(10);
+        let z = x + y;
+        assert_eq!(z, 21);
+        assert!(x != y);
+
+        let x = BigInt::from(-0);
+        let y = BigInt::from(0);
+        let z = x + y;
+        assert_eq!(z, 0);
+        assert!(x == y);
+    }
 }
 
 fn main() {}
