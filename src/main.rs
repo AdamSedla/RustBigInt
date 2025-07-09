@@ -29,6 +29,13 @@ mod tests {
         assert_eq!(def.positive, true);
         assert_eq!(def.numbers, [0].to_vec());
     }
+
+    #[test]
+    fn new() {
+        let new = BigInt::new();
+        assert_eq!(new.positive, true);
+        assert_eq!(new.numbers, [0].to_vec());
+    }
 }
 
 fn main() {}
