@@ -336,6 +336,71 @@ mod tests {
         assert_eq!(z, -19);
         assert!(x == y);
     }
+
+    #[test]
+    fn sub() {
+        let mut x: BigInt = BigInt::from(10);
+        let y = BigInt::from(10);
+        let z = x - y;
+        x -= y;
+        assert_eq!(z, 0);
+        assert_eq!(z, x);
+
+        let mut x = BigInt::from(101010);
+        let y = BigInt::from(10);
+        let z = x - y;
+        x -= y;
+        assert_eq!(z, 101000);
+        assert_eq!(z, x);
+
+        let mut x = BigInt::from(0);
+        let y = BigInt::from(0);
+        let z = x - y;
+        x -= y;
+        assert_eq!(z, 0);
+        assert_eq!(z, x);
+
+        let mut x = BigInt::from(10);
+        let y = BigInt::from(-10);
+        let z = x - y;
+        x -= y;
+        assert_eq!(z, 20);
+        assert!(x != y);
+
+        let mut x = BigInt::from(-10);
+        let y = BigInt::from(10);
+        let z = x - y;
+        x -= y;
+        assert_eq!(z, -20);
+        assert!(x != y);
+
+        let mut x = BigInt::from(11);
+        let y = BigInt::from(10);
+        let z = x - y;
+        x -= y;
+        assert_eq!(z, 1);
+        assert!(x != y);
+
+        let mut x = BigInt::from(-0);
+        let y = BigInt::from(0);
+        let z = x - y;
+        x -= y;
+        assert_eq!(z, 0);
+        assert!(x == y);
+
+        let mut x = BigInt::from(6);
+        let y = BigInt::from(4);
+        let z = x - y;
+        x -= y;
+        assert_eq!(z, 2);
+        assert!(x == y);
+
+        let mut x = BigInt::from(-15);
+        let y = BigInt::from(-4);
+        let z = x - y;
+        x -= y;
+        assert_eq!(z, -11);
+        assert!(x == y);
     }
 }
 
