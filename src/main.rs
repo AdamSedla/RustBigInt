@@ -321,6 +321,21 @@ mod tests {
         x += y;
         assert_eq!(z, 0);
         assert!(x == y);
+
+        let mut x = BigInt::from(6);
+        let y = BigInt::from(4);
+        let z = x + y;
+        x += y;
+        assert_eq!(z, 10);
+        assert!(x == y);
+
+        let mut x = BigInt::from(-15);
+        let y = BigInt::from(-4);
+        let z = x + y;
+        x += y;
+        assert_eq!(z, -19);
+        assert!(x == y);
+    }
     }
 }
 
