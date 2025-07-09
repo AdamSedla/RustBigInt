@@ -101,6 +101,31 @@ mod tests {
     }
 
     #[test]
+    fn from_string_words_from_str_digits() {
+        let x = BigInt::from_str("two zero");
+        assert_eq!(x.positive, true);
+        assert_eq!(x.numbers, [2, 0].to_vec());
+        let x = BigInt::from_str("minus two four");
+        assert_eq!(x.positive, false);
+        assert_eq!(x.numbers, [2, 4].to_vec());
+        let x = BigInt::from_str("two five five zero zero two one");
+        assert_eq!(x.positive, true);
+        assert_eq!(x.numbers, [2, 5, 5, 0, 0, 2, 1].to_vec());
+        let x = BigInt::from_str("minus two zero zero zero zero zero one");
+        assert_eq!(x.positive, false);
+        assert_eq!(x.numbers, [2, 0, 0, 0, 0, 0, 1].to_vec());
+        let x = BigInt::from_str("zero");
+        assert_eq!(x.positive, true);
+        assert_eq!(x.numbers, [0].to_vec());
+        let x = BigInt::from_str("onse");
+        assert!(x.is_err());
+        let x = BigInt::from_str("twenty thousand thousand");
+        assert!(x.is_err());
+        let x = BigInt::from_str("twenty thousand hundred");
+        assert!(x.is_err());
+    }
+
+    #[test]
     fn from_string_words_try_from() {
         let x = BigInt::try_from("twenty");
         assert_eq!(x.unwrap().positive, true);
