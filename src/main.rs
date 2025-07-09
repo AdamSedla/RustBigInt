@@ -52,6 +52,53 @@ mod tests {
             [3, 2, 0, 0, 2, 0, 0, 0, 0, 9, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0].to_vec()
         );
     }
+
+    #[test]
+    fn from_string_numbers() {
+        let x = BigInt::from_str("20");
+        assert_eq!(x.positive, true);
+        assert_eq!(x.numbers, [2, 0].to_vec());
+        let x = BigInt::from_str("666");
+        assert_eq!(x.positive, true);
+        assert_eq!(x.numbers, [6, 6, 6].to_vec());
+        let x = BigInt::from_str("-20");
+        assert_eq!(x.positive, false);
+        assert_eq!(x.numbers, [2, 0].to_vec());
+        let x = BigInt::from_str("-320020000981234567890");
+        assert_eq!(x.positive, false);
+        assert_eq!(
+            x.numbers,
+            [3, 2, 0, 0, 2, 0, 0, 0, 0, 9, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0].to_vec()
+        );
+        let x = BigInt::from_str("-0");
+        assert_eq!(x.positive, true);
+        assert_eq!(x.numbers, [0].to_vec());
+    }
+
+    #[test]
+    fn from_string_words_from_str() {
+        let x = BigInt::from_str("twenty");
+        assert_eq!(x.positive, true);
+        assert_eq!(x.numbers, [2, 0].to_vec());
+        let x = BigInt::from_str("minus twenty four");
+        assert_eq!(x.positive, false);
+        assert_eq!(x.numbers, [2, 4].to_vec());
+        let x = BigInt::from_str("two milion five hundred fifty thousand twenty one");
+        assert_eq!(x.positive, true);
+        assert_eq!(x.numbers, [2, 5, 5, 0, 0, 2, 1].to_vec());
+        let x = BigInt::from_str("minus two milion one");
+        assert_eq!(x.positive, false);
+        assert_eq!(x.numbers, [2, 0, 0, 0, 0, 0, 1].to_vec());
+        let x = BigInt::from_str("zero");
+        assert_eq!(x.positive, true);
+        assert_eq!(x.numbers, [0].to_vec());
+        let x = BigInt::from_str("onse");
+        assert!(x.is_err());
+        let x = BigInt::from_str("twenty thousand thousand");
+        assert!(x.is_err());
+        let x = BigInt::from_str("twenty thousand hundred");
+        assert!(x.is_err());
+    }
 }
 
 fn main() {}
