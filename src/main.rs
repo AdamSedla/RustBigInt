@@ -249,6 +249,34 @@ mod tests {
         let y = BigInt::from(10);
         assert!(x > y);
     }
+
+    #[test]
+    fn lesser() {
+        let x: BigInt = BigInt::from(0);
+        let y = BigInt::from(10);
+        assert!(x < y);
+        let x: BigInt = BigInt::from(8);
+        let y = BigInt::from(9);
+        assert!(x < y);
+        let x = BigInt::from(10);
+        let y = BigInt::from(10);
+        assert!(!(x < y));
+        let x = BigInt::from(10);
+        let y = BigInt::from(10);
+        assert!(x <= y);
+        let x = BigInt::from(99999999999);
+        let y = BigInt::from(99999999999);
+        assert!(x <= y);
+        let x = BigInt::from(0);
+        let y = BigInt::from(0);
+        assert!(!(x < y));
+        let x = BigInt::from(-10);
+        let y = BigInt::from(10);
+        assert!(x < y);
+        let x = BigInt::from(11);
+        let y = BigInt::from(99999999999);
+        assert!(x < y);
+    }
 }
 
 fn main() {}
