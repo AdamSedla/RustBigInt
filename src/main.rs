@@ -418,6 +418,72 @@ mod tests {
         assert_eq!(z, -11);
         assert!(x == y);
     }
+
+    #[test]
+    fn mul() {
+        let mut x: BigInt = BigInt::from(10);
+        let y = BigInt::from(10);
+        let z = x * y;
+        x *= y;
+        assert_eq!(z, 100);
+        assert_eq!(z, x);
+
+        let mut x = BigInt::from(101);
+        let y = BigInt::from(101);
+        let z = x * y;
+        x *= y;
+        assert_eq!(z, 10201);
+        assert_eq!(z, x);
+
+        let mut x = BigInt::from(0);
+        let y = BigInt::from(0);
+        let z = x * y;
+        x *= y;
+        assert_eq!(z, 0);
+        assert_eq!(z, x);
+
+        let mut x = BigInt::from(20100000100);
+        let y = BigInt::from(0);
+        let z = x * y;
+        x *= y;
+        assert_eq!(z, 0);
+        assert_eq!(z, x);
+
+        let mut x = BigInt::from(10);
+        let y = BigInt::from(-10);
+        let z = x * y;
+        x *= y;
+        assert_eq!(z, -100);
+        assert!(x != y);
+
+        let mut x = BigInt::from(11);
+        let y = BigInt::from(10);
+        let z = x * y;
+        x *= y;
+        assert_eq!(z, 110);
+        assert!(x != y);
+
+        let mut x = BigInt::from(-0);
+        let y = BigInt::from(0);
+        let z = x * y;
+        x *= y;
+        assert_eq!(z, 0);
+        assert!(x == y);
+
+        let mut x = BigInt::from(6);
+        let y = BigInt::from(4);
+        let z = x * y;
+        x *= y;
+        assert_eq!(z, 24);
+        assert!(x == y);
+
+        let mut x = BigInt::from(-15);
+        let y = BigInt::from(-4);
+        let z = x * y;
+        x *= y;
+        assert_eq!(z, 60);
+        assert!(x == y);
+    }
 }
 
 fn main() {}
