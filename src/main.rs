@@ -777,6 +777,44 @@ mod tests {
         assert_eq!(x, z);
         assert_eq!(z, 346);
     }
+
+    #[test]
+    fn bit_shift_right() {
+        let mut x = BigInt::from(4); //100
+        let y = BigInt::from(2);
+        let z = x >> y; //1
+        x >>= y;
+        assert_eq!(x, z);
+        assert_eq!(z, 1);
+
+        let mut x = BigInt::from(10); //1010
+        let y = BigInt::from(1);
+        let z = x >> y; //101
+        x >>= y;
+        assert_eq!(x, z);
+        assert_eq!(z, 5);
+
+        let mut x = BigInt::from(172); //10101100
+        let y = BigInt::from(0);
+        let z = x >> y; //10101100
+        x >>= y;
+        assert_eq!(x, z);
+        assert_eq!(z, 172);
+
+        let mut x = BigInt::from(172); //10101100
+        let y = BigInt::from(10);
+        let z = x >> y; //0
+        x >>= y;
+        assert_eq!(x, z);
+        assert_eq!(z, 0);
+
+        let mut x = BigInt::from(173); //10101101
+        let y = BigInt::from(1);
+        let z = x >> y; //1010110
+        x >>= y;
+        assert_eq!(x, z);
+        assert_eq!(z, 86);
+    }
 }
 
 fn main() {}
