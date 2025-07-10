@@ -1,5 +1,5 @@
 [package]
-name = "lorem"
+name = "BigInt"
 version = "0.1.0"
 edition = "2021"
 
