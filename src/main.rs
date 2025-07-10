@@ -126,7 +126,6 @@ mod tests {
     }
 
     #[test]
-    fn from_string_words_try_from() {
         let x = BigInt::try_from("twenty");
         assert_eq!(x.unwrap().positive, true);
         assert_eq!(x.unwrap().numbers, [2, 0].to_vec());
