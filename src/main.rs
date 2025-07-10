@@ -815,6 +815,20 @@ mod tests {
         assert_eq!(x, z);
         assert_eq!(z, 86);
     }
+
+    #[test]
+    fn hexadecimal() {
+        let x = BigInt::from(4);
+        assert_eq!(format!("{x:X}"), "4");
+        let x = BigInt::from(16);
+        assert_eq!(format!("{x:#X}"), "0xF");
+        let x = BigInt::from(10);
+        assert_eq!(format!("{x:#X}"), "0x10");
+        let x = BigInt::from(172);
+        assert_eq!(format!("{x:X}"), "AC");
+        let x = BigInt::from(17220003931);
+        assert_eq!(format!("{x:#X}"), "0x40264685B");
+    }
 }
 
 fn main() {}
