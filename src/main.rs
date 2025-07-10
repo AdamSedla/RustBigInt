@@ -609,6 +609,22 @@ mod tests {
         assert_eq!(z, 5);
         assert_eq!(z, x);
     }
+
+    #[test]
+    fn binary() {
+        let x = BigInt::from(4);
+        assert_eq!(format!("{x:b}"), "100");
+        let x = BigInt::from(4);
+        assert_eq!(format!("{x:#b}"), "0b100");
+        let x = BigInt::from(4);
+        assert_eq!(format!("{x:010b}"), "0000000100");
+        let x = BigInt::from(10);
+        assert_eq!(format!("{x:#110b}"), "0b11111010");
+        let x = BigInt::from(172);
+        assert_eq!(format!("{x:b}"), "10101100");
+        let x = BigInt::from(17220003931);
+        assert_eq!(format!("{x:#b}"), "0b10000000010011001000110100001011011");
+    }
 }
 
 fn main() {}
