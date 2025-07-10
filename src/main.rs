@@ -829,6 +829,99 @@ mod tests {
         let x = BigInt::from(17220003931);
         assert_eq!(format!("{x:#X}"), "0x40264685B");
     }
+
+    #[test]
+    fn progtest_tests() {
+        let mut a = BigInt::new();
+        let mut b = BigInt::new();
+        a = BigInt::from(10);
+        a += BigInt::from(20);
+        assert_eq!(a, 30);
+        a *= BigInt::from(5);
+        assert_eq!(a, 150);
+        b = a + BigInt::from(3);
+        assert_eq!(b, 153);
+        b = a * BigInt::from(7);
+        assert_eq!(b, 1050);
+        assert_eq!(a, 150);
+        assert_eq!(format!("{a:X}"), "96");
+
+        a = BigInt::from(10);
+        a += BigInt::from(-20);
+        assert_eq!(a, -10);
+        a *= BigInt::from(5);
+        assert_eq!(a, -50);
+        b = a + BigInt::from(73);
+        assert_eq!(b, 23);
+        b = a * BigInt::from(-7);
+        assert_eq!(b, 350);
+        assert_eq!(a, -50);
+        assert_eq!(format!("{a:X}"), "-32")
+
+        a = BigInt::from(12345678901234567890);
+        a += BigInt::from(-99999999999999999999);
+        assert_eq!(a, -87654321098765432109);
+        a *= BigInt::from(54321987654321987654);
+        assert_eq!(a,-4761556948575111126880627366067073182286);
+        a *= BigInt::from(0);
+        assert_eq!(a, 0);
+        a = BigInt::from(10);
+        b = a + BigInt::from_str("400");
+        assert_eq!(b, "410");
+        b = a * BigInt::from_str("15");
+        assert_eq!(b, "150");
+        assert_eq!(a, "10");
+        assert_eq!(format!("{a:X}"), "A");
+
+        b = BigInt::from_str("1234");
+        assert_eq!(format!("{b}"), "1234");
+        assert!(BigInt::from_str(" 12 34").is_err());
+        assert!(BigInt::from_str("999z").is_err());
+        assert!(BigInt::from_str("abcd").is_err());
+        assert!(BigInt::from_str("-xyz").is_err());
+        assert!(BigInt::from_str(":").is_err());
+        assert!(BigInt::from_str("%").is_err());
+        assert!(BigInt::from_str("- 758").is_err());
+        a = BigInt::from(42);
+        assert_eq!(a, 42);
+
+        a = BigInt::from(73786976294838206464);
+        assert_eq!(a, 73786976294838206464);
+        assert_eq!(format!("{a:X}"), "40000000000000000");
+        assert!(a < 1361129467683753853853498429727072845824);
+        assert!(a <= 1361129467683753853853498429727072845824);
+        assert!(!(a > 1361129467683753853853498429727072845824));
+        assert!(!(a >= 1361129467683753853853498429727072845824));
+        assert!(!(a == 1361129467683753853853498429727072845824));
+        assert!(a != 1361129467683753853853498429727072845824);
+        assert!(!(a < 73786976294838206464));
+        assert!(a <= 73786976294838206464);
+        assert!(!(a > 73786976294838206464));
+        assert!(a >= 73786976294838206464);
+        assert!(a == 73786976294838206464);
+        assert!(!(a != 73786976294838206464));
+        assert!(a < 73786976294838206465);
+        assert!(a <= 73786976294838206465);
+        assert!(!(a > 73786976294838206465));
+        assert!(!(a >= 73786976294838206465));
+        assert!(!(a == 73786976294838206465));
+        assert!(a != 73786976294838206465);
+        a = BigInt::from_str("2147483648");
+        assert!(!(a < -2147483648));
+        assert!(!(a <= -2147483648));
+        assert!(a > -2147483648);
+        assert!(a >= -2147483648);
+        assert!(!(a == -2147483648));
+        assert!(a != -2147483648);
+        a = BigInt::from_str("-12345678");
+        assert!(!(a < -87654321));
+        assert!(!(a <= -87654321));
+        assert!(a > -87654321);
+        assert!(a >= -87654321);
+        assert!(!(a == -87654321));
+        assert!(a != -87654321);
+
+    }
 }
 
 fn main() {}
