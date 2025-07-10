@@ -701,6 +701,44 @@ mod tests {
         assert_eq!(x, z);
         assert_eq!(z, 173);
     }
+
+    #[test]
+    fn bit_xor() {
+        let mut x = BigInt::from(4); //100
+        let y = BigInt::from(12); //1100
+        let z = x ^ y; //1000
+        x ^= y;
+        assert_eq!(x, z);
+        assert_eq!(z, 8);
+
+        let mut x = BigInt::from(10); //1010
+        let y = BigInt::from(13); //1101
+        let z = x ^ y; //0111
+        x ^= y;
+        assert_eq!(x, z);
+        assert_eq!(z, 7);
+
+        let mut x = BigInt::from(172); //10101100
+        let y = BigInt::from(223); //11011111
+        let z = x ^ y; //01110011
+        x ^= y;
+        assert_eq!(x, z);
+        assert_eq!(z, 115);
+
+        let mut x = BigInt::from(172); //10101100
+        let y = BigInt::from(1); //1
+        let z = x ^ y; //10101101
+        x ^= y;
+        assert_eq!(x, z);
+        assert_eq!(z, 173);
+
+        let mut x = BigInt::from(173); //10101101
+        let y = BigInt::from(1); //1
+        let z = x ^ y; //10101100
+        x ^= y;
+        assert_eq!(x, z);
+        assert_eq!(z, 172);
+    }
 }
 
 fn main() {}
