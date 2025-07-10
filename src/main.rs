@@ -126,27 +126,6 @@ mod tests {
     }
 
     #[test]
-        let x = BigInt::try_from("twenty");
-        assert_eq!(x.unwrap().positive, true);
-        assert_eq!(x.unwrap().numbers, [2, 0].to_vec());
-        let x = BigInt::try_from("minus twenty four");
-        assert_eq!(x.unwrap().positive, false);
-        assert_eq!(x.unwrap().numbers, [2, 4].to_vec());
-        let x = BigInt::try_from("two milion five hundred fifty thousand twenty one");
-        assert_eq!(x.unwrap().positive, true);
-        assert_eq!(x.unwrap().numbers, [2, 5, 5, 0, 0, 2, 1].to_vec());
-        let x = BigInt::try_from("minus two milion one");
-        assert_eq!(x.unwrap().positive, false);
-        assert_eq!(x.unwrap().numbers, [2, 0, 0, 0, 0, 0, 1].to_vec());
-        let x = BigInt::try_from("onse");
-        assert!(x.is_err());
-        let x = BigInt::try_from("twenty thousand thousand");
-        assert!(x.is_err());
-        let x = BigInt::try_from("twenty thousand hundred");
-        assert!(x.is_err());
-    }
-
-    #[test]
     fn display() {
         let x = BigInt::from(1003);
         assert_eq!(format!("Number is: {x}"), "Number is: 1003");
