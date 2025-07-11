@@ -21,7 +21,7 @@ impl BigInt {
 
 #[cfg(test)]
 mod tests {
-    use crate::BigInt;
+    use super::*;
 
     #[test]
     fn default() {
