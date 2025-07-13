@@ -100,7 +100,7 @@ impl PartialEq for BigInt {
     fn eq(&self, other: &BigInt) -> bool {
         todo!()
     }
-    fn ne(&self, other: &Self) -> bool {
+    fn ne(&self, other: &BigInt) -> bool {
         todo!()
     }
 }
@@ -662,35 +662,35 @@ mod tests {
         let mut x = BigInt::from(10);
         let y = BigInt::from(-10);
         let z = x.clone() + y.clone();
-        x += y;
+        x += y.clone();
         assert_eq!(z, 0);
         assert_ne!(x, y);
 
         let mut x = BigInt::from(11);
         let y = BigInt::from(10);
         let z = x.clone() + y.clone();
-        x += y;
+        x += y.clone();
         assert_eq!(z, 21);
         assert_ne!(x, y);
 
         let mut x = BigInt::from(-0);
         let y = BigInt::from(0);
         let z = x.clone() + y.clone();
-        x += y;
+        x += y.clone();
         assert_eq!(z, 0);
         assert_eq!(x, y);
 
         let mut x = BigInt::from(6);
         let y = BigInt::from(4);
         let z = x.clone() + y.clone();
-        x += y;
+        x += y.clone();
         assert_eq!(z, 10);
         assert_eq!(x, y);
 
         let mut x = BigInt::from(-15);
         let y = BigInt::from(-4);
         let z = x.clone() + y.clone();
-        x += y;
+        x += y.clone();
         assert_eq!(z, -19);
         assert_eq!(x, y);
     }
@@ -721,42 +721,42 @@ mod tests {
         let mut x = BigInt::from(10);
         let y = BigInt::from(-10);
         let z = x.clone() - y.clone();
-        x -= y;
+        x -= y.clone();
         assert_eq!(z, 20);
         assert_ne!(x, y);
 
         let mut x = BigInt::from(-10);
         let y = BigInt::from(10);
         let z = x.clone() - y.clone();
-        x -= y;
+        x -= y.clone();
         assert_eq!(z, -20);
         assert_ne!(x, y);
 
         let mut x = BigInt::from(11);
         let y = BigInt::from(10);
         let z = x.clone() - y.clone();
-        x -= y;
+        x -= y.clone();
         assert_eq!(z, 1);
         assert_ne!(x, y);
 
         let mut x = BigInt::from(-0);
         let y = BigInt::from(0);
         let z = x.clone() - y.clone();
-        x -= y;
+        x -= y.clone();
         assert_eq!(z, 0);
         assert_eq!(x, y);
 
         let mut x = BigInt::from(6);
         let y = BigInt::from(4);
         let z = x.clone() - y.clone();
-        x -= y;
+        x -= y.clone();
         assert_eq!(z, 2);
         assert_eq!(x, y);
 
         let mut x = BigInt::from(-15);
         let y = BigInt::from(-4);
         let z = x.clone() - y.clone();
-        x -= y;
+        x -= y.clone();
         assert_eq!(z, -11);
         assert_eq!(x, y);
     }
@@ -794,35 +794,35 @@ mod tests {
         let mut x = BigInt::from(10);
         let y = BigInt::from(-10);
         let z: BigInt = x.clone() * y.clone();
-        x *= y;
+        x *= y.clone();
         assert_eq!(z, -100);
         assert_ne!(x, y);
 
         let mut x = BigInt::from(11);
         let y = BigInt::from(10);
         let z: BigInt = x.clone() * y.clone();
-        x *= y;
+        x *= y.clone();
         assert_eq!(z, 110);
         assert_ne!(x, y);
 
         let mut x = BigInt::from(-0);
         let y = BigInt::from(0);
         let z: BigInt = x.clone() * y.clone();
-        x *= y;
+        x *= y.clone();
         assert_eq!(z, 0);
         assert_eq!(x, y);
 
         let mut x = BigInt::from(6);
         let y = BigInt::from(4);
         let z: BigInt = x.clone() * y.clone();
-        x *= y;
+        x *= y.clone();
         assert_eq!(z, 24);
         assert_eq!(x, y);
 
         let mut x = BigInt::from(-15);
         let y = BigInt::from(-4);
         let z: BigInt = x.clone() * y.clone();
-        x *= y;
+        x *= y.clone();
         assert_eq!(z, 60);
         assert_eq!(x, y);
     }
@@ -874,28 +874,28 @@ mod tests {
         let mut x = BigInt::from(10);
         let y = BigInt::from(-10);
         let z = x.clone() / y.clone();
-        x /= y;
+        x /= y.clone();
         assert_eq!(z, -1);
         assert_ne!(x, y);
 
         let mut x = BigInt::from(110);
         let y = BigInt::from(10);
         let z = x.clone() / y.clone();
-        x /= y;
+        x /= y.clone();
         assert_eq!(z, 11);
         assert_ne!(x, y);
 
         let mut x = BigInt::from(6);
         let y = BigInt::from(2);
         let z = x.clone() / y.clone();
-        x /= y;
+        x /= y.clone();
         assert_eq!(z, 3);
         assert_eq!(x, y);
 
         let mut x = BigInt::from(-15);
         let y = BigInt::from(-5);
         let z = x.clone() / y.clone();
-        x /= y;
+        x /= y.clone();
         assert_eq!(z, 3);
         assert_eq!(x, y);
     }
