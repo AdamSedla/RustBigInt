@@ -2,7 +2,7 @@ use num_traits::{PrimInt, ToPrimitive};
 use std::{
     char,
     cmp::Ordering,
-    fmt::{self, Binary, Display, LowerHex, UpperHex},
+    fmt::{self, Binary, Display, LowerHex, UpperHex, format},
     ops::{
         Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div,
         DivAssign, Mul, MulAssign, Neg, Not, Rem, RemAssign, Shl, ShlAssign, Shr, ShrAssign, Sub,
@@ -33,10 +33,91 @@ impl Default for BigInt {
     }
 }
 
+fn word_to_number(word: &str) -> Result<u8, BigIntError> {
+    match word {
+        "zero" => Ok(0),
+        "one" => Ok(1),
+        "two" => Ok(2),
+        "three" => Ok(3),
+        "four" => Ok(4),
+        "five" => Ok(5),
+        "six" => Ok(6),
+        "seven" => Ok(7),
+        "eight" => Ok(8),
+        "nine" => Ok(9),
+        _ => Err(BigIntError::NaN),
+    }
+}
+
+fn parse_word_digits(num_str: String) -> Result<BigInt, BigIntError> {
+    //create lowercase iterator
+    let mut parsed = num_str.split_whitespace().map(str::to_lowercase).peekable();
+    let mut fin_pos = true;
+    let mut fin_vec: Vec<u8> = Vec::new();
+
+    //if empty string
+    if parsed.peek().is_none() {
+        return Err(BigIntError::NaN);
+    }
+
+    //positive/negative
+    if let Some("-" | "minus") = parsed.peek().map(String::as_str) {
+        fin_pos = false;
+        parsed.next();
+    }
+
+    //loop for translating words to u8
+    for word in parsed {
+        fin_vec.push(word_to_number(&word)?);
+    }
+
+    //additional check
+    if fin_vec.is_empty() {
+        return Err(BigIntError::NaN);
+    }
+
+    Ok(BigInt {
+        positive: fin_pos,
+        numbers: fin_vec,
+    })
+}
+
 impl FromStr for BigInt {
     type Err = BigIntError;
     fn from_str(mut num_str: &str) -> Result<Self, Self::Err> {
-        todo!()
+        //empty string edgecaase
+        if num_str.is_empty() {
+            return Err(BigIntError::NaN);
+        }
+
+        let mut fin_pos = !(num_str.starts_with('-'));
+        let mut fin_vec: Vec<u8> = Vec::new();
+
+        //if negative - remove '-'
+        if !fin_pos {
+            num_str = num_str.split_at(1).1;
+        }
+
+        for char in num_str.chars() {
+            if !char.is_ascii_digit() {
+                return parse_word_digits(if fin_pos {
+                    num_str.to_string()
+                } else {
+                    format!("-{}", num_str)
+                });
+            }
+
+            fin_vec.push(char.to_digit(10).unwrap().to_u8().unwrap());
+        }
+
+        if fin_vec == vec![0] {
+            fin_pos = true;
+        }
+
+        Ok(BigInt {
+            positive: fin_pos,
+            numbers: fin_vec,
+        })
     }
 }
 
@@ -397,10 +478,6 @@ impl BigInt {
 
     pub fn to_words(&self) -> String {
         todo!()
-    }
-
-    fn parseWordDigits(mut num_str: &str) -> Result<BigInt, BigIntError> {
-        Ok(BigInt::new())
     }
 }
 
