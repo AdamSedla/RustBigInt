@@ -1,7 +1,6 @@
 use num_traits::PrimInt;
 use std::{
     cmp::Ordering,
-    ffi::OsString,
     fmt::{self, Binary, Display, LowerHex, UpperHex},
     ops::{
         Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div,
@@ -9,7 +8,6 @@ use std::{
         SubAssign,
     },
     str::FromStr,
-    string,
 };
 
 #[derive(Debug)]
