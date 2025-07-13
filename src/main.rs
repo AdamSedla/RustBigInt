@@ -1,5 +1,6 @@
-use num_traits::PrimInt;
+use num_traits::{PrimInt, ToPrimitive};
 use std::{
+    char,
     cmp::Ordering,
     fmt::{self, Binary, Display, LowerHex, UpperHex},
     ops::{
@@ -8,7 +9,8 @@ use std::{
         SubAssign,
     },
     str::FromStr,
-    u8,
+    sync::Arc,
+    u8, vec,
 };
 
 #[derive(Debug)]
