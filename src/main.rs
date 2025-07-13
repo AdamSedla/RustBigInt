@@ -43,6 +43,7 @@ where
     T: PrimInt,
 {
     fn from(value: T) -> Self {
+        //zero edgecase
         if value.is_zero() {
             return BigInt::default();
         }
@@ -51,16 +52,19 @@ where
         let mut fin_vec = Vec::new();
         let mut fin_pos = true;
 
+        //negative number
         if val < T::zero() {
             fin_pos = false;
             val = val * T::from(-1).unwrap();
         }
 
+        //transformation of digits
         while !val.is_zero() {
             fin_vec.insert(0, (val % T::from(10).unwrap()).to_u8().unwrap());
             val = val / T::from(10).unwrap();
         }
 
+        //return value
         BigInt {
             positive: fin_pos,
             numbers: fin_vec,
