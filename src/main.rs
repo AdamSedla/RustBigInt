@@ -474,6 +474,8 @@ mod tests {
         assert!(x.is_err());
         let x = BigInt::from_str("+2000303");
         assert!(x.is_err());
+        let x = BigInt::from_str("minus20003002");
+        assert!(x.is_err());
     }
 
     #[test]
@@ -497,8 +499,11 @@ mod tests {
         assert!(x.is_err());
         let x = BigInt::from_str("twenty thousand thousand");
         assert!(x.is_err());
-        let x = BigInt::from_str("twenty thousand hundred");
+        let x: Result<BigInt, BigIntError> = BigInt::from_str("twenty thousand hundred");
         assert!(x.is_err());
+        let x = BigInt::from_str("- five four").unwrap();
+        assert_eq!(x.positive, false);
+        assert_eq!(x.numbers, [5, 4].to_vec());
     }
 
     #[test]
