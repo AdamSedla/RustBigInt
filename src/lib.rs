@@ -2,6 +2,7 @@ use num_traits::{PrimInt, ToPrimitive};
 use std::{
     char,
     cmp::Ordering,
+    f32::DIGITS,
     fmt::{self, Binary, Display, LowerHex, UpperHex, format},
     ops::{
         Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div,
@@ -157,7 +158,14 @@ where
 
 impl Display for BigInt {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        if !self.positive {
+            write!(f, "-")?;
+        }
+
+        for digit in self.numbers.clone() {
+            write!(f, "{digit}")?;
+        }
+        Ok(())
     }
 }
 
