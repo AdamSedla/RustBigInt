@@ -11,6 +11,12 @@ use std::{
     str::FromStr,
     string,
 };
+
+#[derive(Debug)]
+enum BigIntError {
+    NaN,
+}
+
 #[derive(Clone, Eq)]
 struct BigInt {
     positive: bool,
@@ -26,9 +32,345 @@ impl Default for BigInt {
     }
 }
 
+impl FromStr for BigInt {
+    type Err = BigIntError;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        todo!()
+    }
+}
+
+impl<T> From<T> for BigInt
+where
+    T: PrimInt,
+{
+    fn from(value: T) -> Self {
+        todo!()
+    }
+}
+
+impl Display for BigInt {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl fmt::Debug for BigInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        todo!()
+    }
+}
+
+impl Binary for BigInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        todo!()
+    }
+}
+
+impl UpperHex for BigInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        todo!()
+    }
+}
+
+impl LowerHex for BigInt {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        todo!()
+    }
+}
+
+impl PartialEq<i128> for BigInt {
+    fn eq(&self, other: &i128) -> bool {
+        todo!()
+    }
+    fn ne(&self, other: &i128) -> bool {
+        todo!()
+    }
+}
+
+impl PartialEq<&str> for BigInt {
+    fn eq(&self, other: &&str) -> bool {
+        todo!()
+    }
+    fn ne(&self, other: &&str) -> bool {
+        todo!()
+    }
+}
+
+impl PartialEq for BigInt {
+    fn eq(&self, other: &BigInt) -> bool {
+        todo!()
+    }
+    fn ne(&self, other: &Self) -> bool {
+        todo!()
+    }
+}
+
+impl Neg for BigInt {
+    type Output = Self;
+    fn neg(self) -> Self::Output {
+        todo!()
+    }
+}
+
+impl Not for BigInt {
+    type Output = Self;
+    fn not(self) -> Self::Output {
+        todo!()
+    }
+}
+
+impl PartialOrd for BigInt {
+    fn ge(&self, other: &Self) -> bool {
+        todo!()
+    }
+    fn gt(&self, other: &Self) -> bool {
+        todo!()
+    }
+    fn le(&self, other: &Self) -> bool {
+        todo!()
+    }
+    fn lt(&self, other: &Self) -> bool {
+        todo!()
+    }
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        todo!()
+    }
+}
+
+impl PartialOrd<i128> for BigInt {
+    fn ge(&self, other: &i128) -> bool {
+        todo!()
+    }
+    fn gt(&self, other: &i128) -> bool {
+        todo!()
+    }
+    fn le(&self, other: &i128) -> bool {
+        todo!()
+    }
+    fn lt(&self, other: &i128) -> bool {
+        todo!()
+    }
+    fn partial_cmp(&self, other: &i128) -> Option<Ordering> {
+        todo!()
+    }
+}
+
+impl PartialOrd<&str> for BigInt {
+    fn ge(&self, other: &&str) -> bool {
+        todo!()
+    }
+    fn gt(&self, other: &&str) -> bool {
+        todo!()
+    }
+    fn le(&self, other: &&str) -> bool {
+        todo!()
+    }
+    fn lt(&self, other: &&str) -> bool {
+        todo!()
+    }
+    fn partial_cmp(&self, other: &&str) -> Option<Ordering> {
+        todo!()
+    }
+}
+
+impl<T> Add<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    type Output = Self;
+    fn add(self, rhs: T) -> Self::Output {
+        todo!()
+    }
+}
+
+impl<T> AddAssign<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    fn add_assign(&mut self, rhs: T) {
+        todo!()
+    }
+}
+
+impl<T> Sub<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    type Output = Self;
+
+    fn sub(self, rhs: T) -> Self::Output {
+        todo!()
+    }
+}
+
+impl<T> SubAssign<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    fn sub_assign(&mut self, rhs: T) {
+        todo!()
+    }
+}
+
+impl<T> Mul<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    type Output = Self;
+    fn mul(self, rhs: T) -> Self::Output {
+        todo!()
+    }
+}
+
+impl<T> MulAssign<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    fn mul_assign(&mut self, rhs: T) {
+        todo!()
+    }
+}
+
+impl<T> Div<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    type Output = Self;
+    fn div(self, rhs: T) -> Self::Output {
+        todo!()
+    }
+}
+
+impl<T> DivAssign<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    fn div_assign(&mut self, rhs: T) {
+        todo!()
+    }
+}
+
+impl<T> Rem<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    type Output = Self;
+    fn rem(self, rhs: T) -> Self::Output {
+        todo!()
+    }
+}
+
+impl<T> RemAssign<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    fn rem_assign(&mut self, rhs: T) {
+        todo!()
+    }
+}
+
+impl<T> BitAnd<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    type Output = Self;
+    fn bitand(self, rhs: T) -> Self::Output {
+        todo!()
+    }
+}
+
+impl<T> BitAndAssign<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    fn bitand_assign(&mut self, rhs: T) {
+        todo!()
+    }
+}
+
+impl<T> BitOr<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    type Output = Self;
+    fn bitor(self, rhs: T) -> Self::Output {
+        todo!()
+    }
+}
+
+impl<T> BitOrAssign<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    fn bitor_assign(&mut self, rhs: T) {
+        todo!()
+    }
+}
+
+impl<T> BitXor<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    type Output = Self;
+    fn bitxor(self, rhs: T) -> Self::Output {
+        todo!()
+    }
+}
+
+impl<T> BitXorAssign<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    fn bitxor_assign(&mut self, rhs: T) {
+        todo!()
+    }
+}
+
+impl<T> Shl<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    type Output = Self;
+    fn shl(self, rhs: T) -> Self::Output {
+        todo!()
+    }
+}
+
+impl<T> ShlAssign<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    fn shl_assign(&mut self, rhs: T) {
+        todo!()
+    }
+}
+
+impl<T> Shr<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    type Output = Self;
+    fn shr(self, rhs: T) -> Self::Output {
+        todo!()
+    }
+}
+
+impl<T> ShrAssign<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    fn shr_assign(&mut self, rhs: T) {
+        todo!()
+    }
+}
+
 impl BigInt {
     fn new() -> BigInt {
         BigInt::default()
+    }
+
+    fn to_words(&self) -> String {
+        todo!()
     }
 }
 
