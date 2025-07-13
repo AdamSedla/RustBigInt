@@ -48,22 +48,22 @@ where
         }
 
         let mut val = value;
-        let mut ret_vec = Vec::new();
-        let mut positive = true;
+        let mut fin_vec = Vec::new();
+        let mut fin_pos = true;
 
         if val < T::zero() {
-            positive = false;
+            fin_pos = false;
             val = val * T::from(-1).unwrap();
         }
 
         while !val.is_zero() {
-            ret_vec.insert(0, (val % T::from(10).unwrap()).to_u8().unwrap());
+            fin_vec.insert(0, (val % T::from(10).unwrap()).to_u8().unwrap());
             val = val / T::from(10).unwrap();
         }
 
         BigInt {
-            positive: positive,
-            numbers: ret_vec,
+            positive: fin_pos,
+            numbers: fin_vec,
         }
     }
 }
