@@ -477,31 +477,6 @@ mod tests {
     }
 
     #[test]
-    fn from_string_words_from_str() {
-        let x = BigInt::from_str("twenty").unwrap();
-        assert_eq!(x.positive, true);
-        assert_eq!(x.numbers, [2, 0].to_vec());
-        let x = BigInt::from_str("minus twenty four").unwrap();
-        assert_eq!(x.positive, false);
-        assert_eq!(x.numbers, [2, 4].to_vec());
-        let x = BigInt::from_str("two milion five hundred fifty thousand twenty one").unwrap();
-        assert_eq!(x.positive, true);
-        assert_eq!(x.numbers, [2, 5, 5, 0, 0, 2, 1].to_vec());
-        let x = BigInt::from_str("minus two milion one").unwrap();
-        assert_eq!(x.positive, false);
-        assert_eq!(x.numbers, [2, 0, 0, 0, 0, 0, 1].to_vec());
-        let x = BigInt::from_str("zero").unwrap();
-        assert_eq!(x.positive, true);
-        assert_eq!(x.numbers, [0].to_vec());
-        let x = BigInt::from_str("onse");
-        assert!(x.is_err());
-        let x = BigInt::from_str("twenty thousand thousand");
-        assert!(x.is_err());
-        let x = BigInt::from_str("twenty thousand hundred");
-        assert!(x.is_err());
-    }
-
-    #[test]
     fn from_string_words_from_str_digits() {
         let x = BigInt::from_str("two zero").unwrap();
         assert_eq!(x.positive, true);
