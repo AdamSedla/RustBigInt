@@ -809,6 +809,17 @@ mod tests {
         assert_eq!(format!("{x:X}"), "AC");
         let x = BigInt::from(17220003931u128);
         assert_eq!(format!("{x:#X}"), "0x40264685B");
+
+        let x = BigInt::from(4);
+        assert_eq!(format!("{x:x}"), "4");
+        let x = BigInt::from(16);
+        assert_eq!(format!("{x:#x}"), "0xf");
+        let x = BigInt::from(10);
+        assert_eq!(format!("{x:#x}"), "0x10");
+        let x = BigInt::from(172);
+        assert_eq!(format!("{x:x}"), "ac");
+        let x = BigInt::from(17220003931u128);
+        assert_eq!(format!("{x:#x}"), "0x40264685b");
     }
 
     #[test]
