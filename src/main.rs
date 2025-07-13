@@ -62,7 +62,10 @@ mod tests {
         assert_eq!(x.positive, false);
         assert_eq!(
             x.numbers,
-            [3, 2, 0, 0, 2, 0, 0, 0, 0, 9, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0].to_vec()
+            [
+                3, 2, 0, 0, 2, 0, 0, 0, 0, 9, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0
+            ]
+            .to_vec()
         );
     }
 
@@ -81,7 +84,10 @@ mod tests {
         assert_eq!(x.positive, false);
         assert_eq!(
             x.numbers,
-            [3, 2, 0, 0, 2, 0, 0, 0, 0, 9, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0].to_vec()
+            [
+                3, 2, 0, 0, 2, 0, 0, 0, 0, 9, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0
+            ]
+            .to_vec()
         );
         let x = BigInt::from_str("-0").unwrap();
         assert_eq!(x.positive, true);
