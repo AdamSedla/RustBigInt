@@ -1,4 +1,3 @@
-#[derive(Clone)]
 use num_traits::PrimInt;
 use std::{
     cmp::Ordering,
@@ -12,6 +11,7 @@ use std::{
     str::FromStr,
     string,
 };
+#[derive(Clone, Eq)]
 struct BigInt {
     positive: bool,
     numbers: Vec<u8>,
