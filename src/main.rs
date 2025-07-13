@@ -433,6 +433,12 @@ mod tests {
             ]
             .to_vec()
         );
+        let x = BigInt::from(0);
+        assert_eq!(x.positive, true);
+        assert_eq!(x.numbers, [0].to_vec());
+        let x = BigInt::from(-0);
+        assert_eq!(x.positive, true);
+        assert_eq!(x.numbers, [0].to_vec());
     }
 
     #[test]
@@ -458,6 +464,14 @@ mod tests {
         let x = BigInt::from_str("-0").unwrap();
         assert_eq!(x.positive, true);
         assert_eq!(x.numbers, [0].to_vec());
+        let x = BigInt::from_str("0sw");
+        assert!(x.is_err());
+        let x = BigInt::from_str("0 2020000");
+        assert!(x.is_err());
+        let x = BigInt::from_str("--200");
+        assert!(x.is_err());
+        let x = BigInt::from_str("+2000303");
+        assert!(x.is_err());
     }
 
     #[test]
