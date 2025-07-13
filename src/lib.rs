@@ -227,14 +227,15 @@ impl PartialEq for BigInt {
 impl Neg for BigInt {
     type Output = Self;
     fn neg(self) -> Self::Output {
-        todo!()
+        !self
     }
 }
 
 impl Not for BigInt {
     type Output = Self;
-    fn not(self) -> Self::Output {
-        todo!()
+    fn not(mut self) -> Self::Output {
+        self.positive = !self.positive;
+        self
     }
 }
 
