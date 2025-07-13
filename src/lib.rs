@@ -674,6 +674,25 @@ mod tests {
     }
 
     #[test]
+    fn not() {
+        let mut x = BigInt::from(1);
+        assert_eq!(x.positive, true);
+        assert_eq!(x.to_string(), "1");
+        x = -x;
+        assert_eq!(x.positive, false);
+        assert_eq!(x.to_string(), "-1");
+        x = -x;
+        assert_eq!(x.positive, true);
+        assert_eq!(x.to_string(), "1");
+        let mut x = BigInt::from(-22);
+        assert_eq!(x.positive, false);
+        assert_eq!(x.to_string(), "-22");
+        x = -x;
+        assert_eq!(x.positive, true);
+        assert_eq!(x.to_string(), "22");
+    }
+
+    #[test]
     fn equal() {
         let x = BigInt::from(10);
         let y = BigInt::from(10);
