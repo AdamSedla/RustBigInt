@@ -625,7 +625,7 @@ mod tests {
         let x = BigInt::from(-100);
         assert_eq!(format!("Number is: {x:?}"), "Number is: -100");
         let x = BigInt::from(-0);
-        assert_eq!(format!("Number is: {x:?}"), "Number is: -0");
+        assert_eq!(format!("Number is: {x:?}"), "Number is: +0");
         let x = BigInt::from(-1);
         assert_eq!(format!("Number is: {x:?}"), "Number is: -1");
         let x = BigInt::from(320020000981234567890i128);
