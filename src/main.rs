@@ -8,6 +8,7 @@ use std::{
         SubAssign,
     },
     str::FromStr,
+    u8,
 };
 
 #[derive(Debug)]
@@ -42,7 +43,28 @@ where
     T: PrimInt,
 {
     fn from(value: T) -> Self {
-        todo!()
+        if value.is_zero() {
+            return BigInt::default();
+        }
+
+        let mut val = value;
+        let mut ret_vec = Vec::new();
+        let mut positive = true;
+
+        if val < T::zero() {
+            positive = false;
+            val = val * T::from(-1).unwrap();
+        }
+
+        while !val.is_zero() {
+            ret_vec.insert(0, (val % T::from(10).unwrap()).to_u8().unwrap());
+            val = val / T::from(10).unwrap();
+        }
+
+        BigInt {
+            positive: positive,
+            numbers: ret_vec,
+        }
     }
 }
 
