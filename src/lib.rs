@@ -171,7 +171,11 @@ impl Display for BigInt {
 
 impl fmt::Debug for BigInt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        todo!()
+        if self.positive {
+            write!(f, "+")?;
+        }
+
+        write!(f, "{}", self)
     }
 }
 
