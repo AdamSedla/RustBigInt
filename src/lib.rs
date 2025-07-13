@@ -35,7 +35,7 @@ impl Default for BigInt {
 
 impl FromStr for BigInt {
     type Err = BigIntError;
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(mut num_str: &str) -> Result<Self, Self::Err> {
         todo!()
     }
 }
@@ -391,12 +391,16 @@ where
 }
 
 impl BigInt {
-    fn new() -> BigInt {
+    pub fn new() -> BigInt {
         BigInt::default()
     }
 
-    fn to_words(&self) -> String {
+    pub fn to_words(&self) -> String {
         todo!()
+    }
+
+    fn parseWordDigits(mut num_str: &str) -> Result<BigInt, BigIntError> {
+        Ok(BigInt::new())
     }
 }
 
@@ -1295,5 +1299,3 @@ mod tests {
         assert!(a != -87654321);
     }
 }
-
-fn main() {}
