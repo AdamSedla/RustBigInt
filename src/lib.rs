@@ -254,25 +254,37 @@ impl LowerHex for BigInt {
     }
 }
 
-impl PartialEq<i128> for BigInt {
-    fn eq(&self, other: &i128) -> bool {
-        todo!()
-    }
-        todo!()
-    }
+macro_rules! eq_with_int {
+    ($($t:ty),*) => {
+        $(
+            impl PartialEq<$t> for BigInt{
+                fn eq(&self, other: &$t) -> bool {
+                    self == &BigInt::from(*other)
+                }
+            }
+        )*
+    };
 }
+
+eq_with_int!(u8, u16, u32, u64, u128, i8, i16, i32, i64, i128);
 
 impl PartialEq<&str> for BigInt {
     fn eq(&self, other: &&str) -> bool {
-        todo!()
-    }
+        let right_side = BigInt::from_str(other);
+        if right_side.is_err() {
+            return false;
+        }
+        self == &right_side.unwrap()
     }
 }
 
 impl PartialEq for BigInt {
     fn eq(&self, other: &BigInt) -> bool {
-        todo!()
-    }
+        if self.positive != other.positive {
+            false
+        } else {
+            self.numbers == other.numbers
+        }
     }
 }
 
