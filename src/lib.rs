@@ -199,14 +199,7 @@ impl PartialEq for big_int {
 
 impl Neg for big_int {
     type Output = Self;
-    fn neg(self) -> Self::Output {
-        !self
-    }
-}
-
-impl Not for big_int {
-    type Output = Self;
-    fn not(mut self) -> Self::Output {
+    fn neg(mut self) -> Self::Output {
         self.positive = !self.positive;
         self
     }
@@ -688,25 +681,6 @@ mod tests {
             x.to_words(),
             "minus two zero zero zero zero zero zero zero zero zero zero zero one"
         );
-    }
-
-    #[test]
-    fn negation() {
-        let mut x = big_int::from(1);
-        assert_eq!(x.positive, true);
-        assert_eq!(x.to_string(), "1");
-        x = !x;
-        assert_eq!(x.positive, false);
-        assert_eq!(x.to_string(), "-1");
-        x = !x;
-        assert_eq!(x.positive, true);
-        assert_eq!(x.to_string(), "1");
-        let mut x = big_int::from(-22);
-        assert_eq!(x.positive, false);
-        assert_eq!(x.to_string(), "-22");
-        x = !x;
-        assert_eq!(x.positive, true);
-        assert_eq!(x.to_string(), "22");
     }
 
     #[test]
