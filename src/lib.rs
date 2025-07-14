@@ -16,14 +16,14 @@ enum BigIntError {
 }
 
 #[derive(Clone, Eq)]
-struct BigInt {
+struct big_int {
     positive: bool,
     numbers: Vec<u8>,
 }
 
-impl Default for BigInt {
+impl Default for big_int {
     fn default() -> Self {
-        BigInt {
+        big_int {
             positive: true,
             numbers: vec![0],
         }
@@ -63,7 +63,7 @@ fn number_to_word(nmr: u8) -> String {
     .to_string()
 }
 
-fn parse_word_digits(num_str: String) -> Result<BigInt, BigIntError> {
+fn parse_word_digits(num_str: String) -> Result<big_int, BigIntError> {
     //create lowercase iterator
     let mut parsed = num_str.split_whitespace().map(str::to_lowercase).peekable();
     let mut fin_pos = true;
@@ -90,13 +90,13 @@ fn parse_word_digits(num_str: String) -> Result<BigInt, BigIntError> {
         return Err(BigIntError::NaN);
     }
 
-    Ok(BigInt {
+    Ok(big_int {
         positive: fin_pos,
         numbers: fin_vec,
     })
 }
 
-impl FromStr for BigInt {
+impl FromStr for big_int {
     type Err = BigIntError;
     fn from_str(mut num_str: &str) -> Result<Self, Self::Err> {
         //empty string edgecaase
@@ -128,7 +128,7 @@ impl FromStr for BigInt {
             fin_pos = true;
         }
 
-        Ok(BigInt {
+        Ok(big_int {
             positive: fin_pos,
             numbers: fin_vec,
         })
@@ -138,12 +138,12 @@ impl FromStr for BigInt {
 macro_rules! from_int {
     ($($t:ty),*)=>{
         $(
-            impl From<$t> for BigInt{
+            impl From<$t> for big_int{
                 fn from(value: $t) -> Self {
 
                 //zero edgecase
                 if value == 0 {
-                    return BigInt::default();
+                    return big_int::default();
                 }
 
                 let mut val = value;
@@ -162,7 +162,7 @@ macro_rules! from_int {
                 }
 
                 //return value
-                BigInt {
+                big_int {
                     positive: fin_pos,
                     numbers: fin_vec,
                 }
@@ -176,12 +176,12 @@ macro_rules! from_int {
 macro_rules! from_uint {
     ($($t:ty),*)=>{
         $(
-            impl From<$t> for BigInt{
+            impl From<$t> for big_int{
                 fn from(value: $t) -> Self {
 
                 //zero edgecase
                 if value == 0 {
-                    return BigInt::default();
+                    return big_int::default();
                 }
 
                 let mut val = value;
@@ -194,7 +194,7 @@ macro_rules! from_uint {
                 }
 
                 //return value
-                BigInt {
+                big_int {
                     positive: true,
                     numbers: fin_vec,
                 }
@@ -208,7 +208,7 @@ macro_rules! from_uint {
 from_int!(i8, i16, i32, i64, i128);
 from_uint!(u8, u16, u32, u64, u128);
 
-impl Display for BigInt {
+impl Display for big_int {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if !self.positive {
             write!(f, "-")?;
@@ -221,7 +221,7 @@ impl Display for BigInt {
     }
 }
 
-impl fmt::Debug for BigInt {
+impl fmt::Debug for big_int {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         if self.positive {
             write!(f, "+")?;
@@ -231,19 +231,19 @@ impl fmt::Debug for BigInt {
     }
 }
 
-impl Binary for BigInt {
+impl Binary for big_int {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         todo!()
     }
 }
 
-impl UpperHex for BigInt {
+impl UpperHex for big_int {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         todo!()
     }
 }
 
-impl LowerHex for BigInt {
+impl LowerHex for big_int {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         todo!()
     }
@@ -252,9 +252,9 @@ impl LowerHex for BigInt {
 macro_rules! eq_with_int {
     ($($t:ty),*) => {
         $(
-            impl PartialEq<$t> for BigInt{
+            impl PartialEq<$t> for big_int{
                 fn eq(&self, other: &$t) -> bool {
-                    self == &BigInt::from(*other)
+                    self == &big_int::from(*other)
                 }
             }
         )*
@@ -263,9 +263,9 @@ macro_rules! eq_with_int {
 
 eq_with_int!(u8, u16, u32, u64, u128, i8, i16, i32, i64, i128);
 
-impl PartialEq<&str> for BigInt {
+impl PartialEq<&str> for big_int {
     fn eq(&self, other: &&str) -> bool {
-        let right_side = BigInt::from_str(other);
+        let right_side = big_int::from_str(other);
         if right_side.is_err() {
             return false;
         }
@@ -273,8 +273,8 @@ impl PartialEq<&str> for BigInt {
     }
 }
 
-impl PartialEq for BigInt {
-    fn eq(&self, other: &BigInt) -> bool {
+impl PartialEq for big_int {
+    fn eq(&self, other: &big_int) -> bool {
         if self.positive != other.positive {
             false
         } else {
@@ -283,14 +283,14 @@ impl PartialEq for BigInt {
     }
 }
 
-impl Neg for BigInt {
+impl Neg for big_int {
     type Output = Self;
     fn neg(self) -> Self::Output {
         !self
     }
 }
 
-impl Not for BigInt {
+impl Not for big_int {
     type Output = Self;
     fn not(mut self) -> Self::Output {
         self.positive = !self.positive;
@@ -298,7 +298,7 @@ impl Not for BigInt {
     }
 }
 
-impl PartialOrd for BigInt {
+impl PartialOrd for big_int {
     fn ge(&self, other: &Self) -> bool {
         todo!()
     }
@@ -316,7 +316,7 @@ impl PartialOrd for BigInt {
     }
 }
 
-impl PartialOrd<i128> for BigInt {
+impl PartialOrd<i128> for big_int {
     fn ge(&self, other: &i128) -> bool {
         todo!()
     }
@@ -334,7 +334,7 @@ impl PartialOrd<i128> for BigInt {
     }
 }
 
-impl PartialOrd<&str> for BigInt {
+impl PartialOrd<&str> for big_int {
     fn ge(&self, other: &&str) -> bool {
         todo!()
     }
@@ -352,9 +352,9 @@ impl PartialOrd<&str> for BigInt {
     }
 }
 
-impl<T> Add<T> for BigInt
+impl<T> Add<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     type Output = Self;
     fn add(self, rhs: T) -> Self::Output {
@@ -362,18 +362,18 @@ where
     }
 }
 
-impl<T> AddAssign<T> for BigInt
+impl<T> AddAssign<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     fn add_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Sub<T> for BigInt
+impl<T> Sub<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     type Output = Self;
 
@@ -382,18 +382,18 @@ where
     }
 }
 
-impl<T> SubAssign<T> for BigInt
+impl<T> SubAssign<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     fn sub_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Mul<T> for BigInt
+impl<T> Mul<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     type Output = Self;
     fn mul(self, rhs: T) -> Self::Output {
@@ -401,18 +401,18 @@ where
     }
 }
 
-impl<T> MulAssign<T> for BigInt
+impl<T> MulAssign<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     fn mul_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Div<T> for BigInt
+impl<T> Div<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     type Output = Self;
     fn div(self, rhs: T) -> Self::Output {
@@ -420,18 +420,18 @@ where
     }
 }
 
-impl<T> DivAssign<T> for BigInt
+impl<T> DivAssign<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     fn div_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Rem<T> for BigInt
+impl<T> Rem<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     type Output = Self;
     fn rem(self, rhs: T) -> Self::Output {
@@ -439,18 +439,18 @@ where
     }
 }
 
-impl<T> RemAssign<T> for BigInt
+impl<T> RemAssign<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     fn rem_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> BitAnd<T> for BigInt
+impl<T> BitAnd<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     type Output = Self;
     fn bitand(self, rhs: T) -> Self::Output {
@@ -458,18 +458,18 @@ where
     }
 }
 
-impl<T> BitAndAssign<T> for BigInt
+impl<T> BitAndAssign<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     fn bitand_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> BitOr<T> for BigInt
+impl<T> BitOr<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     type Output = Self;
     fn bitor(self, rhs: T) -> Self::Output {
@@ -477,18 +477,18 @@ where
     }
 }
 
-impl<T> BitOrAssign<T> for BigInt
+impl<T> BitOrAssign<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     fn bitor_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> BitXor<T> for BigInt
+impl<T> BitXor<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     type Output = Self;
     fn bitxor(self, rhs: T) -> Self::Output {
@@ -496,18 +496,18 @@ where
     }
 }
 
-impl<T> BitXorAssign<T> for BigInt
+impl<T> BitXorAssign<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     fn bitxor_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Shl<T> for BigInt
+impl<T> Shl<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     type Output = Self;
     fn shl(self, rhs: T) -> Self::Output {
@@ -515,18 +515,18 @@ where
     }
 }
 
-impl<T> ShlAssign<T> for BigInt
+impl<T> ShlAssign<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     fn shl_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Shr<T> for BigInt
+impl<T> Shr<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     type Output = Self;
     fn shr(self, rhs: T) -> Self::Output {
@@ -534,18 +534,18 @@ where
     }
 }
 
-impl<T> ShrAssign<T> for BigInt
+impl<T> ShrAssign<T> for big_int
 where
-    T: Into<BigInt>,
+    T: Into<big_int>,
 {
     fn shr_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl BigInt {
-    pub fn new() -> BigInt {
-        BigInt::default()
+impl big_int {
+    pub fn new() -> big_int {
+        big_int::default()
     }
 
     pub fn to_words(&self) -> String {
@@ -574,27 +574,27 @@ mod tests {
 
     #[test]
     fn default() {
-        let def = BigInt::default();
+        let def = big_int::default();
         assert_eq!(def.positive, true);
         assert_eq!(def.numbers, [0].to_vec());
     }
 
     #[test]
     fn new() {
-        let new = BigInt::new();
+        let new = big_int::new();
         assert_eq!(new.positive, true);
         assert_eq!(new.numbers, [0].to_vec());
     }
 
     #[test]
     fn from() {
-        let x = BigInt::from(20);
+        let x = big_int::from(20);
         assert_eq!(x.positive, true);
         assert_eq!(x.numbers, [2, 0].to_vec());
-        let x = BigInt::from(-20);
+        let x = big_int::from(-20);
         assert_eq!(x.positive, false);
         assert_eq!(x.numbers, [2, 0].to_vec());
-        let x = BigInt::from(-320020000981234567890i128);
+        let x = big_int::from(-320020000981234567890i128);
         assert_eq!(x.positive, false);
         assert_eq!(
             x.numbers,
@@ -603,26 +603,26 @@ mod tests {
             ]
             .to_vec()
         );
-        let x = BigInt::from(0);
+        let x = big_int::from(0);
         assert_eq!(x.positive, true);
         assert_eq!(x.numbers, [0].to_vec());
-        let x = BigInt::from(-0);
+        let x = big_int::from(-0);
         assert_eq!(x.positive, true);
         assert_eq!(x.numbers, [0].to_vec());
     }
 
     #[test]
     fn from_string_numbers() {
-        let x = BigInt::from_str("20").unwrap();
+        let x = big_int::from_str("20").unwrap();
         assert_eq!(x.positive, true);
         assert_eq!(x.numbers, [2, 0].to_vec());
-        let x = BigInt::from_str("666").unwrap();
+        let x = big_int::from_str("666").unwrap();
         assert_eq!(x.positive, true);
         assert_eq!(x.numbers, [6, 6, 6].to_vec());
-        let x = BigInt::from_str("-20").unwrap();
+        let x = big_int::from_str("-20").unwrap();
         assert_eq!(x.positive, false);
         assert_eq!(x.numbers, [2, 0].to_vec());
-        let x = BigInt::from_str("-320020000981234567890").unwrap();
+        let x = big_int::from_str("-320020000981234567890").unwrap();
         assert_eq!(x.positive, false);
         assert_eq!(
             x.numbers,
@@ -631,64 +631,64 @@ mod tests {
             ]
             .to_vec()
         );
-        let x = BigInt::from_str("-0").unwrap();
+        let x = big_int::from_str("-0").unwrap();
         assert_eq!(x.positive, true);
         assert_eq!(x.numbers, [0].to_vec());
-        let x = BigInt::from_str("0sw");
+        let x = big_int::from_str("0sw");
         assert!(x.is_err());
-        let x = BigInt::from_str("0 2020000");
+        let x = big_int::from_str("0 2020000");
         assert!(x.is_err());
-        let x = BigInt::from_str("--200");
+        let x = big_int::from_str("--200");
         assert!(x.is_err());
-        let x = BigInt::from_str("+2000303");
+        let x = big_int::from_str("+2000303");
         assert!(x.is_err());
-        let x = BigInt::from_str("minus20003002");
+        let x = big_int::from_str("minus20003002");
         assert!(x.is_err());
     }
 
     #[test]
     fn from_string_words_from_str_digits() {
-        let x = BigInt::from_str("two zero     ").unwrap();
+        let x = big_int::from_str("two zero     ").unwrap();
         assert_eq!(x.positive, true);
         assert_eq!(x.numbers, [2, 0].to_vec());
-        let x = BigInt::from_str("minus two four").unwrap();
+        let x = big_int::from_str("minus two four").unwrap();
         assert_eq!(x.positive, false);
         assert_eq!(x.numbers, [2, 4].to_vec());
-        let x = BigInt::from_str("two five five zero zero two one").unwrap();
+        let x = big_int::from_str("two five five zero zero two one").unwrap();
         assert_eq!(x.positive, true);
         assert_eq!(x.numbers, [2, 5, 5, 0, 0, 2, 1].to_vec());
-        let x = BigInt::from_str("minus two     zero zero zero zero zero one").unwrap();
+        let x = big_int::from_str("minus two     zero zero zero zero zero one").unwrap();
         assert_eq!(x.positive, false);
         assert_eq!(x.numbers, [2, 0, 0, 0, 0, 0, 1].to_vec());
-        let x = BigInt::from_str("zero").unwrap();
+        let x = big_int::from_str("zero").unwrap();
         assert_eq!(x.positive, true);
         assert_eq!(x.numbers, [0].to_vec());
-        let x = BigInt::from_str("onse");
+        let x = big_int::from_str("onse");
         assert!(x.is_err());
-        let x = BigInt::from_str("        ");
+        let x = big_int::from_str("        ");
         assert!(x.is_err());
-        let x = BigInt::from_str("twenty thousand thousand");
+        let x = big_int::from_str("twenty thousand thousand");
         assert!(x.is_err());
-        let x: Result<BigInt, BigIntError> = BigInt::from_str("twenty thousand hundred");
+        let x: Result<big_int, BigIntError> = big_int::from_str("twenty thousand hundred");
         assert!(x.is_err());
-        let x = BigInt::from_str("- five four").unwrap();
+        let x = big_int::from_str("- five four").unwrap();
         assert_eq!(x.positive, false);
         assert_eq!(x.numbers, [5, 4].to_vec());
     }
 
     #[test]
     fn display() {
-        let x = BigInt::from(1003);
+        let x = big_int::from(1003);
         assert_eq!(format!("Number is: {x}"), "Number is: 1003");
-        let x = BigInt::from(0);
+        let x = big_int::from(0);
         assert_eq!(format!("Number is: {x}"), "Number is: 0");
-        let x = BigInt::from(-100);
+        let x = big_int::from(-100);
         assert_eq!(format!("Number is: {x}"), "Number is: -100");
-        let x = BigInt::from(-0);
+        let x = big_int::from(-0);
         assert_eq!(format!("Number is: {x}"), "Number is: 0");
-        let x = BigInt::from(-1);
+        let x = big_int::from(-1);
         assert_eq!(format!("Number is: {x}"), "Number is: -1");
-        let x = BigInt::from(320020000981234567890i128);
+        let x = big_int::from(320020000981234567890i128);
         assert_eq!(
             format!("Number is: {x}"),
             "Number is: 320020000981234567890"
@@ -697,17 +697,17 @@ mod tests {
 
     #[test]
     fn debug() {
-        let x = BigInt::from(1003);
+        let x = big_int::from(1003);
         assert_eq!(format!("Number is: {x:?}"), "Number is: +1003");
-        let x = BigInt::from(0);
+        let x = big_int::from(0);
         assert_eq!(format!("Number is: {x:?}"), "Number is: +0");
-        let x = BigInt::from(-100);
+        let x = big_int::from(-100);
         assert_eq!(format!("Number is: {x:?}"), "Number is: -100");
-        let x = BigInt::from(-0);
+        let x = big_int::from(-0);
         assert_eq!(format!("Number is: {x:?}"), "Number is: +0");
-        let x = BigInt::from(-1);
+        let x = big_int::from(-1);
         assert_eq!(format!("Number is: {x:?}"), "Number is: -1");
-        let x = BigInt::from(320020000981234567890i128);
+        let x = big_int::from(320020000981234567890i128);
         assert_eq!(
             format!("Number is: {x:?}"),
             "Number is: +320020000981234567890"
@@ -716,13 +716,13 @@ mod tests {
 
     #[test]
     fn to_words() {
-        let x = BigInt::from(20);
+        let x = big_int::from(20);
         assert_eq!(x.to_words(), "two zero");
-        let x = BigInt::from(-24);
+        let x = big_int::from(-24);
         assert_eq!(x.to_words(), "minus two four");
-        let x = BigInt::from(2550021);
+        let x = big_int::from(2550021);
         assert_eq!(x.to_words(), "two five five zero zero two one");
-        let x = BigInt::from(-2000000000001i128);
+        let x = big_int::from(-2000000000001i128);
         assert_eq!(
             x.to_words(),
             "minus two zero zero zero zero zero zero zero zero zero zero zero one"
@@ -731,7 +731,7 @@ mod tests {
 
     #[test]
     fn negation() {
-        let mut x = BigInt::from(1);
+        let mut x = big_int::from(1);
         assert_eq!(x.positive, true);
         assert_eq!(x.to_string(), "1");
         x = !x;
@@ -740,7 +740,7 @@ mod tests {
         x = !x;
         assert_eq!(x.positive, true);
         assert_eq!(x.to_string(), "1");
-        let mut x = BigInt::from(-22);
+        let mut x = big_int::from(-22);
         assert_eq!(x.positive, false);
         assert_eq!(x.to_string(), "-22");
         x = !x;
@@ -750,7 +750,7 @@ mod tests {
 
     #[test]
     fn not() {
-        let mut x = BigInt::from(1);
+        let mut x = big_int::from(1);
         assert_eq!(x.positive, true);
         assert_eq!(x.to_string(), "1");
         x = -x;
@@ -759,7 +759,7 @@ mod tests {
         x = -x;
         assert_eq!(x.positive, true);
         assert_eq!(x.to_string(), "1");
-        let mut x = BigInt::from(-22);
+        let mut x = big_int::from(-22);
         assert_eq!(x.positive, false);
         assert_eq!(x.to_string(), "-22");
         x = -x;
@@ -769,181 +769,181 @@ mod tests {
 
     #[test]
     fn equal() {
-        let x = BigInt::from(10);
-        let y = BigInt::from(10);
+        let x = big_int::from(10);
+        let y = big_int::from(10);
         assert!(x == y);
-        let x = BigInt::from(101010);
-        let y = BigInt::from(101010);
+        let x = big_int::from(101010);
+        let y = big_int::from(101010);
         assert!(x == y);
-        let x = BigInt::from(101010);
-        let y = BigInt::from(101210);
+        let x = big_int::from(101010);
+        let y = big_int::from(101210);
         assert!(!(x == y));
-        let x = BigInt::from(101010);
-        let y = BigInt::from(1);
+        let x = big_int::from(101010);
+        let y = big_int::from(1);
         assert!(!(x == y));
-        let x = BigInt::from(0);
-        let y = BigInt::from(0);
+        let x = big_int::from(0);
+        let y = big_int::from(0);
         assert!(x == y);
-        let x = BigInt::from(10);
-        let y = BigInt::from(-10);
+        let x = big_int::from(10);
+        let y = big_int::from(-10);
         assert!(x != y);
-        let x = BigInt::from(11);
-        let y = BigInt::from(10);
+        let x = big_int::from(11);
+        let y = big_int::from(10);
         assert!(x != y);
-        let x = BigInt::from(-0);
-        let y = BigInt::from(0);
+        let x = big_int::from(-0);
+        let y = big_int::from(0);
         assert!(x == y);
     }
 
     #[test]
     fn equal_int() {
-        let x = BigInt::from(10);
+        let x = big_int::from(10);
         assert!(x == 10);
-        let x = BigInt::from(101010);
+        let x = big_int::from(101010);
         assert!(x == 101010);
-        let x = BigInt::from(101010);
+        let x = big_int::from(101010);
         assert!(!(x == 101210));
-        let x = BigInt::from(101010);
+        let x = big_int::from(101010);
         assert!(!(x == 1));
-        let x = BigInt::from(0);
+        let x = big_int::from(0);
         assert!(x == 0);
-        let x = BigInt::from(10);
+        let x = big_int::from(10);
         assert!(x != -10);
-        let x = BigInt::from(11);
+        let x = big_int::from(11);
         assert!(x != 10);
-        let x = BigInt::from(-0);
+        let x = big_int::from(-0);
         assert!(x == 0);
     }
 
     #[test]
     fn equal_str() {
-        let x = BigInt::from(10);
+        let x = big_int::from(10);
         assert!(x == "10");
-        let x = BigInt::from(101010);
+        let x = big_int::from(101010);
         assert!(x == "101010");
-        let x = BigInt::from(101010);
+        let x = big_int::from(101010);
         assert!(!(x == "101210"));
-        let x = BigInt::from(101010);
+        let x = big_int::from(101010);
         assert!(!(x == "1"));
-        let x = BigInt::from(0);
+        let x = big_int::from(0);
         assert!(x == "0");
-        let x = BigInt::from(10);
+        let x = big_int::from(10);
         assert!(x != "-10");
-        let x = BigInt::from(11);
+        let x = big_int::from(11);
         assert!(x != "10");
-        let x = BigInt::from(-0);
+        let x = big_int::from(-0);
         assert!(x == "0");
     }
 
     #[test]
     fn greater() {
-        let x: BigInt = BigInt::from(15);
-        let y = BigInt::from(10);
+        let x: big_int = big_int::from(15);
+        let y = big_int::from(10);
         assert!(x > y);
-        let x: BigInt = BigInt::from(8);
-        let y = BigInt::from(7);
+        let x: big_int = big_int::from(8);
+        let y = big_int::from(7);
         assert!(x > y);
-        let x = BigInt::from(10);
-        let y = BigInt::from(10);
+        let x = big_int::from(10);
+        let y = big_int::from(10);
         assert!(!(x > y));
-        let x = BigInt::from(10);
-        let y = BigInt::from(10);
+        let x = big_int::from(10);
+        let y = big_int::from(10);
         assert!(x >= y);
-        let x = BigInt::from(101010);
-        let y = BigInt::from(101010);
+        let x = big_int::from(101010);
+        let y = big_int::from(101010);
         assert!(x >= y);
-        let x = BigInt::from(0);
-        let y = BigInt::from(0);
+        let x = big_int::from(0);
+        let y = big_int::from(0);
         assert!(!(x > y));
-        let x = BigInt::from(10);
-        let y = BigInt::from(-10);
+        let x = big_int::from(10);
+        let y = big_int::from(-10);
         assert!(x > y);
-        let x = BigInt::from(11);
-        let y = BigInt::from(10);
+        let x = big_int::from(11);
+        let y = big_int::from(10);
         assert!(x > y);
     }
 
     #[test]
     fn lesser() {
-        let x: BigInt = BigInt::from(0);
-        let y = BigInt::from(10);
+        let x: big_int = big_int::from(0);
+        let y = big_int::from(10);
         assert!(x < y);
-        let x: BigInt = BigInt::from(8);
-        let y = BigInt::from(9);
+        let x: big_int = big_int::from(8);
+        let y = big_int::from(9);
         assert!(x < y);
-        let x = BigInt::from(10);
-        let y = BigInt::from(10);
+        let x = big_int::from(10);
+        let y = big_int::from(10);
         assert!(!(x < y));
-        let x = BigInt::from(10);
-        let y = BigInt::from(10);
+        let x = big_int::from(10);
+        let y = big_int::from(10);
         assert!(x <= y);
-        let x = BigInt::from(99999999999i64);
-        let y = BigInt::from(99999999999i128);
+        let x = big_int::from(99999999999i64);
+        let y = big_int::from(99999999999i128);
         assert!(x <= y);
-        let x = BigInt::from(0);
-        let y = BigInt::from(0);
+        let x = big_int::from(0);
+        let y = big_int::from(0);
         assert!(!(x < y));
-        let x = BigInt::from(-10);
-        let y = BigInt::from(10);
+        let x = big_int::from(-10);
+        let y = big_int::from(10);
         assert!(x < y);
-        let x = BigInt::from(11);
-        let y = BigInt::from(99999999999u64);
+        let x = big_int::from(11);
+        let y = big_int::from(99999999999u64);
         assert!(x < y);
     }
 
     #[test]
     fn add() {
-        let mut x: BigInt = BigInt::from(10);
-        let y = BigInt::from(10);
+        let mut x: big_int = big_int::from(10);
+        let y = big_int::from(10);
         let z = x.clone() + y.clone();
         x += y;
         assert_eq!(z, 20);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(101010);
-        let y = BigInt::from(101010);
+        let mut x = big_int::from(101010);
+        let y = big_int::from(101010);
         let z = x.clone() + y.clone();
         x += y;
         assert_eq!(z, 202020);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(0);
-        let y = BigInt::from(0);
+        let mut x = big_int::from(0);
+        let y = big_int::from(0);
         let z = x.clone() + y.clone();
         x += y;
         assert_eq!(z, 0);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(10);
-        let y = BigInt::from(-10);
+        let mut x = big_int::from(10);
+        let y = big_int::from(-10);
         let z = x.clone() + y.clone();
         x += y.clone();
         assert_eq!(z, 0);
         assert_ne!(x, y);
 
-        let mut x = BigInt::from(11);
-        let y = BigInt::from(10);
+        let mut x = big_int::from(11);
+        let y = big_int::from(10);
         let z = x.clone() + y.clone();
         x += y.clone();
         assert_eq!(z, 21);
         assert_ne!(x, y);
 
-        let mut x = BigInt::from(-0);
-        let y = BigInt::from(0);
+        let mut x = big_int::from(-0);
+        let y = big_int::from(0);
         let z = x.clone() + y.clone();
         x += y.clone();
         assert_eq!(z, 0);
         assert_eq!(x, y);
 
-        let mut x = BigInt::from(6);
-        let y = BigInt::from(4);
+        let mut x = big_int::from(6);
+        let y = big_int::from(4);
         let z = x.clone() + y.clone();
         x += y.clone();
         assert_eq!(z, 10);
         assert_eq!(x, y);
 
-        let mut x = BigInt::from(-15);
-        let y = BigInt::from(-4);
+        let mut x = big_int::from(-15);
+        let y = big_int::from(-4);
         let z = x.clone() + y.clone();
         x += y.clone();
         assert_eq!(z, -19);
@@ -952,64 +952,64 @@ mod tests {
 
     #[test]
     fn sub() {
-        let mut x: BigInt = BigInt::from(10);
-        let y = BigInt::from(10);
+        let mut x: big_int = big_int::from(10);
+        let y = big_int::from(10);
         let z = x.clone() - y.clone();
         x -= y;
         assert_eq!(z, 0);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(101010);
-        let y = BigInt::from(10);
+        let mut x = big_int::from(101010);
+        let y = big_int::from(10);
         let z = x.clone() - y.clone();
         x -= y;
         assert_eq!(z, 101000);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(0);
-        let y = BigInt::from(0);
+        let mut x = big_int::from(0);
+        let y = big_int::from(0);
         let z = x.clone() - y.clone();
         x -= y;
         assert_eq!(z, 0);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(10);
-        let y = BigInt::from(-10);
+        let mut x = big_int::from(10);
+        let y = big_int::from(-10);
         let z = x.clone() - y.clone();
         x -= y.clone();
         assert_eq!(z, 20);
         assert_ne!(x, y);
 
-        let mut x = BigInt::from(-10);
-        let y = BigInt::from(10);
+        let mut x = big_int::from(-10);
+        let y = big_int::from(10);
         let z = x.clone() - y.clone();
         x -= y.clone();
         assert_eq!(z, -20);
         assert_ne!(x, y);
 
-        let mut x = BigInt::from(11);
-        let y = BigInt::from(10);
+        let mut x = big_int::from(11);
+        let y = big_int::from(10);
         let z = x.clone() - y.clone();
         x -= y.clone();
         assert_eq!(z, 1);
         assert_ne!(x, y);
 
-        let mut x = BigInt::from(-0);
-        let y = BigInt::from(0);
+        let mut x = big_int::from(-0);
+        let y = big_int::from(0);
         let z = x.clone() - y.clone();
         x -= y.clone();
         assert_eq!(z, 0);
         assert_eq!(x, y);
 
-        let mut x = BigInt::from(6);
-        let y = BigInt::from(4);
+        let mut x = big_int::from(6);
+        let y = big_int::from(4);
         let z = x.clone() - y.clone();
         x -= y.clone();
         assert_eq!(z, 2);
         assert_eq!(x, y);
 
-        let mut x = BigInt::from(-15);
-        let y = BigInt::from(-4);
+        let mut x = big_int::from(-15);
+        let y = big_int::from(-4);
         let z = x.clone() - y.clone();
         x -= y.clone();
         assert_eq!(z, -11);
@@ -1018,65 +1018,65 @@ mod tests {
 
     #[test]
     fn mul() {
-        let mut x: BigInt = BigInt::from(10);
-        let y = BigInt::from(10);
-        let z: BigInt = x.clone() * y.clone();
+        let mut x: big_int = big_int::from(10);
+        let y = big_int::from(10);
+        let z: big_int = x.clone() * y.clone();
         x *= y;
         assert_eq!(z, 100);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(101);
-        let y = BigInt::from(101);
+        let mut x = big_int::from(101);
+        let y = big_int::from(101);
         let z = x.clone() * y.clone();
         x *= y;
         assert_eq!(z, 10201);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(0);
-        let y = BigInt::from(0);
-        let z: BigInt = x.clone() * y.clone();
+        let mut x = big_int::from(0);
+        let y = big_int::from(0);
+        let z: big_int = x.clone() * y.clone();
         x *= y;
         assert_eq!(z, 0);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(20100000100u64);
-        let y = BigInt::from(0);
-        let z: BigInt = x.clone() * y.clone();
+        let mut x = big_int::from(20100000100u64);
+        let y = big_int::from(0);
+        let z: big_int = x.clone() * y.clone();
         x *= y;
         assert_eq!(z, 0);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(10);
-        let y = BigInt::from(-10);
-        let z: BigInt = x.clone() * y.clone();
+        let mut x = big_int::from(10);
+        let y = big_int::from(-10);
+        let z: big_int = x.clone() * y.clone();
         x *= y.clone();
         assert_eq!(z, -100);
         assert_ne!(x, y);
 
-        let mut x = BigInt::from(11);
-        let y = BigInt::from(10);
-        let z: BigInt = x.clone() * y.clone();
+        let mut x = big_int::from(11);
+        let y = big_int::from(10);
+        let z: big_int = x.clone() * y.clone();
         x *= y.clone();
         assert_eq!(z, 110);
         assert_ne!(x, y);
 
-        let mut x = BigInt::from(-0);
-        let y = BigInt::from(0);
-        let z: BigInt = x.clone() * y.clone();
+        let mut x = big_int::from(-0);
+        let y = big_int::from(0);
+        let z: big_int = x.clone() * y.clone();
         x *= y.clone();
         assert_eq!(z, 0);
         assert_eq!(x, y);
 
-        let mut x = BigInt::from(6);
-        let y = BigInt::from(4);
-        let z: BigInt = x.clone() * y.clone();
+        let mut x = big_int::from(6);
+        let y = big_int::from(4);
+        let z: big_int = x.clone() * y.clone();
         x *= y.clone();
         assert_eq!(z, 24);
         assert_eq!(x, y);
 
-        let mut x = BigInt::from(-15);
-        let y = BigInt::from(-4);
-        let z: BigInt = x.clone() * y.clone();
+        let mut x = big_int::from(-15);
+        let y = big_int::from(-4);
+        let z: big_int = x.clone() * y.clone();
         x *= y.clone();
         assert_eq!(z, 60);
         assert_eq!(x, y);
@@ -1084,71 +1084,71 @@ mod tests {
 
     #[test]
     fn div() {
-        let mut x: BigInt = BigInt::from(10000);
-        let y = BigInt::from(10);
+        let mut x: big_int = big_int::from(10000);
+        let y = big_int::from(10);
         let z = x.clone() / y.clone();
         x /= y;
         assert_eq!(z, 1000);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(101);
-        let y = BigInt::from(101);
+        let mut x = big_int::from(101);
+        let y = big_int::from(101);
         let z = x.clone() / y.clone();
         x /= y;
         assert_eq!(z, 1);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(0);
-        let y = BigInt::from(2);
+        let mut x = big_int::from(0);
+        let y = big_int::from(2);
         let z = x.clone() / y.clone();
         x /= y;
         assert_eq!(z, 0);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(0);
-        let y = BigInt::from(0);
+        let mut x = big_int::from(0);
+        let y = big_int::from(0);
         let z = x.clone() / y.clone();
         x /= y;
-        assert_eq!(z, BigInt::default());
+        assert_eq!(z, big_int::default());
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(10000);
-        let y = BigInt::from(0);
+        let mut x = big_int::from(10000);
+        let y = big_int::from(0);
         let z = x.clone() / y.clone();
         x /= y;
-        assert_eq!(z, BigInt::default());
+        assert_eq!(z, big_int::default());
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(20100000100u64);
-        let y = BigInt::from(200);
+        let mut x = big_int::from(20100000100u64);
+        let y = big_int::from(200);
         let z = x.clone() / y.clone();
         x /= y;
         assert_eq!(z, 100500);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(10);
-        let y = BigInt::from(-10);
+        let mut x = big_int::from(10);
+        let y = big_int::from(-10);
         let z = x.clone() / y.clone();
         x /= y.clone();
         assert_eq!(z, -1);
         assert_ne!(x, y);
 
-        let mut x = BigInt::from(110);
-        let y = BigInt::from(10);
+        let mut x = big_int::from(110);
+        let y = big_int::from(10);
         let z = x.clone() / y.clone();
         x /= y.clone();
         assert_eq!(z, 11);
         assert_ne!(x, y);
 
-        let mut x = BigInt::from(6);
-        let y = BigInt::from(2);
+        let mut x = big_int::from(6);
+        let y = big_int::from(2);
         let z = x.clone() / y.clone();
         x /= y.clone();
         assert_eq!(z, 3);
         assert_eq!(x, y);
 
-        let mut x = BigInt::from(-15);
-        let y = BigInt::from(-5);
+        let mut x = big_int::from(-15);
+        let y = big_int::from(-5);
         let z = x.clone() / y.clone();
         x /= y.clone();
         assert_eq!(z, 3);
@@ -1157,50 +1157,50 @@ mod tests {
 
     #[test]
     fn reminder() {
-        let mut x: BigInt = BigInt::from(10000);
-        let y = BigInt::from(10);
+        let mut x: big_int = big_int::from(10000);
+        let y = big_int::from(10);
         let z = x.clone() % y.clone();
         x %= y;
         assert_eq!(z, 0);
         assert_eq!(z, x);
 
-        let mut x: BigInt = BigInt::from(10);
-        let y = BigInt::from(0);
+        let mut x: big_int = big_int::from(10);
+        let y = big_int::from(0);
         let z = x.clone() % y.clone();
         x %= y;
         assert_eq!(z, 0);
         assert_eq!(z, x);
 
-        let mut x: BigInt = BigInt::from(10);
-        let y = BigInt::from(7);
+        let mut x: big_int = big_int::from(10);
+        let y = big_int::from(7);
         let z = x.clone() % y.clone();
         x %= y;
         assert_eq!(z, 3);
         assert_eq!(z, x);
 
-        let mut x: BigInt = BigInt::from(10000);
-        let y = BigInt::from(10);
+        let mut x: big_int = big_int::from(10000);
+        let y = big_int::from(10);
         let z = x.clone() % y.clone();
         x %= y;
         assert_eq!(z, 0);
         assert_eq!(z, x);
 
-        let mut x: BigInt = BigInt::from(-104);
-        let y = BigInt::from(10);
+        let mut x: big_int = big_int::from(-104);
+        let y = big_int::from(10);
         let z = x.clone() % y.clone();
         x %= y;
         assert_eq!(z, 4);
         assert_eq!(z, x);
 
-        let mut x: BigInt = BigInt::from(24);
-        let y = BigInt::from(3);
+        let mut x: big_int = big_int::from(24);
+        let y = big_int::from(3);
         let z = x.clone() % y.clone();
         x %= y;
         assert_eq!(z, 0);
         assert_eq!(z, x);
 
-        let mut x: BigInt = BigInt::from(33);
-        let y = BigInt::from(7);
+        let mut x: big_int = big_int::from(33);
+        let y = big_int::from(7);
         let z = x.clone() % y.clone();
         x %= y;
         assert_eq!(z, 5);
@@ -1209,52 +1209,52 @@ mod tests {
 
     #[test]
     fn binary() {
-        let x = BigInt::from(4);
+        let x = big_int::from(4);
         assert_eq!(format!("{x:b}"), "100");
-        let x = BigInt::from(4);
+        let x = big_int::from(4);
         assert_eq!(format!("{x:#b}"), "0b100");
-        let x = BigInt::from(4);
+        let x = big_int::from(4);
         assert_eq!(format!("{x:010b}"), "0000000100");
-        let x = BigInt::from(10);
+        let x = big_int::from(10);
         assert_eq!(format!("{x:#110b}"), "0b11111010");
-        let x = BigInt::from(172);
+        let x = big_int::from(172);
         assert_eq!(format!("{x:b}"), "10101100");
-        let x = BigInt::from(17220003931i64);
+        let x = big_int::from(17220003931i64);
         assert_eq!(format!("{x:#b}"), "0b10000000010011001000110100001011011");
     }
 
     #[test]
     fn bit_and() {
-        let mut x = BigInt::from(4); //100
-        let y = BigInt::from(12); //1100
+        let mut x = big_int::from(4); //100
+        let y = big_int::from(12); //1100
         let z = x.clone() & y.clone(); //0100
         x &= y;
         assert_eq!(x, z);
         assert_eq!(z, 4);
 
-        let mut x = BigInt::from(10); //1010
-        let y = BigInt::from(13); //1101
+        let mut x = big_int::from(10); //1010
+        let y = big_int::from(13); //1101
         let z = x.clone() & y.clone(); //1000
         x &= y;
         assert_eq!(x, z);
         assert_eq!(z, 8);
 
-        let mut x = BigInt::from(172); //10101100
-        let y = BigInt::from(223); //11011111
+        let mut x = big_int::from(172); //10101100
+        let y = big_int::from(223); //11011111
         let z = x.clone() & y.clone(); //10001100
         x &= y;
         assert_eq!(x, z);
         assert_eq!(z, 140);
 
-        let mut x = BigInt::from(172); //10101100
-        let y = BigInt::from(1); //1
+        let mut x = big_int::from(172); //10101100
+        let y = big_int::from(1); //1
         let z = x.clone() & y.clone(); //0
         x &= y;
         assert_eq!(x, z);
         assert_eq!(z, 0);
 
-        let mut x = BigInt::from(173); //10101101
-        let y = BigInt::from(1); //1
+        let mut x = big_int::from(173); //10101101
+        let y = big_int::from(1); //1
         let z = x.clone() & y.clone(); //1
         x &= y;
         assert_eq!(x, z);
@@ -1263,36 +1263,36 @@ mod tests {
 
     #[test]
     fn bit_or() {
-        let mut x = BigInt::from(4); //100
-        let y = BigInt::from(12); //1100
+        let mut x = big_int::from(4); //100
+        let y = big_int::from(12); //1100
         let z = x.clone() | y.clone(); //1100
         x |= y;
         assert_eq!(x, z);
         assert_eq!(z, 12);
 
-        let mut x = BigInt::from(10); //1010
-        let y = BigInt::from(13); //1101
+        let mut x = big_int::from(10); //1010
+        let y = big_int::from(13); //1101
         let z = x.clone() | y.clone(); //1111
         x |= y;
         assert_eq!(x, z);
         assert_eq!(z, 15);
 
-        let mut x = BigInt::from(172); //10101100
-        let y = BigInt::from(223); //11011111
+        let mut x = big_int::from(172); //10101100
+        let y = big_int::from(223); //11011111
         let z = x.clone() | y.clone(); //11111111
         x |= y;
         assert_eq!(x, z);
         assert_eq!(z, 255);
 
-        let mut x = BigInt::from(172); //10101100
-        let y = BigInt::from(1); //1
+        let mut x = big_int::from(172); //10101100
+        let y = big_int::from(1); //1
         let z = x.clone() | y.clone(); //10101101
         x |= y;
         assert_eq!(x, z);
         assert_eq!(z, 173);
 
-        let mut x = BigInt::from(173); //10101101
-        let y = BigInt::from(1); //1
+        let mut x = big_int::from(173); //10101101
+        let y = big_int::from(1); //1
         let z = x.clone() | y.clone(); //10101101
         x |= y;
         assert_eq!(x, z);
@@ -1301,36 +1301,36 @@ mod tests {
 
     #[test]
     fn bit_xor() {
-        let mut x = BigInt::from(4); //100
-        let y = BigInt::from(12); //1100
+        let mut x = big_int::from(4); //100
+        let y = big_int::from(12); //1100
         let z = x.clone() ^ y.clone(); //1000
         x ^= y;
         assert_eq!(x, z);
         assert_eq!(z, 8);
 
-        let mut x = BigInt::from(10); //1010
-        let y = BigInt::from(13); //1101
+        let mut x = big_int::from(10); //1010
+        let y = big_int::from(13); //1101
         let z = x.clone() ^ y.clone(); //0111
         x ^= y;
         assert_eq!(x, z);
         assert_eq!(z, 7);
 
-        let mut x = BigInt::from(172); //10101100
-        let y = BigInt::from(223); //11011111
+        let mut x = big_int::from(172); //10101100
+        let y = big_int::from(223); //11011111
         let z = x.clone() ^ y.clone(); //01110011
         x ^= y;
         assert_eq!(x, z);
         assert_eq!(z, 115);
 
-        let mut x = BigInt::from(172); //10101100
-        let y = BigInt::from(1); //1
+        let mut x = big_int::from(172); //10101100
+        let y = big_int::from(1); //1
         let z = x.clone() ^ y.clone(); //10101101
         x ^= y;
         assert_eq!(x, z);
         assert_eq!(z, 173);
 
-        let mut x = BigInt::from(173); //10101101
-        let y = BigInt::from(1); //1
+        let mut x = big_int::from(173); //10101101
+        let y = big_int::from(1); //1
         let z = x.clone() ^ y.clone(); //10101100
         x ^= y;
         assert_eq!(x, z);
@@ -1339,36 +1339,36 @@ mod tests {
 
     #[test]
     fn bit_shift_left() {
-        let mut x = BigInt::from(4); //100
-        let y = BigInt::from(2);
+        let mut x = big_int::from(4); //100
+        let y = big_int::from(2);
         let z = x.clone() << y.clone(); //10000
         x <<= y;
         assert_eq!(x, z);
         assert_eq!(z, 16);
 
-        let mut x = BigInt::from(10); //1010
-        let y = BigInt::from(1);
+        let mut x = big_int::from(10); //1010
+        let y = big_int::from(1);
         let z = x.clone() << y.clone(); //10100
         x <<= y;
         assert_eq!(x, z);
         assert_eq!(z, 20);
 
-        let mut x = BigInt::from(172); //10101100
-        let y = BigInt::from(0);
+        let mut x = big_int::from(172); //10101100
+        let y = big_int::from(0);
         let z = x.clone() << y.clone();
         x <<= y;
         assert_eq!(x, z);
         assert_eq!(z, 172);
 
-        let mut x = BigInt::from(172); //10101100
-        let y = BigInt::from(10);
+        let mut x = big_int::from(172); //10101100
+        let y = big_int::from(10);
         let z = x.clone() << y.clone(); //101011000000000000
         x <<= y;
         assert_eq!(x, z);
         assert_eq!(z, 176128);
 
-        let mut x = BigInt::from(173); //10101101
-        let y = BigInt::from(1);
+        let mut x = big_int::from(173); //10101101
+        let y = big_int::from(1);
         let z = x.clone() << y.clone(); //101011010
         x <<= y;
         assert_eq!(x, z);
@@ -1377,36 +1377,36 @@ mod tests {
 
     #[test]
     fn bit_shift_right() {
-        let mut x = BigInt::from(4); //100
-        let y = BigInt::from(2);
+        let mut x = big_int::from(4); //100
+        let y = big_int::from(2);
         let z = x.clone() >> y.clone(); //1
         x >>= y;
         assert_eq!(x, z);
         assert_eq!(z, 1);
 
-        let mut x = BigInt::from(10); //1010
-        let y = BigInt::from(1);
+        let mut x = big_int::from(10); //1010
+        let y = big_int::from(1);
         let z = x.clone() >> y.clone(); //101
         x >>= y;
         assert_eq!(x, z);
         assert_eq!(z, 5);
 
-        let mut x = BigInt::from(172); //10101100
-        let y = BigInt::from(0);
+        let mut x = big_int::from(172); //10101100
+        let y = big_int::from(0);
         let z = x.clone() >> y.clone(); //10101100
         x >>= y;
         assert_eq!(x, z);
         assert_eq!(z, 172);
 
-        let mut x = BigInt::from(172); //10101100
-        let y = BigInt::from(10);
+        let mut x = big_int::from(172); //10101100
+        let y = big_int::from(10);
         let z = x.clone() >> y.clone(); //0
         x >>= y;
         assert_eq!(x, z);
         assert_eq!(z, 0);
 
-        let mut x = BigInt::from(173); //10101101
-        let y = BigInt::from(1);
+        let mut x = big_int::from(173); //10101101
+        let y = big_int::from(1);
         let z = x.clone() >> y.clone(); //1010110
         x >>= y;
         assert_eq!(x, z);
@@ -1415,86 +1415,86 @@ mod tests {
 
     #[test]
     fn hexadecimal() {
-        let x = BigInt::from(4);
+        let x = big_int::from(4);
         assert_eq!(format!("{x:X}"), "4");
-        let x = BigInt::from(16);
+        let x = big_int::from(16);
         assert_eq!(format!("{x:#X}"), "0xF");
-        let x = BigInt::from(10);
+        let x = big_int::from(10);
         assert_eq!(format!("{x:#X}"), "0x10");
-        let x = BigInt::from(172);
+        let x = big_int::from(172);
         assert_eq!(format!("{x:X}"), "AC");
-        let x = BigInt::from(17220003931u128);
+        let x = big_int::from(17220003931u128);
         assert_eq!(format!("{x:#X}"), "0x40264685B");
 
-        let x = BigInt::from(4);
+        let x = big_int::from(4);
         assert_eq!(format!("{x:x}"), "4");
-        let x = BigInt::from(16);
+        let x = big_int::from(16);
         assert_eq!(format!("{x:#x}"), "0xf");
-        let x = BigInt::from(10);
+        let x = big_int::from(10);
         assert_eq!(format!("{x:#x}"), "0x10");
-        let x = BigInt::from(172);
+        let x = big_int::from(172);
         assert_eq!(format!("{x:x}"), "ac");
-        let x = BigInt::from(17220003931u128);
+        let x = big_int::from(17220003931u128);
         assert_eq!(format!("{x:#x}"), "0x40264685b");
     }
 
     #[test]
     fn progtest_tests() {
-        let mut a = BigInt::new();
-        let mut b = BigInt::new();
-        a = BigInt::from(10);
-        a += BigInt::from(20);
+        let mut a = big_int::new();
+        let mut b = big_int::new();
+        a = big_int::from(10);
+        a += big_int::from(20);
         assert_eq!(a, 30);
-        a *= BigInt::from(5);
+        a *= big_int::from(5);
         assert_eq!(a, 150);
-        b = a.clone() + BigInt::from(3);
+        b = a.clone() + big_int::from(3);
         assert_eq!(b, 153);
-        b = a.clone() * BigInt::from(7);
+        b = a.clone() * big_int::from(7);
         assert_eq!(b, 1050);
         assert_eq!(a, 150);
         assert_eq!(format!("{a:X}"), "96");
 
-        a = BigInt::from(10);
-        a += BigInt::from(-20);
+        a = big_int::from(10);
+        a += big_int::from(-20);
         assert_eq!(a, -10);
-        a *= BigInt::from(5);
+        a *= big_int::from(5);
         assert_eq!(a, -50);
-        b = a.clone() + BigInt::from(73);
+        b = a.clone() + big_int::from(73);
         assert_eq!(b, 23);
-        b = a.clone() * BigInt::from(-7);
+        b = a.clone() * big_int::from(-7);
         assert_eq!(b, 350);
         assert_eq!(a, -50);
         assert_eq!(format!("{a:X}"), "-32");
 
-        a = BigInt::from(12345678901234567890i128);
-        a += BigInt::from(-99999999999999999999i128);
-        assert_eq!(a, -87654321098765432109);
-        a *= BigInt::from(54321987654321987654i128);
+        a = big_int::from(12345678901234567890i128);
+        a += big_int::from(-99999999999999999999i128);
+        assert_eq!(a, -87654321098765432109i128);
+        a *= big_int::from(54321987654321987654i128);
         assert_eq!(a, "-4761556948575111126880627366067073182286");
-        a *= BigInt::from(0);
+        a *= big_int::from(0);
         assert_eq!(a, 0);
-        a = BigInt::from(10);
+        a = big_int::from(10);
         b = a.clone() + 400;
         assert_eq!(b, "410");
-        b = a.clone() * BigInt::from_str("15").unwrap_or_default();
+        b = a.clone() * big_int::from_str("15").unwrap_or_default();
         assert_eq!(b, "150");
         assert_eq!(a, "10");
         assert_eq!(format!("{a:X}"), "A");
 
-        b = BigInt::from_str("1234").unwrap_or_default();
+        b = big_int::from_str("1234").unwrap_or_default();
         assert_eq!(format!("{b}"), "1234");
-        assert!(BigInt::from_str(" 12 34").is_err());
-        assert!(BigInt::from_str("999z").is_err());
-        assert!(BigInt::from_str("abcd").is_err());
-        assert!(BigInt::from_str("-xyz").is_err());
-        assert!(BigInt::from_str(":").is_err());
-        assert!(BigInt::from_str("%").is_err());
-        assert!(BigInt::from_str("- 758").is_err());
-        a = BigInt::from(42);
+        assert!(big_int::from_str(" 12 34").is_err());
+        assert!(big_int::from_str("999z").is_err());
+        assert!(big_int::from_str("abcd").is_err());
+        assert!(big_int::from_str("-xyz").is_err());
+        assert!(big_int::from_str(":").is_err());
+        assert!(big_int::from_str("%").is_err());
+        assert!(big_int::from_str("- 758").is_err());
+        a = big_int::from(42);
         assert_eq!(a, 42);
 
-        a = BigInt::from(73786976294838206464i128);
-        assert_eq!(a, 73786976294838206464);
+        a = big_int::from(73786976294838206464i128);
+        assert_eq!(a, 73786976294838206464u128);
         assert_eq!(format!("{a:X}"), "40000000000000000");
         assert!(a < "1361129467683753853853498429727072845824");
         assert!(a <= "1361129467683753853853498429727072845824");
@@ -1506,22 +1506,22 @@ mod tests {
         assert!(a <= 73786976294838206464);
         assert!(!(a > 73786976294838206464));
         assert!(a >= 73786976294838206464);
-        assert!(a == 73786976294838206464);
-        assert!(!(a != 73786976294838206464));
+        assert!(a == 73786976294838206464u128);
+        assert!(!(a != 73786976294838206464i128));
         assert!(a < 73786976294838206465);
         assert!(a <= 73786976294838206465);
         assert!(!(a > 73786976294838206465));
         assert!(!(a >= 73786976294838206465));
-        assert!(!(a == 73786976294838206465));
-        assert!(a != 73786976294838206465);
-        a = BigInt::from_str("2147483648").unwrap_or(BigInt::new());
+        assert!(!(a == 73786976294838206465u128));
+        assert!(a != 73786976294838206465i128);
+        a = big_int::from_str("2147483648").unwrap_or(big_int::new());
         assert!(!(a < -2147483648));
         assert!(!(a <= -2147483648));
         assert!(a > -2147483648);
         assert!(a >= -2147483648);
         assert!(!(a == -2147483648));
         assert!(a != -2147483648);
-        a = BigInt::from_str("-12345678").unwrap_or(BigInt::new());
+        a = big_int::from_str("-12345678").unwrap_or(big_int::new());
         assert!(!(a < -87654321));
         assert!(!(a <= -87654321));
         assert!(a > -87654321);
