@@ -749,6 +749,46 @@ mod tests {
     }
 
     #[test]
+    fn equal_int() {
+        let x = BigInt::from(10);
+        assert!(x == 10);
+        let x = BigInt::from(101010);
+        assert!(x == 101010);
+        let x = BigInt::from(101010);
+        assert!(!(x == 101210));
+        let x = BigInt::from(101010);
+        assert!(!(x == 1));
+        let x = BigInt::from(0);
+        assert!(x == 0);
+        let x = BigInt::from(10);
+        assert!(x != -10);
+        let x = BigInt::from(11);
+        assert!(x != 10);
+        let x = BigInt::from(-0);
+        assert!(x == 0);
+    }
+
+    #[test]
+    fn equal_str() {
+        let x = BigInt::from(10);
+        assert!(x == "10");
+        let x = BigInt::from(101010);
+        assert!(x == "101010");
+        let x = BigInt::from(101010);
+        assert!(!(x == "101210"));
+        let x = BigInt::from(101010);
+        assert!(!(x == "1"));
+        let x = BigInt::from(0);
+        assert!(x == "0");
+        let x = BigInt::from(10);
+        assert!(x != "-10");
+        let x = BigInt::from(11);
+        assert!(x != "10");
+        let x = BigInt::from(-0);
+        assert!(x == "0");
+    }
+
+    #[test]
     fn greater() {
         let x: BigInt = BigInt::from(15);
         let y = BigInt::from(10);
