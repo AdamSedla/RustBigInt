@@ -15,7 +15,7 @@ enum BigIntError {
     NaN,
 }
 
-#[derive(Clone, Eq)]
+#[derive(Clone, Eq, Debug)]
 struct big_int {
     positive: bool,
     numbers: Vec<u8>,
@@ -142,16 +142,6 @@ impl Display for big_int {
             write!(f, "{digit}")?;
         }
         Ok(())
-    }
-}
-
-impl fmt::Debug for big_int {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        if self.positive {
-            write!(f, "+")?;
-        }
-
-        write!(f, "{}", self)
     }
 }
 
@@ -682,25 +672,6 @@ mod tests {
         assert_eq!(
             format!("Number is: {x}"),
             "Number is: 320020000981234567890"
-        );
-    }
-
-    #[test]
-    fn debug() {
-        let x = big_int::from(1003);
-        assert_eq!(format!("Number is: {x:?}"), "Number is: +1003");
-        let x = big_int::from(0);
-        assert_eq!(format!("Number is: {x:?}"), "Number is: +0");
-        let x = big_int::from(-100);
-        assert_eq!(format!("Number is: {x:?}"), "Number is: -100");
-        let x = big_int::from(-0);
-        assert_eq!(format!("Number is: {x:?}"), "Number is: +0");
-        let x = big_int::from(-1);
-        assert_eq!(format!("Number is: {x:?}"), "Number is: -1");
-        let x = big_int::from(320020000981234567890i128);
-        assert_eq!(
-            format!("Number is: {x:?}"),
-            "Number is: +320020000981234567890"
         );
     }
 
