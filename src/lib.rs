@@ -140,39 +140,78 @@ impl FromStr for BigInt {
     }
 }
 
-impl<T> From<T> for BigInt
-where
-    T: PrimInt,
-{
-    fn from(value: T) -> Self {
-        //zero edgecase
-        if value.is_zero() {
-            return BigInt::default();
-        }
+macro_rules! from_int {
+    ($($t:ty),*)=>{
+        $(
+            impl From<$t> for BigInt{
+                fn from(value: $t) -> Self {
 
-        let mut val = value;
-        let mut fin_vec = Vec::new();
-        let mut fin_pos = true;
+                //zero edgecase
+                if value == 0 {
+                    return BigInt::default();
+                }
 
-        //negative number
-        if val < T::zero() {
-            fin_pos = false;
-            val = val * T::from(-1).unwrap();
-        }
+                let mut val = value;
+                let mut fin_vec = Vec::new();
+                let mut fin_pos = !(val < 0);
 
-        //transformation of digits
-        while !val.is_zero() {
-            fin_vec.insert(0, (val % T::from(10).unwrap()).to_u8().unwrap());
-            val = val / T::from(10).unwrap();
-        }
+                //negative number
+                if val < 0 {
+                    val = -val;
+                }
 
-        //return value
-        BigInt {
-            positive: fin_pos,
-            numbers: fin_vec,
-        }
+                //transformation of digits
+                while val != 0{
+                    fin_vec.insert(0, (val % 10).to_u8().unwrap());
+                    val = val / 10;
+                }
+
+                //return value
+                BigInt {
+                    positive: fin_pos,
+                    numbers: fin_vec,
+                }
+
+                }
+            }
+        )*
     }
 }
+
+macro_rules! from_uint {
+    ($($t:ty),*)=>{
+        $(
+            impl From<$t> for BigInt{
+                fn from(value: $t) -> Self {
+
+                //zero edgecase
+                if value == 0 {
+                    return BigInt::default();
+                }
+
+                let mut val = value;
+                let mut fin_vec = Vec::new();
+
+                //transformation of digits
+                while val != 0{
+                    fin_vec.insert(0, (val % 10).to_u8().unwrap());
+                    val = val / 10;
+                }
+
+                //return value
+                BigInt {
+                    positive: true,
+                    numbers: fin_vec,
+                }
+
+                }
+            }
+        )*
+    }
+}
+
+from_int!(i8, i16, i32, i64, i128);
+from_uint!(u8, u16, u32, u64, u128);
 
 impl Display for BigInt {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
