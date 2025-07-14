@@ -1,18 +1,13 @@
-use core::num;
-use num_traits::{PrimInt, ToPrimitive};
+use num_traits::ToPrimitive;
 use std::{
-    char,
     cmp::Ordering,
-    f32::DIGITS,
-    fmt::{self, Binary, Display, LowerHex, UpperHex, format},
+    fmt::{self, Binary, Display, LowerHex, UpperHex},
     ops::{
         Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div,
         DivAssign, Mul, MulAssign, Neg, Not, Rem, RemAssign, Shl, ShlAssign, Shr, ShrAssign, Sub,
         SubAssign,
     },
     str::FromStr,
-    sync::Arc,
-    u8, vec,
 };
 
 #[derive(Debug)]
