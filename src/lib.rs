@@ -32,40 +32,37 @@ impl Default for big_int {
 
 impl FromStr for big_int {
     type Err = BigIntError;
-    fn from_str(mut num_str: &str) -> Result<Self, Self::Err> {
+    fn from_str(mut string_of_numbers: &str) -> Result<Self, Self::Err> {
         //empty string edgecaase
-        if num_str.is_empty() {
+        if string_of_numbers.is_empty() {
             return Err(BigIntError::NaN);
         }
 
-        let mut fin_pos = !(num_str.starts_with('-'));
-        let mut fin_vec: Vec<u8> = Vec::new();
+        let mut positive = !(string_of_numbers.starts_with('-'));
+        let mut numbers: Vec<u8> = Vec::new();
 
         //if negative - remove '-'
-        if !fin_pos {
-            num_str = num_str.split_at(1).1;
+        if !positive {
+            string_of_numbers = string_of_numbers.split_at(1).1;
         }
 
-        for char in num_str.chars() {
+        for char in string_of_numbers.chars() {
             if !char.is_ascii_digit() {
-                return big_int::parse_word_digits(if fin_pos {
-                    num_str.to_string()
+                return big_int::parse_word_digits(if positive {
+                    string_of_numbers.to_string()
                 } else {
-                    format!("-{}", num_str)
+                    format!("-{}", string_of_numbers)
                 });
             }
 
-            fin_vec.push(char.to_digit(10).unwrap().to_u8().unwrap());
+            numbers.push(char.to_digit(10).unwrap().to_u8().unwrap());
         }
 
-        if fin_vec == vec![0] {
-            fin_pos = true;
+        if numbers == vec![0] {
+            positive = true;
         }
 
-        Ok(big_int {
-            positive: fin_pos,
-            numbers: fin_vec,
-        })
+        Ok(big_int { positive, numbers })
     }
 }
 
@@ -73,33 +70,29 @@ macro_rules! from_int {
     ($($t:ty),*)=>{
         $(
             impl From<$t> for big_int{
-                fn from(value: $t) -> Self {
+                fn from(mut original_number: $t) -> Self {
 
                 //zero edgecase
-                if value == 0 {
+                if original_number == 0 {
                     return big_int::default();
                 }
 
-                let mut val = value;
-                let mut fin_vec = Vec::new();
-                let mut fin_pos = !(val < 0);
+                let mut numbers = Vec::new();
+                let positive = !(original_number < 0);
 
                 //negative number
-                if val < 0 {
-                    val = -val;
+                if original_number < 0 {
+                    original_number = -original_number;
                 }
 
                 //transformation of digits
-                while val != 0{
-                    fin_vec.insert(0, (val % 10).to_u8().unwrap());
-                    val = val / 10;
+                while original_number != 0{
+                    numbers.insert(0, (original_number % 10).to_u8().unwrap());
+                    original_number /= 10;
                 }
 
                 //return value
-                big_int {
-                    positive: fin_pos,
-                    numbers: fin_vec,
-                }
+                big_int {positive, numbers}
 
                 }
             }
@@ -111,27 +104,24 @@ macro_rules! from_uint {
     ($($t:ty),*)=>{
         $(
             impl From<$t> for big_int{
-                fn from(value: $t) -> Self {
+                fn from(mut original_number: $t) -> Self {
 
                 //zero edgecase
-                if value == 0 {
+                if original_number == 0 {
                     return big_int::default();
                 }
 
-                let mut val = value;
-                let mut fin_vec = Vec::new();
+                let mut numbers = Vec::new();
 
                 //transformation of digits
-                while val != 0{
-                    fin_vec.insert(0, (val % 10).to_u8().unwrap());
-                    val = val / 10;
+                while original_number != 0{
+                    numbers.insert(0, (original_number % 10).to_u8().unwrap());
+                    original_number /= 10;
                 }
 
                 //return value
                 big_int {
-                    positive: true,
-                    numbers: fin_vec,
-                }
+                    positive: true, numbers}
 
                 }
             }
@@ -517,8 +507,8 @@ impl big_int {
         }
     }
 
-    fn number_to_word(nmr: u8) -> String {
-        match nmr {
+    fn number_to_word(number: u8) -> String {
+        match number {
             0 => "zero",
             1 => "one",
             2 => "two",
@@ -534,11 +524,14 @@ impl big_int {
         .to_string()
     }
 
-    fn parse_word_digits(num_str: String) -> Result<big_int, BigIntError> {
+    fn parse_word_digits(string_of_numbers: String) -> Result<big_int, BigIntError> {
         //create lowercase iterator
-        let mut parsed = num_str.split_whitespace().map(str::to_lowercase).peekable();
-        let mut fin_pos = true;
-        let mut fin_vec: Vec<u8> = Vec::new();
+        let mut parsed = string_of_numbers
+            .split_whitespace()
+            .map(str::to_lowercase)
+            .peekable();
+        let mut positive = true;
+        let mut numbers: Vec<u8> = Vec::new();
 
         //if empty string
         if parsed.peek().is_none() {
@@ -547,24 +540,21 @@ impl big_int {
 
         //positive/negative
         if let Some("-" | "minus") = parsed.peek().map(String::as_str) {
-            fin_pos = false;
+            positive = false;
             parsed.next();
         }
 
         //loop for translating words to u8
         for word in parsed {
-            fin_vec.push(big_int::word_to_number(&word)?);
+            numbers.push(big_int::word_to_number(&word)?);
         }
 
         //additional check
-        if fin_vec.is_empty() {
+        if numbers.is_empty() {
             return Err(BigIntError::NaN);
         }
 
-        Ok(big_int {
-            positive: fin_pos,
-            numbers: fin_vec,
-        })
+        Ok(big_int { positive, numbers })
     }
 }
 
