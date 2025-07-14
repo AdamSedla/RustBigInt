@@ -734,6 +734,12 @@ mod tests {
         let x = BigInt::from(101010);
         let y = BigInt::from(101010);
         assert!(x == y);
+        let x = BigInt::from(101010);
+        let y = BigInt::from(101210);
+        assert!(!(x == y));
+        let x = BigInt::from(101010);
+        let y = BigInt::from(1);
+        assert!(!(x == y));
         let x = BigInt::from(0);
         let y = BigInt::from(0);
         assert!(x == y);
