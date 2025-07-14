@@ -219,7 +219,6 @@ impl PartialEq<i128> for BigInt {
     fn eq(&self, other: &i128) -> bool {
         todo!()
     }
-    fn ne(&self, other: &i128) -> bool {
         todo!()
     }
 }
@@ -228,8 +227,6 @@ impl PartialEq<&str> for BigInt {
     fn eq(&self, other: &&str) -> bool {
         todo!()
     }
-    fn ne(&self, other: &&str) -> bool {
-        todo!()
     }
 }
 
@@ -237,8 +234,6 @@ impl PartialEq for BigInt {
     fn eq(&self, other: &BigInt) -> bool {
         todo!()
     }
-    fn ne(&self, other: &BigInt) -> bool {
-        todo!()
     }
 }
 
