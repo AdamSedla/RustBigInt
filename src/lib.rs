@@ -1,3 +1,4 @@
+use core::num;
 use num_traits::{PrimInt, ToPrimitive};
 use std::{
     char,
@@ -48,6 +49,23 @@ fn word_to_number(word: &str) -> Result<u8, BigIntError> {
         "nine" => Ok(9),
         _ => Err(BigIntError::NaN),
     }
+}
+
+fn number_to_word(nmr: u8) -> String {
+    match nmr {
+        0 => "zero",
+        1 => "one",
+        2 => "two",
+        3 => "three",
+        4 => "four",
+        5 => "five",
+        6 => "six",
+        7 => "seven",
+        8 => "eight",
+        9 => "nine",
+        _ => "zero",
+    }
+    .to_string()
 }
 
 fn parse_word_digits(num_str: String) -> Result<BigInt, BigIntError> {
@@ -490,7 +508,22 @@ impl BigInt {
     }
 
     pub fn to_words(&self) -> String {
-        todo!()
+        let mut fin_str = String::new();
+        let mut nmr_iter = self.numbers.iter();
+
+        //print minus or first digit
+        if !self.positive {
+            fin_str = "minus".to_string();
+        } else {
+            fin_str = number_to_word(*nmr_iter.next().unwrap_or(&0));
+        }
+
+        //print all digits
+        for num in nmr_iter {
+            fin_str = format!("{} {}", fin_str, number_to_word(*num));
+        }
+
+        fin_str
     }
 }
 
