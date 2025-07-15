@@ -138,7 +138,7 @@ impl Display for BigInt {
             write!(f, "-")?;
         }
 
-        for digit in self.numbers.clone() {
+        for digit in &self.numbers {
             write!(f, "{digit}")?;
         }
         Ok(())
