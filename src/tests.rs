@@ -1,8 +1,8 @@
 mod tests {
     use std::str::FromStr;
 
-    use crate::BigIntError;
     use crate::BigInt;
+    use crate::BigIntError;
 
     #[test]
     fn default() {
