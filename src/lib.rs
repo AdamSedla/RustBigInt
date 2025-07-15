@@ -16,21 +16,21 @@ enum BigIntError {
 }
 
 #[derive(Clone, Eq, Debug)]
-struct big_int {
+struct BigInt {
     positive: bool,
     numbers: Vec<u8>,
 }
 
-impl Default for big_int {
+impl Default for BigInt {
     fn default() -> Self {
-        big_int {
+        BigInt {
             positive: true,
             numbers: vec![0],
         }
     }
 }
 
-impl FromStr for big_int {
+impl FromStr for BigInt {
     type Err = BigIntError;
     fn from_str(mut string_of_numbers: &str) -> Result<Self, Self::Err> {
         //empty string edgecaase
@@ -48,7 +48,7 @@ impl FromStr for big_int {
 
         for char in string_of_numbers.chars() {
             if !char.is_ascii_digit() {
-                return big_int::parse_word_digits(if positive {
+                return BigInt::parse_word_digits(if positive {
                     string_of_numbers.to_string()
                 } else {
                     format!("-{}", string_of_numbers)
@@ -62,19 +62,19 @@ impl FromStr for big_int {
             positive = true;
         }
 
-        Ok(big_int { positive, numbers })
+        Ok(BigInt { positive, numbers })
     }
 }
 
 macro_rules! from_int {
     ($($t:ty),*)=>{
         $(
-            impl From<$t> for big_int{
+            impl From<$t> for BigInt{
                 fn from(mut original_number: $t) -> Self {
 
                 //zero edgecase
                 if original_number == 0 {
-                    return big_int::default();
+                    return BigInt::default();
                 }
 
                 let mut numbers = Vec::new();
@@ -92,7 +92,7 @@ macro_rules! from_int {
                 }
 
                 //return value
-                big_int {positive, numbers}
+                BigInt {positive, numbers}
 
                 }
             }
@@ -103,12 +103,12 @@ macro_rules! from_int {
 macro_rules! from_uint {
     ($($t:ty),*)=>{
         $(
-            impl From<$t> for big_int{
+            impl From<$t> for BigInt{
                 fn from(mut original_number: $t) -> Self {
 
                 //zero edgecase
                 if original_number == 0 {
-                    return big_int::default();
+                    return BigInt::default();
                 }
 
                 let mut numbers = Vec::new();
@@ -120,7 +120,7 @@ macro_rules! from_uint {
                 }
 
                 //return value
-                big_int {
+                BigInt {
                     positive: true, numbers}
 
                 }
@@ -132,7 +132,7 @@ macro_rules! from_uint {
 from_int!(i8, i16, i32, i64, i128);
 from_uint!(u8, u16, u32, u64, u128);
 
-impl Display for big_int {
+impl Display for BigInt {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if !self.positive {
             write!(f, "-")?;
@@ -145,19 +145,19 @@ impl Display for big_int {
     }
 }
 
-impl Binary for big_int {
+impl Binary for BigInt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         todo!()
     }
 }
 
-impl UpperHex for big_int {
+impl UpperHex for BigInt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         todo!()
     }
 }
 
-impl LowerHex for big_int {
+impl LowerHex for BigInt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         todo!()
     }
@@ -166,9 +166,9 @@ impl LowerHex for big_int {
 macro_rules! eq_with_int {
     ($($t:ty),*) => {
         $(
-            impl PartialEq<$t> for big_int{
+            impl PartialEq<$t> for BigInt{
                 fn eq(&self, other: &$t) -> bool {
-                    self == &big_int::from(*other)
+                    self == &BigInt::from(*other)
                 }
             }
         )*
@@ -177,9 +177,9 @@ macro_rules! eq_with_int {
 
 eq_with_int!(u8, u16, u32, u64, u128, i8, i16, i32, i64, i128);
 
-impl PartialEq<&str> for big_int {
+impl PartialEq<&str> for BigInt {
     fn eq(&self, other: &&str) -> bool {
-        let right_side = big_int::from_str(other);
+        let right_side = BigInt::from_str(other);
         if right_side.is_err() {
             return false;
         }
@@ -187,8 +187,8 @@ impl PartialEq<&str> for big_int {
     }
 }
 
-impl PartialEq for big_int {
-    fn eq(&self, other: &big_int) -> bool {
+impl PartialEq for BigInt {
+    fn eq(&self, other: &BigInt) -> bool {
         if self.positive != other.positive {
             false
         } else {
@@ -197,7 +197,7 @@ impl PartialEq for big_int {
     }
 }
 
-impl Neg for big_int {
+impl Neg for BigInt {
     type Output = Self;
     fn neg(mut self) -> Self::Output {
         self.positive = !self.positive;
@@ -205,7 +205,7 @@ impl Neg for big_int {
     }
 }
 
-impl PartialOrd for big_int {
+impl PartialOrd for BigInt {
     fn ge(&self, other: &Self) -> bool {
         todo!()
     }
@@ -223,7 +223,7 @@ impl PartialOrd for big_int {
     }
 }
 
-impl PartialOrd<i128> for big_int {
+impl PartialOrd<i128> for BigInt {
     fn ge(&self, other: &i128) -> bool {
         todo!()
     }
@@ -241,7 +241,7 @@ impl PartialOrd<i128> for big_int {
     }
 }
 
-impl PartialOrd<&str> for big_int {
+impl PartialOrd<&str> for BigInt {
     fn ge(&self, other: &&str) -> bool {
         todo!()
     }
@@ -259,9 +259,9 @@ impl PartialOrd<&str> for big_int {
     }
 }
 
-impl<T> Add<T> for big_int
+impl<T> Add<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     type Output = Self;
     fn add(self, rhs: T) -> Self::Output {
@@ -269,18 +269,18 @@ where
     }
 }
 
-impl<T> AddAssign<T> for big_int
+impl<T> AddAssign<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     fn add_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Sub<T> for big_int
+impl<T> Sub<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     type Output = Self;
 
@@ -289,18 +289,18 @@ where
     }
 }
 
-impl<T> SubAssign<T> for big_int
+impl<T> SubAssign<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     fn sub_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Mul<T> for big_int
+impl<T> Mul<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     type Output = Self;
     fn mul(self, rhs: T) -> Self::Output {
@@ -308,18 +308,18 @@ where
     }
 }
 
-impl<T> MulAssign<T> for big_int
+impl<T> MulAssign<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     fn mul_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Div<T> for big_int
+impl<T> Div<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     type Output = Self;
     fn div(self, rhs: T) -> Self::Output {
@@ -327,18 +327,18 @@ where
     }
 }
 
-impl<T> DivAssign<T> for big_int
+impl<T> DivAssign<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     fn div_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Rem<T> for big_int
+impl<T> Rem<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     type Output = Self;
     fn rem(self, rhs: T) -> Self::Output {
@@ -346,18 +346,18 @@ where
     }
 }
 
-impl<T> RemAssign<T> for big_int
+impl<T> RemAssign<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     fn rem_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> BitAnd<T> for big_int
+impl<T> BitAnd<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     type Output = Self;
     fn bitand(self, rhs: T) -> Self::Output {
@@ -365,18 +365,18 @@ where
     }
 }
 
-impl<T> BitAndAssign<T> for big_int
+impl<T> BitAndAssign<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     fn bitand_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> BitOr<T> for big_int
+impl<T> BitOr<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     type Output = Self;
     fn bitor(self, rhs: T) -> Self::Output {
@@ -384,18 +384,18 @@ where
     }
 }
 
-impl<T> BitOrAssign<T> for big_int
+impl<T> BitOrAssign<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     fn bitor_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> BitXor<T> for big_int
+impl<T> BitXor<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     type Output = Self;
     fn bitxor(self, rhs: T) -> Self::Output {
@@ -403,18 +403,18 @@ where
     }
 }
 
-impl<T> BitXorAssign<T> for big_int
+impl<T> BitXorAssign<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     fn bitxor_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Shl<T> for big_int
+impl<T> Shl<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     type Output = Self;
     fn shl(self, rhs: T) -> Self::Output {
@@ -422,18 +422,18 @@ where
     }
 }
 
-impl<T> ShlAssign<T> for big_int
+impl<T> ShlAssign<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     fn shl_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl<T> Shr<T> for big_int
+impl<T> Shr<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     type Output = Self;
     fn shr(self, rhs: T) -> Self::Output {
@@ -441,18 +441,18 @@ where
     }
 }
 
-impl<T> ShrAssign<T> for big_int
+impl<T> ShrAssign<T> for BigInt
 where
-    T: Into<big_int>,
+    T: Into<BigInt>,
 {
     fn shr_assign(&mut self, rhs: T) {
         todo!()
     }
 }
 
-impl big_int {
-    pub fn new() -> big_int {
-        big_int::default()
+impl BigInt {
+    pub fn new() -> BigInt {
+        BigInt::default()
     }
 
     pub fn to_words(&self) -> String {
@@ -463,12 +463,12 @@ impl big_int {
         if !self.positive {
             fin_str = "minus".to_string();
         } else {
-            fin_str = big_int::number_to_word(*nmr_iter.next().unwrap_or(&0));
+            fin_str = BigInt::number_to_word(*nmr_iter.next().unwrap_or(&0));
         }
 
         //print all digits
         for num in nmr_iter {
-            fin_str = format!("{} {}", fin_str, big_int::number_to_word(*num));
+            fin_str = format!("{} {}", fin_str, BigInt::number_to_word(*num));
         }
 
         fin_str
@@ -507,7 +507,7 @@ impl big_int {
         .to_string()
     }
 
-    fn parse_word_digits(string_of_numbers: String) -> Result<big_int, BigIntError> {
+    fn parse_word_digits(string_of_numbers: String) -> Result<BigInt, BigIntError> {
         //create lowercase iterator
         let mut parsed = string_of_numbers
             .split_whitespace()
@@ -529,7 +529,7 @@ impl big_int {
 
         //loop for translating words to u8
         for word in parsed {
-            numbers.push(big_int::word_to_number(&word)?);
+            numbers.push(BigInt::word_to_number(&word)?);
         }
 
         //additional check
@@ -537,7 +537,7 @@ impl big_int {
             return Err(BigIntError::NaN);
         }
 
-        Ok(big_int { positive, numbers })
+        Ok(BigInt { positive, numbers })
     }
 }
 
