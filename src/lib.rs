@@ -2,6 +2,7 @@ use num_traits::ToPrimitive;
 
 use std::cmp::Ordering;
 use std::fmt::*;
+use std::fmt::{self, Binary, Display, LowerHex, UpperHex};
 use std::ops::*;
 use std::str::FromStr;
 
