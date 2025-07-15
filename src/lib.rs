@@ -1,14 +1,12 @@
 use num_traits::ToPrimitive;
-use std::{
-    cmp::Ordering,
-    fmt::{self, Binary, Display, LowerHex, UpperHex},
-    ops::{
-        Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div,
-        DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Shl, ShlAssign, Shr, ShrAssign, Sub,
-        SubAssign,
-    },
-    str::FromStr,
+
+use std::cmp::Ordering;
+use std::fmt;
+use std::ops::{
+    Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div, DivAssign,
+    Mul, MulAssign, Neg, Rem, RemAssign, Shl, ShlAssign, Shr, ShrAssign, Sub, SubAssign,
 };
+use std::str::FromStr;
 
 #[derive(Debug)]
 enum BigIntError {
