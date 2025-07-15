@@ -1,6 +1,7 @@
 use num_traits::ToPrimitive;
 
 use std::cmp::Ordering;
+use std::error::Error;
 use std::fmt::*;
 use std::fmt::{self, Binary, Display, LowerHex, UpperHex};
 use std::ops::*;
@@ -10,6 +11,14 @@ use std::str::FromStr;
 enum BigIntError {
     NaN,
 }
+
+impl Display for BigIntError {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        write!(f, "Not and Number")
+    }
+}
+
+impl Error for BigIntError {}
 
 #[derive(Clone, Eq, Debug)]
 struct BigInt {
