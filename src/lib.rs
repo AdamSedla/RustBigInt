@@ -62,7 +62,7 @@ impl FromStr for BigInt {
             numbers.push(char.to_digit(10).unwrap().to_u8().unwrap());
         }
 
-        if numbers == vec![0] {
+        if numbers.as_slice() == &[0] {
             positive = true;
         }
 
