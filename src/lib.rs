@@ -209,16 +209,7 @@ impl Neg for BigInt {
 }
 
 impl PartialOrd for BigInt {
-    fn ge(&self, other: &Self) -> bool {
-        todo!()
-    }
     fn gt(&self, other: &Self) -> bool {
-        todo!()
-    }
-    fn le(&self, other: &Self) -> bool {
-        todo!()
-    }
-    fn lt(&self, other: &Self) -> bool {
         todo!()
     }
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
@@ -227,16 +218,7 @@ impl PartialOrd for BigInt {
 }
 
 impl PartialOrd<i128> for BigInt {
-    fn ge(&self, other: &i128) -> bool {
-        todo!()
-    }
     fn gt(&self, other: &i128) -> bool {
-        todo!()
-    }
-    fn le(&self, other: &i128) -> bool {
-        todo!()
-    }
-    fn lt(&self, other: &i128) -> bool {
         todo!()
     }
     fn partial_cmp(&self, other: &i128) -> Option<Ordering> {
@@ -245,16 +227,7 @@ impl PartialOrd<i128> for BigInt {
 }
 
 impl PartialOrd<&str> for BigInt {
-    fn ge(&self, other: &&str) -> bool {
-        todo!()
-    }
     fn gt(&self, other: &&str) -> bool {
-        todo!()
-    }
-    fn le(&self, other: &&str) -> bool {
-        todo!()
-    }
-    fn lt(&self, other: &&str) -> bool {
         todo!()
     }
     fn partial_cmp(&self, other: &&str) -> Option<Ordering> {
