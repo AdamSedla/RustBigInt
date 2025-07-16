@@ -183,11 +183,10 @@ eq_with_int!(u8, u16, u32, u64, u128, i8, i16, i32, i64, i128);
 
 impl PartialEq<&str> for BigInt {
     fn eq(&self, other: &&str) -> bool {
-        let right_side = BigInt::from_str(other);
-        if right_side.is_err() {
-            return false;
+        match BigInt::from_str(other) {
+            Ok(right) => self == &right,
+            Err(_) => false,
         }
-        self == &right_side.unwrap()
     }
 }
 
