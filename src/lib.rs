@@ -212,7 +212,36 @@ impl Neg for BigInt {
 
 impl PartialOrd for BigInt {
     fn gt(&self, other: &Self) -> bool {
-        todo!()
+        //check +/-
+        if self.positive != other.positive {
+            return self.positive;
+        }
+
+        let positive = self.positive;
+        //Compare length
+        if self.numbers.len() != other.numbers.len() {
+            if positive {
+                return self.numbers.len() > other.numbers.len();
+            } else {
+                return self.numbers.len() < other.numbers.len();
+            }
+        }
+
+        //Compare digits
+        let left_iterator = self.numbers.iter();
+        let right_iterator = other.numbers.iter();
+        let mut numbers_iterator = left_iterator.zip(right_iterator);
+
+        let mut greater_then = false;
+
+        for (left, right) in numbers_iterator {
+            if left != right {
+                greater_then = left > right;
+                break;
+            }
+        }
+
+        greater_then
     }
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         todo!()
