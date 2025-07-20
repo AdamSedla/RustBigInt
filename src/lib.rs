@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use num_traits::ToPrimitive;
 
 use std::cmp::Ordering;
