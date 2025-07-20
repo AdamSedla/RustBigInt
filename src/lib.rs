@@ -211,46 +211,42 @@ impl Neg for BigInt {
 }
 
 impl PartialOrd for BigInt {
-    fn gt(&self, other: &Self) -> bool {
-        //check +/-
-        if self.positive != other.positive {
-            return self.positive;
-        }
-
-        let positive = self.positive;
-        //Compare length
-        if self.numbers.len() != other.numbers.len() {
-            if positive {
-                return self.numbers.len() > other.numbers.len();
-            } else {
-                return self.numbers.len() < other.numbers.len();
-            }
-        }
-
-        //Compare digits
-        let left_iterator = self.numbers.iter();
-        let right_iterator = other.numbers.iter();
-        let mut numbers_iterator = left_iterator.zip(right_iterator);
-
-        let mut greater_then = false;
-
-        for (left, right) in numbers_iterator {
-            if left != right {
-                greater_then = left > right;
-                break;
-            }
-        }
-
-        greater_then
-    }
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         if self == other {
-            Some(Ordering::Equal)
-        } else if self.gt(other) {
+            return Some(Ordering::Equal);
+        }
+
+        let mut greater = false;
+
+        //check +/-
+        if self.positive != other.positive {
+            greater = self.positive;
+        }
+        //check length
+        else if self.numbers.len() != other.numbers.len() {
+            if self.positive {
+                greater = self.numbers.len() > other.numbers.len();
+            } else {
+                greater = self.numbers.len() < other.numbers.len();
+            }
+        }
+        //compare digits
+        else {
+            let mut numbers_iterator = self.numbers.iter().zip(other.numbers.iter());
+
+            for (left, right) in numbers_iterator {
+                if left != right {
+                    greater = left > right;
+                }
+            }
+        }
+
+        //return value
+        return if greater {
             Some(Ordering::Greater)
         } else {
             Some(Ordering::Less)
-        }
+        };
     }
 }
 
