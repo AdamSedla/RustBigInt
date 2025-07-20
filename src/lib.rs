@@ -258,7 +258,13 @@ impl PartialOrd<i128> for BigInt {
 
 impl PartialOrd<&str> for BigInt {
     fn partial_cmp(&self, other: &&str) -> Option<Ordering> {
-        todo!()
+        let other = BigInt::from_str(&other);
+
+        if other.is_err() {
+            return None;
+        }
+
+        return self.partial_cmp(&other.unwrap());
     }
 }
 
