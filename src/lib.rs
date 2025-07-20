@@ -1,6 +1,6 @@
 #![allow(unused)]
 
-use num_traits::ToPrimitive;
+use num_traits::{ToPrimitive, Zero};
 
 use std::cmp::Ordering;
 use std::error::Error;
@@ -281,8 +281,82 @@ where
     T: Into<BigInt>,
 {
     type Output = Self;
-    fn add(self, rhs: T) -> Self::Output {
-        todo!()
+    fn add(mut self, rhs: T) -> Self::Output {
+        let mut right: BigInt = rhs.into();
+
+        // X + 0 edgecase
+        if self == 0 {
+            return right;
+        }
+        if right == 0 {
+            return self;
+        }
+
+        // negative numbers edgecases
+        if !self.positive && right.positive {
+            // -X + Y => Y - X => -(X - Y)
+            self.positive = true;
+            return right - self;
+        } else if self.positive && !right.positive {
+            //X - Y
+            right.positive = true;
+            return self - right;
+        }
+
+        let mut result = BigInt::new();
+        result.positive = self.positive;
+        let mut carry = 0;
+
+        let mut left_iterator = self.numbers.iter().rev();
+        let mut right_iterator = right.numbers.iter().rev();
+
+        let mut left_iterator_valid = true;
+        let mut right_iterator_valid = true;
+
+        while left_iterator_valid || right_iterator_valid || !carry.is_zero() {
+            //check if there are some digits left
+            let mut left_digit: Option<&u8> = None;
+            let mut right_digit: Option<&u8> = None;
+
+            if left_iterator_valid {
+                left_digit = left_iterator.next();
+            }
+            if right_iterator_valid {
+                right_digit = right_iterator.next();
+            }
+
+            if left_digit.is_none() {
+                left_iterator_valid = false;
+            }
+            if right_digit.is_none() {
+                right_iterator_valid = false;
+            }
+            if !left_iterator_valid && !right_iterator_valid && carry.is_zero() {
+                break;
+            }
+
+            //move carry
+            let mut num = 0;
+            num += carry;
+            carry = 0;
+
+            if left_iterator_valid {
+                num += left_digit.unwrap();
+            }
+            if right_iterator_valid {
+                num += right_digit.unwrap();
+            }
+
+            //prepare one digit for sum and reminder hide in carry
+            let last_digit = num % 10;
+            num -= last_digit;
+            num /= 10;
+            carry = num;
+
+            result.numbers.insert(0, last_digit);
+        }
+
+        result
     }
 }
 
