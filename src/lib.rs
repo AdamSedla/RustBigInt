@@ -210,6 +210,20 @@ impl Neg for BigInt {
     }
 }
 
+macro_rules! partial_ord_intieger {
+    ($($t:ty),*) => {
+        $(
+            impl PartialOrd<$t> for BigInt{
+                fn partial_cmp(&self, other: &$t) -> Option<Ordering> {
+                    return self.partial_cmp(&BigInt::from(*other));
+                 }
+            }
+        )*
+    };
+}
+
+partial_ord_intieger!(u8, u16, u32, u64, u128, i8, i16, i32, i64, i128);
+
 impl PartialOrd for BigInt {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         if self == other {
@@ -247,12 +261,6 @@ impl PartialOrd for BigInt {
         } else {
             Some(Ordering::Less)
         };
-    }
-}
-
-impl PartialOrd<i128> for BigInt {
-    fn partial_cmp(&self, other: &i128) -> Option<Ordering> {
-        todo!()
     }
 }
 
