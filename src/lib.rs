@@ -251,18 +251,12 @@ impl PartialOrd for BigInt {
 }
 
 impl PartialOrd<i128> for BigInt {
-    fn gt(&self, other: &i128) -> bool {
-        todo!()
-    }
     fn partial_cmp(&self, other: &i128) -> Option<Ordering> {
         todo!()
     }
 }
 
 impl PartialOrd<&str> for BigInt {
-    fn gt(&self, other: &&str) -> bool {
-        todo!()
-    }
     fn partial_cmp(&self, other: &&str) -> Option<Ordering> {
         todo!()
     }
