@@ -244,7 +244,13 @@ impl PartialOrd for BigInt {
         greater_then
     }
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        todo!()
+        if self == other {
+            Some(Ordering::Equal)
+        } else if self.gt(other) {
+            Some(Ordering::Greater)
+        } else {
+            Some(Ordering::Less)
+        }
     }
 }
 
