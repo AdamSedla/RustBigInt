@@ -181,6 +181,16 @@ macro_rules! eq_with_int {
     };
 }
 
+impl PartialEq for BigInt {
+    fn eq(&self, other: &BigInt) -> bool {
+        if self.positive != other.positive {
+            false
+        } else {
+            self.numbers == other.numbers
+        }
+    }
+}
+
 eq_with_int!(u8, u16, u32, u64, u128, i8, i16, i32, i64, i128);
 
 impl PartialEq<&str> for BigInt {
@@ -188,16 +198,6 @@ impl PartialEq<&str> for BigInt {
         match BigInt::from_str(other) {
             Ok(right) => self == &right,
             Err(_) => false,
-        }
-    }
-}
-
-impl PartialEq for BigInt {
-    fn eq(&self, other: &BigInt) -> bool {
-        if self.positive != other.positive {
-            false
-        } else {
-            self.numbers == other.numbers
         }
     }
 }
