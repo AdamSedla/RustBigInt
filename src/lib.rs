@@ -365,7 +365,8 @@ where
     T: Into<BigInt>,
 {
     fn add_assign(&mut self, rhs: T) {
-        todo!()
+        let right: BigInt = rhs.into();
+        *self = self.clone().add(right);
     }
 }
 
