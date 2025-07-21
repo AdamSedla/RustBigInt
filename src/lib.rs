@@ -303,7 +303,10 @@ where
             return self - right;
         }
 
-        let mut result = BigInt::new();
+        let mut result = BigInt {
+            positive: true,
+            numbers: vec![],
+        };
         result.positive = self.positive;
         let mut carry = 0;
 
