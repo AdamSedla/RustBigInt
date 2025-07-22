@@ -388,7 +388,7 @@ where
     T: Into<BigInt>,
 {
     fn sub_assign(&mut self, rhs: T) {
-        todo!()
+        *self = self.clone().sub(rhs.into());
     }
 }
 
