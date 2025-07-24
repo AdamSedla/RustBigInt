@@ -368,7 +368,7 @@ where
     T: Into<BigInt>,
 {
     fn add_assign(&mut self, rhs: T) {
-        *self = self.clone().add(rhs.into());
+        *self = self.clone().add(rhs);
     }
 }
 
@@ -482,7 +482,7 @@ where
     T: Into<BigInt>,
 {
     fn sub_assign(&mut self, rhs: T) {
-        *self = self.clone().sub(rhs.into());
+        *self = self.clone().sub(rhs);
     }
 }
 
