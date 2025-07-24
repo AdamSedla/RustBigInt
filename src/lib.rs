@@ -501,7 +501,7 @@ where
     T: Into<BigInt>,
 {
     fn mul_assign(&mut self, rhs: T) {
-        todo!()
+        *self = self.clone().mul(rhs);
     }
 }
 
@@ -520,7 +520,7 @@ where
     T: Into<BigInt>,
 {
     fn div_assign(&mut self, rhs: T) {
-        todo!()
+        *self = self.clone().div(rhs);
     }
 }
 
@@ -539,7 +539,7 @@ where
     T: Into<BigInt>,
 {
     fn rem_assign(&mut self, rhs: T) {
-        todo!()
+        *self = self.clone().rem(rhs);
     }
 }
 
@@ -558,7 +558,7 @@ where
     T: Into<BigInt>,
 {
     fn bitand_assign(&mut self, rhs: T) {
-        todo!()
+        *self = self.clone().bitand(rhs);
     }
 }
 
@@ -577,7 +577,7 @@ where
     T: Into<BigInt>,
 {
     fn bitor_assign(&mut self, rhs: T) {
-        todo!()
+        *self = self.clone().bitor(rhs);
     }
 }
 
@@ -596,7 +596,7 @@ where
     T: Into<BigInt>,
 {
     fn bitxor_assign(&mut self, rhs: T) {
-        todo!()
+        *self = self.clone().bitxor(rhs);
     }
 }
 
@@ -615,7 +615,7 @@ where
     T: Into<BigInt>,
 {
     fn shl_assign(&mut self, rhs: T) {
-        todo!()
+        *self = self.clone().shl(rhs);
     }
 }
 
@@ -634,7 +634,7 @@ where
     T: Into<BigInt>,
 {
     fn shr_assign(&mut self, rhs: T) {
-        todo!()
+        *self = self.clone().shr(rhs);
     }
 }
 
