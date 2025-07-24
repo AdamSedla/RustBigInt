@@ -408,6 +408,10 @@ where
             return right - self;
         }
 
+        if self < right {
+            return -(right - self);
+        }
+
         let mut result: BigInt = BigInt {
             positive: self >= right,
             numbers: vec![],
