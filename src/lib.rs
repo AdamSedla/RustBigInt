@@ -395,6 +395,7 @@ where
         // negative numbers edgecases
         if !self.positive && right.positive {
             // -X - Y => -(X+Y)
+            self.positive = true;
             return -(self + right);
         } else if self.positive && !right.positive {
             //X - (-Y)
