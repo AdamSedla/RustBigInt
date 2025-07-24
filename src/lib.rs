@@ -465,6 +465,10 @@ where
             result.numbers.insert(0, new_digit as u8);
         }
 
+        while result.numbers.first().unwrap_or(&1).is_zero() {
+            result.numbers.remove(0);
+        }
+
         result
     }
 }
