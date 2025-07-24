@@ -402,6 +402,13 @@ mod tests {
         assert_eq!(z, 2);
         assert_eq!(x, z);
 
+        let mut x = BigInt::from(4);
+        let y = BigInt::from(15);
+        let z = x.clone() - y.clone();
+        x -= y.clone();
+        assert_eq!(z, -11);
+        assert_eq!(x, z);
+
         let mut x = BigInt::from(-15);
         let y = BigInt::from(-4);
         let z = x.clone() - y.clone();
