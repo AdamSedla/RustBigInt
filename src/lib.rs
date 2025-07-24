@@ -378,8 +378,93 @@ where
 {
     type Output = Self;
 
-    fn sub(self, rhs: T) -> Self::Output {
-        todo!()
+    fn sub(mut self, rhs: T) -> Self::Output {
+        let mut right: BigInt = rhs.into();
+
+        // X - 0 edgecase
+        if self == 0 {
+            return right;
+        }
+        if right == 0 {
+            return self;
+        }
+        if right == self {
+            return 0.into();
+        }
+
+        // negative numbers edgecases
+        if !self.positive && right.positive {
+            // -X - Y => -(X+Y)
+            return -(self + right);
+        } else if self.positive && !right.positive {
+            //X - (-Y)
+            right.positive = true;
+            return self + right;
+        } else if !self.positive && !right.positive {
+            // -X - (-Y) => -X + Y => Y - X
+            self.positive = true;
+            right.positive = true;
+            return right - self;
+        }
+
+        let mut result: BigInt = BigInt {
+            positive: self >= right,
+            numbers: vec![],
+        };
+
+        let mut carry = 0;
+
+        let mut left_iterator = self.numbers.iter().rev();
+        let mut right_iterator = right.numbers.iter().rev();
+
+        let mut left_iterator_valid = true;
+        let mut right_iterator_valid = true;
+
+        while left_iterator_valid || right_iterator_valid || !carry.is_zero() {
+            //check if there are some digits left
+            let mut left_digit: Option<&u8> = None;
+            let mut right_digit: Option<&u8> = None;
+
+            if left_iterator_valid {
+                left_digit = left_iterator.next();
+            }
+            if right_iterator_valid {
+                right_digit = right_iterator.next();
+            }
+
+            if left_digit.is_none() {
+                left_iterator_valid = false;
+            }
+            if right_digit.is_none() {
+                right_iterator_valid = false;
+            }
+            if !left_iterator_valid && !right_iterator_valid && carry.is_zero() {
+                break;
+            }
+
+            let mut new_digit: i8 = 0;
+
+            if left_iterator_valid {
+                let left_digit_unwrap = *left_digit.unwrap() as i8;
+                new_digit += left_digit_unwrap;
+            }
+            if right_iterator_valid {
+                let right_digit_unwrap: i8 = *right_digit.unwrap() as i8;
+                new_digit -= right_digit_unwrap;
+            }
+
+            new_digit -= carry;
+            carry = 0;
+
+            if new_digit < 0 {
+                new_digit += 10;
+                carry += 1;
+            }
+
+            result.numbers.insert(0, new_digit as u8);
+        }
+
+        result
     }
 }
 
