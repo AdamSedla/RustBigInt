@@ -292,21 +292,21 @@ mod tests {
         let z = x.clone() + y.clone();
         x += y;
         assert_eq!(z, 20);
-        assert_eq!(z, x);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(101010);
         let y = BigInt::from(101010);
         let z = x.clone() + y.clone();
         x += y;
         assert_eq!(z, 202020);
-        assert_eq!(z, x);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(0);
         let y = BigInt::from(0);
         let z = x.clone() + y.clone();
         x += y;
         assert_eq!(z, 0);
-        assert_eq!(z, x);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(10);
         let y = BigInt::from(-10);
@@ -327,21 +327,21 @@ mod tests {
         let z = x.clone() + y.clone();
         x += y.clone();
         assert_eq!(z, 0);
-        assert_eq!(x, y);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(6);
         let y = BigInt::from(4);
         let z = x.clone() + y.clone();
         x += y.clone();
         assert_eq!(z, 10);
-        assert_eq!(x, y);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(-15);
         let y = BigInt::from(-4);
         let z = x.clone() + y.clone();
         x += y.clone();
         assert_eq!(z, -19);
-        assert_eq!(x, y);
+        assert_eq!(x, z);
     }
 
     #[test]
@@ -351,21 +351,21 @@ mod tests {
         let z = x.clone() - y.clone();
         x -= y;
         assert_eq!(z, 0);
-        assert_eq!(z, x);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(101010);
         let y = BigInt::from(10);
         let z = x.clone() - y.clone();
         x -= y;
         assert_eq!(z, 101000);
-        assert_eq!(z, x);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(0);
         let y = BigInt::from(0);
         let z = x.clone() - y.clone();
         x -= y;
         assert_eq!(z, 0);
-        assert_eq!(z, x);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(10);
         let y = BigInt::from(-10);
@@ -393,21 +393,21 @@ mod tests {
         let z = x.clone() - y.clone();
         x -= y.clone();
         assert_eq!(z, 0);
-        assert_eq!(x, y);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(6);
         let y = BigInt::from(4);
         let z = x.clone() - y.clone();
         x -= y.clone();
         assert_eq!(z, 2);
-        assert_eq!(x, y);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(-15);
         let y = BigInt::from(-4);
         let z = x.clone() - y.clone();
         x -= y.clone();
         assert_eq!(z, -11);
-        assert_eq!(x, y);
+        assert_eq!(x, z);
     }
 
     #[test]
