@@ -422,6 +422,13 @@ mod tests {
         x -= y.clone();
         assert_eq!(z, 1);
         assert_eq!(x, z);
+
+        let mut x = BigInt::from(1);
+        let y = BigInt::from(1000);
+        let z = x.clone() - y.clone();
+        x -= y.clone();
+        assert_eq!(z, -999);
+        assert_eq!(x, z);
     }
 
     #[test]
