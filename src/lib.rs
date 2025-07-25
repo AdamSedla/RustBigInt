@@ -304,10 +304,9 @@ where
         }
 
         let mut result = BigInt {
-            positive: true,
+            positive: self.positive,
             numbers: vec![],
         };
-        result.positive = self.positive;
         let mut carry = 0;
 
         let mut left_iterator = self.numbers.iter().rev();
