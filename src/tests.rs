@@ -571,6 +571,14 @@ mod tests {
     }
 
     #[test]
+    #[should_panic]
+    fn div_by_zero() {
+        let mut x = BigInt::from(10);
+        let y = BigInt::from(0);
+        let z = x / y;
+    }
+
+    #[test]
     fn reminder() {
         let mut x: BigInt = BigInt::from(10000);
         let y = BigInt::from(10);
