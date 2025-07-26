@@ -93,9 +93,11 @@ macro_rules! from_int {
 
                 //transformation of digits
                 while original_number != 0{
-                    numbers.insert(0, (original_number % 10).to_u8().unwrap());
+                    numbers.push((original_number % 10).to_u8().unwrap())
                     original_number /= 10;
                 }
+
+                numbers.reverse();
 
                 //return value
                 BigInt {positive, numbers}
@@ -121,9 +123,11 @@ macro_rules! from_uint {
 
                 //transformation of digits
                 while original_number != 0{
-                    numbers.insert(0, (original_number % 10).to_u8().unwrap());
+                    numbers.push((original_number % 10).to_u8().unwrap())
                     original_number /= 10;
                 }
+
+                numbers.reverse();
 
                 //return value
                 BigInt {
@@ -355,8 +359,10 @@ where
             num /= 10;
             carry = num;
 
-            result.numbers.insert(0, last_digit);
+            result.numbers.push(last_digit);
         }
+
+        result.numbers.reverse();
 
         result
     }
@@ -465,8 +471,10 @@ where
                 carry += 1;
             }
 
-            result.numbers.insert(0, new_digit as u8);
+            result.numbers.push(new_digit as u8);
         }
+
+        result.numbers.reverse();
 
         while result.numbers.first().unwrap_or(&1).is_zero() {
             result.numbers.remove(0);
@@ -540,13 +548,15 @@ where
                 new_digit = left_digit * right_digit;
                 new_digit += carry;
 
-                sub_total.numbers.insert(0, new_digit % 10);
+                sub_total.numbers.push(new_digit % 10);
                 carry = new_digit / 10;
             }
 
             if !carry.is_zero() {
-                sub_total.numbers.insert(0, carry);
+                sub_total.numbers.push(carry);
             }
+
+            sub_total.numbers.reverse();
 
             for i in (0..offset) {
                 sub_total.numbers.push(0);
