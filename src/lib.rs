@@ -752,7 +752,7 @@ impl BigInt {
         }
     }
 
-    fn number_to_word(number: u8) -> String {
+    fn number_to_word(number: u8) -> &'static str {
         match number {
             0 => "zero",
             1 => "one",
@@ -766,7 +766,6 @@ impl BigInt {
             9 => "nine",
             _ => "zero",
         }
-        .to_string()
     }
 
     fn parse_word_digits(string_of_numbers: String) -> Result<BigInt, BigIntError> {
