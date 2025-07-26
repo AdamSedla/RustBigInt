@@ -256,11 +256,11 @@ impl PartialOrd for BigInt {
         }
 
         //return value
-        return if greater {
+        if greater {
             Some(Ordering::Greater)
         } else {
             Some(Ordering::Less)
-        };
+        }
     }
 }
 
@@ -272,7 +272,7 @@ impl PartialOrd<&str> for BigInt {
             return None;
         }
 
-        return self.partial_cmp(&other.unwrap());
+        self.partial_cmp(&other.unwrap())
     }
 }
 
