@@ -513,6 +513,18 @@ mod tests {
         assert_eq!(z, 1);
         assert_eq!(z, x);
 
+        let mut x = BigInt::from_str(
+            "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+        ).unwrap();
+        let y = BigInt::from(2);
+        let z = x.clone() / y.clone();
+        x /= y;
+        assert_eq!(
+            z,
+            "499999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+        );
+        assert_eq!(z, x);
+
         let mut x = BigInt::from(0);
         let y = BigInt::from(2);
         let z = x.clone() / y.clone();
@@ -520,15 +532,29 @@ mod tests {
         assert_eq!(z, 0);
         assert_eq!(z, x);
 
+        let mut x = BigInt::from(1);
+        let y = BigInt::from(2);
+        let z = x.clone() / y.clone();
+        x /= y;
+        assert_eq!(z, 0);
+        assert_eq!(z, x);
+
+        let mut x = BigInt::from(1);
+        let y = BigInt::from(1);
+        let z = x.clone() / y.clone();
+        x /= y;
+        assert_eq!(z, 1);
+        assert_eq!(z, x);
+
         let mut x = BigInt::from(0);
-        let y = BigInt::from(0);
+        let y = BigInt::from(666);
         let z = x.clone() / y.clone();
         x /= y;
         assert_eq!(z, BigInt::default());
         assert_eq!(z, x);
 
-        let mut x = BigInt::from(10000);
-        let y = BigInt::from(0);
+        let mut x = BigInt::from(0);
+        let y = BigInt::from(100);
         let z = x.clone() / y.clone();
         x /= y;
         assert_eq!(z, BigInt::default());
