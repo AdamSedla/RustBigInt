@@ -487,14 +487,14 @@ mod tests {
         let z: BigInt = x.clone() * y.clone();
         x *= y.clone();
         assert_eq!(z, 24);
-        assert_eq!(x, y);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(-15);
         let y = BigInt::from(-4);
         let z: BigInt = x.clone() * y.clone();
         x *= y.clone();
         assert_eq!(z, 60);
-        assert_eq!(x, y);
+        assert_eq!(x, z);
     }
 
     #[test]
