@@ -93,7 +93,7 @@ macro_rules! from_int {
 
                 //transformation of digits
                 while original_number != 0{
-                    numbers.push((original_number % 10).to_u8().unwrap())
+                    numbers.push((original_number % 10).to_u8().unwrap());
                     original_number /= 10;
                 }
 
@@ -123,7 +123,7 @@ macro_rules! from_uint {
 
                 //transformation of digits
                 while original_number != 0{
-                    numbers.push((original_number % 10).to_u8().unwrap())
+                    numbers.push((original_number % 10).to_u8().unwrap());
                     original_number /= 10;
                 }
 
