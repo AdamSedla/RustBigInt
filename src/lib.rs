@@ -491,7 +491,72 @@ where
 {
     type Output = Self;
     fn mul(self, rhs: T) -> Self::Output {
-        todo!()
+        let mut right: BigInt = rhs.into();
+
+        //X * 0 edgecase
+        if self == 0 || right == 0 {
+            return BigInt::default();
+        }
+
+        if self == 1 {
+            return right;
+        }
+        if right == 1 {
+            return self;
+        }
+
+        let mut result = BigInt {
+            positive: self.positive,
+            numbers: vec![],
+        };
+
+        let mut left_iterator = self.numbers.iter().rev();
+        let mut right_iterator = right.numbers.iter().rev();
+
+        let mut sub_total = BigInt::new();
+        let mut offset = -1;
+        let mut new_digit = 0;
+        let mut carry = 0;
+
+        //left digit loop
+        for &left_digit in left_iterator {
+            offset += 1;
+
+            // *0 edgecase
+            if left_digit == 0 {
+                continue;
+            }
+
+            sub_total = BigInt {
+                positive: self.positive,
+                numbers: vec![],
+            };
+
+            new_digit = 0;
+            carry = 0;
+
+            //right digit loop
+            for &right_digit in right_iterator.clone() {
+                new_digit = left_digit * right_digit;
+                new_digit += carry;
+
+                sub_total.numbers.insert(0, new_digit % 10);
+                carry = new_digit / 10;
+            }
+
+            if !carry.is_zero() {
+                sub_total.numbers.insert(0, carry);
+            }
+
+            for i in (0..offset) {
+                sub_total.numbers.push(0);
+            }
+
+            result += sub_total;
+        }
+
+        result.positive = !(self.positive ^ right.positive);
+        result
     }
 }
 
