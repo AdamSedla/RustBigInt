@@ -718,14 +718,14 @@ impl BigInt {
     }
 
     pub fn to_words(&self) -> String {
-        let mut fin_str = String::new();
+        let mut fin_str: String;
         let mut nmr_iter = self.numbers.iter();
 
         //print minus or first digit
         if !self.positive {
             fin_str = "minus".to_string();
         } else {
-            fin_str = BigInt::number_to_word(*nmr_iter.next().unwrap_or(&0));
+            fin_str = BigInt::number_to_word(*nmr_iter.next().unwrap_or(&0)).to_string();
         }
 
         //print all digits
