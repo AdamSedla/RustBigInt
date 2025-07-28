@@ -629,13 +629,6 @@ mod tests {
         assert_eq!(z, x);
 
         let mut x: BigInt = BigInt::from(10);
-        let y = BigInt::from(0);
-        let z = x.clone() % y.clone();
-        x %= y;
-        assert_eq!(z, 0);
-        assert_eq!(z, x);
-
-        let mut x: BigInt = BigInt::from(10);
         let y = BigInt::from(7);
         let z = x.clone() % y.clone();
         x %= y;
@@ -668,6 +661,17 @@ mod tests {
         let z = x.clone() % y.clone();
         x %= y;
         assert_eq!(z, 5);
+        assert_eq!(z, x);
+    }
+
+    #[test]
+    #[should_panic]
+    fn rem_of_zero() {
+        let mut x: BigInt = BigInt::from(10);
+        let y = BigInt::from(0);
+        let z = x.clone() % y.clone();
+        x %= y;
+        assert_eq!(z, 0);
         assert_eq!(z, x);
     }
 
