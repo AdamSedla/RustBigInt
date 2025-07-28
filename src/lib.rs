@@ -313,53 +313,39 @@ where
         };
         let mut carry = 0;
 
-        let mut left_iterator = self.numbers.iter().rev();
-        let mut right_iterator = right.numbers.iter().rev();
-
-        let mut left_iterator_valid = true;
-        let mut right_iterator_valid = true;
-
-        while left_iterator_valid || right_iterator_valid || !carry.is_zero() {
-            //check if there are some digits left
-            let mut left_digit: Option<&u8> = None;
-            let mut right_digit: Option<&u8> = None;
-
-            if left_iterator_valid {
-                left_digit = left_iterator.next();
+        let (mut longer, mut shorter) = {
+            if self.numbers.len() >= right.numbers.len() {
+                (self.numbers, right.numbers)
+            } else {
+                (right.numbers, self.numbers)
             }
-            if right_iterator_valid {
-                right_digit = right_iterator.next();
-            }
+        };
 
-            if left_digit.is_none() {
-                left_iterator_valid = false;
-            }
-            if right_digit.is_none() {
-                right_iterator_valid = false;
-            }
-            if !left_iterator_valid && !right_iterator_valid && carry.is_zero() {
-                break;
-            }
+        let extend_count = longer.len() - shorter.len();
 
-            //move carry
-            let mut num = 0;
-            num += carry;
-            carry = 0;
+        longer.reverse();
+        shorter.reverse();
 
-            if left_iterator_valid {
-                num += left_digit.unwrap();
-            }
-            if right_iterator_valid {
-                num += right_digit.unwrap();
-            }
+        shorter.extend(std::iter::repeat(0).take(extend_count));
 
-            //prepare one digit for sum and reminder hide in carry
-            let last_digit = num % 10;
-            num -= last_digit;
-            num /= 10;
-            carry = num;
+        let numbers_set = longer.iter().zip(shorter.iter());
+        let mut new_number;
 
-            result.numbers.push(last_digit);
+        for number_set in numbers_set {
+            new_number = 0;
+
+            new_number += number_set.0;
+            new_number += number_set.1;
+            new_number += carry;
+
+            let new_digit = new_number % 10;
+            carry = new_number / 10;
+
+            result.numbers.push(new_digit);
+        }
+
+        if !carry.is_zero() {
+            result.numbers.push(carry);
         }
 
         result.numbers.reverse();
