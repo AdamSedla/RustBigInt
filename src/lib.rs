@@ -280,6 +280,25 @@ impl PartialOrd<&str> for BigInt {
     }
 }
 
+fn create_numbers_set(left: BigInt, right: BigInt) -> (Vec<u8>, Vec<u8>) {
+    let (mut longer, mut shorter) = {
+        if left.numbers.len() >= right.numbers.len() {
+            (left.numbers, right.numbers)
+        } else {
+            (right.numbers, left.numbers)
+        }
+    };
+
+    let extend_count = longer.len() - shorter.len();
+
+    longer.reverse();
+    shorter.reverse();
+
+    shorter.extend(std::iter::repeat(0).take(extend_count));
+
+    (shorter, longer)
+}
+
 impl<T> Add<T> for BigInt
 where
     T: Into<BigInt>,
@@ -313,20 +332,7 @@ where
         };
         let mut carry = 0;
 
-        let (mut longer, mut shorter) = {
-            if self.numbers.len() >= right.numbers.len() {
-                (self.numbers, right.numbers)
-            } else {
-                (right.numbers, self.numbers)
-            }
-        };
-
-        let extend_count = longer.len() - shorter.len();
-
-        longer.reverse();
-        shorter.reverse();
-
-        shorter.extend(std::iter::repeat(0).take(extend_count));
+        let (longer, shorter) = create_numbers_set(self, right);
 
         let numbers_set = longer.iter().zip(shorter.iter());
         let mut new_number;
