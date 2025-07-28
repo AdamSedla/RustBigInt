@@ -1,6 +1,8 @@
 mod tests {
     use std::str::FromStr;
 
+    use num_traits::Pow;
+
     use crate::BigInt;
     use crate::BigIntError;
 
@@ -662,6 +664,29 @@ mod tests {
         x %= y;
         assert_eq!(z, 5);
         assert_eq!(z, x);
+    }
+
+    #[test]
+    fn power_of() {
+        let mut x: BigInt = BigInt::from(2);
+        let y = BigInt::from(2);
+        let z = x.pow(y);
+        assert_eq!(z, 4);
+
+        let mut x: BigInt = BigInt::from(2);
+        let y = BigInt::from(1);
+        let z = x.pow(y);
+        assert_eq!(z, 2);
+
+        let mut x: BigInt = BigInt::from(1);
+        let y = BigInt::from(1000000);
+        let z = x.pow(y);
+        assert_eq!(z, 1);
+
+        let mut x: BigInt = BigInt::from(3);
+        let y = BigInt::from(3);
+        let z = x.pow(y);
+        assert_eq!(z, 27);
     }
 
     #[test]
