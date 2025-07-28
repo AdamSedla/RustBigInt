@@ -334,7 +334,7 @@ where
         let (longer, shorter) = create_numbers_set(self, right);
 
         let numbers_set = longer.iter().zip(shorter.iter());
-        
+
         let mut new_number;
         let mut carry: u8 = 0;
 
@@ -415,56 +415,38 @@ where
             numbers: vec![],
         };
 
+        self.numbers.reverse();
+        right.numbers.reverse();
+
+        if self.numbers.len() >= right.numbers.len() {
+            right
+                .numbers
+                .extend(std::iter::repeat(0).take(self.numbers.len() - right.numbers.len()));
+        } else {
+            self.numbers
+                .extend(std::iter::repeat(0).take(right.numbers.len() - self.numbers.len()));
+        }
+
+        let numbers_set = self.numbers.iter().zip(right.numbers.iter());
+
+        let mut new_number: i8;
         let mut carry = 0;
 
-        let mut left_iterator = self.numbers.iter().rev();
-        let mut right_iterator = right.numbers.iter().rev();
+        for number_set in numbers_set {
+            new_number = 0;
 
-        let mut left_iterator_valid = true;
-        let mut right_iterator_valid = true;
+            new_number += *number_set.0 as i8;
+            new_number -= *number_set.1 as i8;
+            new_number -= carry;
 
-        while left_iterator_valid || right_iterator_valid || !carry.is_zero() {
-            //check if there are some digits left
-            let mut left_digit: Option<&u8> = None;
-            let mut right_digit: Option<&u8> = None;
-
-            if left_iterator_valid {
-                left_digit = left_iterator.next();
-            }
-            if right_iterator_valid {
-                right_digit = right_iterator.next();
+            if new_number < 0 {
+                new_number += 10;
+                carry = 1;
+            } else {
+                carry = 0;
             }
 
-            if left_digit.is_none() {
-                left_iterator_valid = false;
-            }
-            if right_digit.is_none() {
-                right_iterator_valid = false;
-            }
-            if !left_iterator_valid && !right_iterator_valid && carry.is_zero() {
-                break;
-            }
-
-            let mut new_digit: i8 = 0;
-
-            if left_iterator_valid {
-                let left_digit_unwrap = *left_digit.unwrap() as i8;
-                new_digit += left_digit_unwrap;
-            }
-            if right_iterator_valid {
-                let right_digit_unwrap: i8 = *right_digit.unwrap() as i8;
-                new_digit -= right_digit_unwrap;
-            }
-
-            new_digit -= carry;
-            carry = 0;
-
-            if new_digit < 0 {
-                new_digit += 10;
-                carry += 1;
-            }
-
-            result.numbers.push(new_digit as u8);
+            result.numbers.push(new_number as u8);
         }
 
         result.numbers.reverse();
