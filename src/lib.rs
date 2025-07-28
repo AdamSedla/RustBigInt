@@ -777,7 +777,15 @@ where
 {
     type Output = Self;
     fn shr(self, rhs: T) -> Self::Output {
-        todo!()
+        let mut right: BigInt = rhs.into();
+
+        if right == 0 {
+            return self;
+        }
+
+        let base: BigInt = 2.into();
+
+        self / base.pow(right)
     }
 }
 
