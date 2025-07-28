@@ -287,6 +287,13 @@ mod tests {
 
     #[test]
     fn add() {
+        let mut x: BigInt = BigInt::from(1000);
+        let y = BigInt::from(10);
+        let z = x.clone() + y.clone();
+        x += y;
+        assert_eq!(z, 1010);
+        assert_eq!(x, z);
+
         let mut x: BigInt = BigInt::from(10);
         let y = BigInt::from(10);
         let z = x.clone() + y.clone();
