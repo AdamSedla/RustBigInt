@@ -579,6 +579,26 @@ where
     }
 }
 
+fn slow_div(mut left: BigInt, mut right: BigInt) -> BigInt {
+    let mut result = BigInt::default();
+    let positive = !(left.positive ^ right.positive);
+    left.positive = true;
+    right.positive = true;
+
+    while left >= right && left != 0 {
+        left -= right.clone();
+        result += 1;
+    }
+
+    result.positive = positive;
+
+    result
+}
+
+fn fast_div(mut left: BigInt, mut right: BigInt) -> BigInt {
+    todo!()
+}
+
 impl<T> Div<T> for BigInt
 where
     T: Into<BigInt>,
@@ -603,19 +623,7 @@ where
             return BigInt::default();
         }
 
-        let mut result = BigInt::default();
-        let positive = !(self.positive ^ right.positive);
-        self.positive = true;
-        right.positive = true;
-
-        while self >= right && self != 0 {
-            self -= right.clone();
-            result += 1;
-        }
-
-        result.positive = positive;
-
-        result
+        slow_div(self, right)
     }
 }
 
