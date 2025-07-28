@@ -283,6 +283,9 @@ mod tests {
         let x = BigInt::from(11);
         let y = BigInt::from(99999999999u64);
         assert!(x < y);
+        let x = BigInt::from(10000010);
+        let y = BigInt::from(20000000);
+        assert!(x < y);
     }
 
     #[test]
