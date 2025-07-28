@@ -330,12 +330,13 @@ where
             positive: self.positive,
             numbers: vec![],
         };
-        let mut carry = 0;
 
         let (longer, shorter) = create_numbers_set(self, right);
 
         let numbers_set = longer.iter().zip(shorter.iter());
+        
         let mut new_number;
+        let mut carry: u8 = 0;
 
         for number_set in numbers_set {
             new_number = 0;
