@@ -545,21 +545,21 @@ mod tests {
         let y = BigInt::from(666);
         let z = x.clone() / y.clone();
         x /= y;
-        assert_eq!(z, BigInt::default());
+        assert_eq!(z, 0);
         assert_eq!(z, x);
 
         let mut x = BigInt::from(0);
         let y = BigInt::from(100);
         let z = x.clone() / y.clone();
         x /= y;
-        assert_eq!(z, BigInt::default());
+        assert_eq!(z, 0);
         assert_eq!(z, x);
 
         let mut x = BigInt::from(20100000100u64);
-        let y = BigInt::from(200);
+        let y = BigInt::from(20000000);
         let z = x.clone() / y.clone();
         x /= y;
-        assert_eq!(z, 100500);
+        assert_eq!(z, 1005);
         assert_eq!(z, x);
 
         let mut x = BigInt::from(10);
@@ -581,14 +581,14 @@ mod tests {
         let z = x.clone() / y.clone();
         x /= y.clone();
         assert_eq!(z, 3);
-        assert_eq!(x, y);
+        assert_eq!(x, z);
 
         let mut x = BigInt::from(-15);
         let y = BigInt::from(-5);
         let z = x.clone() / y.clone();
         x /= y.clone();
         assert_eq!(z, 3);
-        assert_eq!(x, y);
+        assert_eq!(x, z);
     }
 
     #[test]
