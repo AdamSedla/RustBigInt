@@ -513,6 +513,13 @@ where
             return self;
         }
 
+        if self == -1 {
+            return -right;
+        }
+        if right == -1 {
+            return -self;
+        }
+
         let mut result = BigInt {
             positive: self.positive,
             numbers: vec![],
