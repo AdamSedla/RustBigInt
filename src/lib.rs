@@ -584,8 +584,38 @@ where
     T: Into<BigInt>,
 {
     type Output = Self;
-    fn div(self, rhs: T) -> Self::Output {
-        todo!()
+    fn div(mut self, rhs: T) -> Self::Output {
+        let mut right: BigInt = rhs.into();
+
+        if right == 0 {
+            panic!("division by zero!");
+        }
+        if self == 0 {
+            return BigInt::default();
+        }
+        if right == 1 {
+            return 1.into();
+        }
+        if self == 1 {
+            if right == 1 {
+                return 1.into();
+            }
+            return BigInt::default();
+        }
+
+        let mut result = BigInt::default();
+        let positive = !(self.positive ^ right.positive);
+        self.positive = true;
+        right.positive = true;
+
+        while self >= right && self != 0 {
+            self -= right.clone();
+            result += 1;
+        }
+
+        result.positive = positive;
+
+        result
     }
 }
 
