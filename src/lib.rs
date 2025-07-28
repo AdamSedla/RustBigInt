@@ -255,6 +255,7 @@ impl PartialOrd for BigInt {
             for (left, right) in numbers_iterator {
                 if left != right {
                     greater = left > right;
+                    break;
                 }
             }
         }
