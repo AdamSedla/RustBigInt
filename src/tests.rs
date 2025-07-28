@@ -506,11 +506,11 @@ mod tests {
 
     #[test]
     fn div() {
-        let mut x: BigInt = BigInt::from(10000);
+        let mut x: BigInt = BigInt::from(10000000);
         let y = BigInt::from(10);
         let z = x.clone() / y.clone();
         x /= y;
-        assert_eq!(z, 1000);
+        assert_eq!(z, 1000000);
         assert_eq!(z, x);
 
         let mut x = BigInt::from(101);
