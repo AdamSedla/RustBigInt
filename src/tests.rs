@@ -646,7 +646,7 @@ mod tests {
         let y = BigInt::from(10);
         let z = x.clone() % y.clone();
         x %= y;
-        assert_eq!(z, 4);
+        assert_eq!(z, -4);
         assert_eq!(z, x);
 
         let mut x: BigInt = BigInt::from(24);
