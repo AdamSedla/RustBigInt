@@ -611,6 +611,10 @@ where
             result.numbers.remove(0);
         }
 
+        if result.numbers == vec![] {
+            return BigInt::default();
+        }
+
         result
     }
 }
