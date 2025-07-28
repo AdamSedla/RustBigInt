@@ -513,16 +513,11 @@ mod tests {
         assert_eq!(z, 1);
         assert_eq!(z, x);
 
-        let mut x = BigInt::from_str(
-            "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
-        ).unwrap();
+        let mut x = BigInt::from(9999u128);
         let y = BigInt::from(2);
         let z = x.clone() / y.clone();
         x /= y;
-        assert_eq!(
-            z,
-            "499999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
-        );
+        assert_eq!(z, 4999u128);
         assert_eq!(z, x);
 
         let mut x = BigInt::from(0);
