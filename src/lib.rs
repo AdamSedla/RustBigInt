@@ -630,7 +630,19 @@ where
 {
     type Output = Self;
     fn rem(self, rhs: T) -> Self::Output {
-        todo!()
+        let mut right: BigInt = rhs.into();
+
+        if right == 0 {
+            panic!("division by zero!");
+        }
+        if self == 0 || right == 1 || right == 1 {
+            return 0.into();
+        }
+
+        let mut divide_result = self.clone() / right.clone();
+
+        //result
+        self - divide_result * right
     }
 }
 
