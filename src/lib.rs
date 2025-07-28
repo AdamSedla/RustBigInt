@@ -1,6 +1,6 @@
 #![allow(unused)]
 
-use num_traits::{ToPrimitive, Zero};
+use num_traits::{Pow, ToPrimitive, Zero};
 
 use std::cmp::Ordering;
 use std::error::Error;
@@ -652,6 +652,34 @@ where
 {
     fn rem_assign(&mut self, rhs: T) {
         *self = self.clone().rem(rhs);
+    }
+}
+
+impl<T> Pow<T> for BigInt
+where
+    T: Into<BigInt>,
+{
+    type Output = Self;
+
+    fn pow(self, rhs: T) -> Self::Output {
+        let mut right: BigInt = rhs.into();
+
+        if self == 0 || self == 1 || right == 1 {
+            return self;
+        }
+        if right == 0 {
+            return 1.into();
+        }
+
+        let mut result: BigInt = 1.into();
+
+        while right != 0 {
+            result *= self.clone();
+
+            right -= 1;
+        }
+
+        result
     }
 }
 
