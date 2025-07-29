@@ -722,14 +722,18 @@ mod tests {
 
     #[test]
     fn binary() {
+        let x = BigInt::from(10);
+        assert_eq!(format!("{x:#10b}"), "    0b1010");
         let x = BigInt::from(4);
         assert_eq!(format!("{x:#b}"), "0b100");
         let x = BigInt::from(4);
         assert_eq!(format!("{x:b}"), "100");
         let x = BigInt::from(4);
-        assert_eq!(format!("{x:010b}"), "0000000100");
+        assert_eq!(format!("{x:0>10b}"), "0000000100");
         let x = BigInt::from(10);
-        assert_eq!(format!("{x:#110b}"), "0b11111010");
+        assert_eq!(format!("{x:#10b}"), "    0b1010");
+        let x = BigInt::from(10);
+        assert_eq!(format!("{x:x>#010b}"), "xxxx0b1010");
         let x = BigInt::from(172);
         assert_eq!(format!("{x:b}"), "10101100");
         let x = BigInt::from(17220003931i64);
