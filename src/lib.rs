@@ -925,6 +925,27 @@ impl BigInt {
             false
         }
     }
+
+    fn to_binary(&self) -> Vec<bool> {
+        let mut final_vec = vec![];
+
+        let mut number = self.clone();
+
+        while number != 1 {
+            if number.is_even() {
+                final_vec.push(false);
+            } else {
+                final_vec.push(true);
+            }
+            number /= 2;
+        }
+
+        final_vec.push(true);
+
+        final_vec.reverse();
+
+        final_vec
+    }
 }
 
 #[cfg(test)]
