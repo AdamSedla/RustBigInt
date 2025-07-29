@@ -723,9 +723,9 @@ mod tests {
     #[test]
     fn binary() {
         let x = BigInt::from(4);
-        assert_eq!(format!("{x:b}"), "100");
-        let x = BigInt::from(4);
         assert_eq!(format!("{x:#b}"), "0b100");
+        let x = BigInt::from(4);
+        assert_eq!(format!("{x:b}"), "100");
         let x = BigInt::from(4);
         assert_eq!(format!("{x:010b}"), "0000000100");
         let x = BigInt::from(10);
