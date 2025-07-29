@@ -4,7 +4,7 @@ use num_traits::{Pow, ToPrimitive, Zero};
 
 use std::cmp::Ordering;
 use std::error::Error;
-use std::fmt::{self, Binary, Display, LowerHex, UpperHex};
+use std::fmt::{self, Alignment, Binary, Display, LowerHex, UpperHex};
 use std::ops::*;
 use std::str::FromStr;
 
@@ -144,13 +144,44 @@ from_uint!(u8, u16, u32, u64, u128);
 
 impl Display for BigInt {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut output = String::new();
+
         if !self.positive {
-            write!(f, "-")?;
+            output.push_str("-");
+        }
+        if f.sign_plus() && self.positive {
+            output.push_str("+");
         }
 
         for digit in &self.numbers {
-            write!(f, "{digit}")?;
+            output.push_str(&digit.to_string());
         }
+
+        //plní se odprava
+
+        let mut right_fill = true;
+
+        if f.width().is_some() {
+            while output.len() < f.width().unwrap() {
+                match f.align() {
+                    Some(Alignment::Left) => output.push(f.fill()),
+                    Some(Alignment::Center) => {
+                        if right_fill {
+                            output.push(f.fill());
+                            right_fill = false;
+                        } else {
+                            output.insert(0, f.fill());
+                            right_fill = true;
+                        }
+                    }
+                    Some(Alignment::Right) => output.insert(0, f.fill()),
+                    _ => output.insert(0, f.fill()),
+                }
+            }
+        }
+
+        write!(f, "{output}")?;
+
         Ok(())
     }
 }
