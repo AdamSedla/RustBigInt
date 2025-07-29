@@ -157,8 +157,6 @@ impl Display for BigInt {
             output.push_str(&digit.to_string());
         }
 
-        //plní se odprava
-
         let mut right_fill = true;
 
         if f.width().is_some() {
