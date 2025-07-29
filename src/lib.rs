@@ -319,12 +319,10 @@ fn create_numbers_set(left: BigInt, right: BigInt) -> (Vec<u8>, Vec<u8>) {
         }
     };
 
-    let extend_count = longer.len() - shorter.len();
-
     longer.reverse();
     shorter.reverse();
 
-    shorter.extend(std::iter::repeat(0).take(extend_count));
+    shorter.extend(vec![0; longer.len() - shorter.len()]);
 
     (shorter, longer)
 }
@@ -451,10 +449,10 @@ where
         if self.numbers.len() >= right.numbers.len() {
             right
                 .numbers
-                .extend(std::iter::repeat(0).take(self.numbers.len() - right.numbers.len()));
+                .extend(vec![0; self.numbers.len() - right.numbers.len()]);
         } else {
             self.numbers
-                .extend(std::iter::repeat(0).take(right.numbers.len() - self.numbers.len()));
+                .extend(vec![0; right.numbers.len() - self.numbers.len()]);
         }
 
         let numbers_set = self.numbers.iter().zip(right.numbers.iter());
