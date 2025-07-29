@@ -917,6 +917,14 @@ impl BigInt {
 
         Ok(BigInt { positive, numbers })
     }
+
+    fn is_even(&self) -> bool {
+        if (*self.numbers.last().unwrap() % 2).is_zero() {
+            true
+        } else {
+            false
+        }
+    }
 }
 
 #[cfg(test)]
