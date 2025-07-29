@@ -186,7 +186,45 @@ impl Display for BigInt {
 
 impl Binary for BigInt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        todo!()
+        let binary = self.to_binary();
+        let mut output = String::new();
+
+        if f.alternate() {
+            output.push_str("0b");
+        }
+
+        for bit in binary {
+            if bit {
+                output.push('1');
+            } else {
+                output.push('0');
+            }
+        }
+
+        let mut right_fill = true;
+
+        if f.width().is_some() {
+            while output.len() < f.width().unwrap() {
+                match f.align() {
+                    Some(Alignment::Left) => output.push(f.fill()),
+                    Some(Alignment::Center) => {
+                        if right_fill {
+                            output.push(f.fill());
+                            right_fill = false;
+                        } else {
+                            output.insert(0, f.fill());
+                            right_fill = true;
+                        }
+                    }
+                    Some(Alignment::Right) => output.insert(0, f.fill()),
+                    _ => output.insert(0, f.fill()),
+                }
+            }
+        }
+
+        write!(f, "{output}")?;
+
+        Ok(())
     }
 }
 
