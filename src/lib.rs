@@ -920,32 +920,26 @@ impl BigInt {
     }
 
     fn parse_word_digits(string_of_numbers: String) -> Result<BigInt, BigIntError> {
-        //create lowercase iterator
-        let mut parsed = string_of_numbers
+        let mut parsed: Vec<String> = string_of_numbers
             .split_whitespace()
             .map(str::to_lowercase)
-            .peekable();
-        let mut positive = true;
-        let mut numbers: Vec<u8> = Vec::new();
+            .collect();
 
-        //if empty string
-        if parsed.peek().is_none() {
-            return Err(BigIntError::NaN);
-        }
+        let mut positive;
 
-        //positive/negative
-        if let Some("-" | "minus") = parsed.peek().map(String::as_str) {
+        if matches!(parsed.first().map(String::as_str), Some("-" | "minus")) {
             positive = false;
-            parsed.next();
+            parsed.remove(0);
+        } else {
+            positive = true;
         }
 
-        //loop for translating words to u8
-        for word in parsed {
-            numbers.push(BigInt::word_to_number(&word)?);
-        }
+        let numbers: Result<Vec<u8>, _> =
+            parsed.iter().map(|w| BigInt::word_to_number(w)).collect();
+        let numbers = numbers?;
 
         //additional check
-        if numbers.is_empty() {
+        if numbers.clone().is_empty() {
             return Err(BigIntError::NaN);
         }
 
