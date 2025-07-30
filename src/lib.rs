@@ -959,9 +959,8 @@ impl BigInt {
 
         let mut number = self.clone();
 
-        if !number.positive {
-            final_vec.push(true);
-        }
+        let positive = number.positive;
+        number.positive = true;
 
         while number != 1 {
             if number.is_even() {
