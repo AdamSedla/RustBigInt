@@ -955,6 +955,10 @@ impl BigInt {
     }
 
     fn to_binary(&self) -> Vec<bool> {
+        if *self == 0 {
+            return vec![false];
+        }
+
         let mut final_vec = vec![];
 
         let mut number = self.clone();
