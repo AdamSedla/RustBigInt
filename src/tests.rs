@@ -962,9 +962,14 @@ mod tests {
         let x = BigInt::from(4);
         assert_eq!(format!("{x:X}"), "4");
         let x = BigInt::from(16);
-        assert_eq!(format!("{x:#X}"), "0xF");
-        let x = BigInt::from(10);
         assert_eq!(format!("{x:#X}"), "0x10");
+        let x = BigInt::from(-4);
+        assert_eq!(format!("{x:X}"), "-4");
+        let x = BigInt::from(-16);
+        assert_eq!(format!("{x:#X}"), "-0x10");
+
+        let x = BigInt::from(10);
+        assert_eq!(format!("{x:#X}"), "0xA");
         let x = BigInt::from(172);
         assert_eq!(format!("{x:X}"), "AC");
         let x = BigInt::from(17220003931u128);
@@ -973,13 +978,30 @@ mod tests {
         let x = BigInt::from(4);
         assert_eq!(format!("{x:x}"), "4");
         let x = BigInt::from(16);
-        assert_eq!(format!("{x:#x}"), "0xf");
-        let x = BigInt::from(10);
         assert_eq!(format!("{x:#x}"), "0x10");
+        let x = BigInt::from(10);
+        assert_eq!(format!("{x:#x}"), "0xa");
         let x = BigInt::from(172);
         assert_eq!(format!("{x:x}"), "ac");
         let x = BigInt::from(17220003931u128);
         assert_eq!(format!("{x:#x}"), "0x40264685b");
+
+        let x = BigInt::from(11);
+        assert_eq!(format!("{x:#10X}"), "       0xB");
+        let x = BigInt::from(4);
+        assert_eq!(format!("{x:#x}"), "0x4");
+        let x = BigInt::from(4);
+        assert_eq!(format!("{x:X}"), "4");
+        let x = BigInt::from(4);
+        assert_eq!(format!("{x:0>10x}"), "0000000004");
+        let x = BigInt::from(10);
+        assert_eq!(format!("{x:#10x}"), "       0xa");
+        let x = BigInt::from(10);
+        assert_eq!(format!("{x:x>#010X}"), "xxxxxxx0xA");
+        let x = BigInt::from(172);
+        assert_eq!(format!("{x:X}"), "AC");
+        let x = BigInt::from(-17220003931i64);
+        assert_eq!(format!("{x:#x}"), "-0x40264685b");
     }
 
     #[test]
