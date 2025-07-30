@@ -814,7 +814,32 @@ where
 {
     type Output = Self;
     fn bitor(self, rhs: T) -> Self::Output {
-        todo!()
+        let mut right: BigInt = rhs.into();
+
+        let mut left = self.to_binary();
+        let mut right = right.to_binary();
+        let mut result = vec![];
+
+        left.reverse();
+        right.reverse();
+
+        let (longer, mut shorter) = if left.len() > right.len() {
+            (left, right)
+        } else {
+            (right, left)
+        };
+
+        shorter.extend(vec![false; longer.len() - shorter.len()]);
+
+        let binary_set = longer.iter().zip(shorter.iter());
+
+        for (left, right) in binary_set {
+            result.push(left | right);
+        }
+
+        result.reverse();
+
+        BigInt::from_binary(result)
     }
 }
 
