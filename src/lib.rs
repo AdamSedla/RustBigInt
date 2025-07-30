@@ -974,6 +974,12 @@ impl BigInt {
 
         final_vec.push(true);
 
+        if positive {
+            final_vec.push(false);
+        } else {
+            final_vec.push(true);
+        }
+
         final_vec.reverse();
 
         final_vec
