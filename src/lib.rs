@@ -966,7 +966,7 @@ impl BigInt {
         let positive = number.positive;
         number.positive = true;
 
-        while number != 1 {
+        while number != 0 {
             if number.is_even() {
                 final_vec.push(false);
             } else {
@@ -974,8 +974,6 @@ impl BigInt {
             }
             number /= 2;
         }
-
-        final_vec.push(true);
 
         if positive {
             final_vec.push(false);
