@@ -337,6 +337,10 @@ impl PartialOrd for BigInt {
                     break;
                 }
             }
+
+            if !self.positive {
+                greater = !greater;
+            }
         }
 
         //return value
