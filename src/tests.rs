@@ -739,6 +739,32 @@ mod tests {
         let x = BigInt::from(-17220003931i64);
         assert_eq!(format!("{x:#b}"), "0b110000000010011001000110100001011011");
     }
+
+    #[test]
+    fn binary_transformation() {
+        let x: BigInt = BigInt::from(10);
+        let bin = x.to_binary();
+        assert_eq!(x, BigInt::from_binary(bin));
+
+        let x: BigInt = BigInt::from(-42);
+        let bin = x.to_binary();
+        assert_eq!(x, BigInt::from_binary(bin));
+
+        let x: BigInt = BigInt::from(-0);
+        let bin = x.to_binary();
+        assert_eq!(x, BigInt::from_binary(bin));
+
+        let x: BigInt = BigInt::from(0);
+        let bin = x.to_binary();
+        assert_eq!(x, BigInt::from_binary(bin));
+
+        let x: BigInt = BigInt::from(-9999);
+        let bin = x.to_binary();
+        assert_eq!(x, BigInt::from_binary(bin));
+
+        let x: BigInt = BigInt::from(666);
+        let bin = x.to_binary();
+        assert_eq!(x, BigInt::from_binary(bin));
     }
 
     #[test]
