@@ -236,7 +236,11 @@ impl UpperHex for BigInt {
 
 impl LowerHex for BigInt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        todo!()
+        let output = self.create_hexa_string(f).to_ascii_lowercase().to_string();
+
+        write!(f, "{output}")?;
+
+        Ok(())
     }
 }
 
