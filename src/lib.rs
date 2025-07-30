@@ -1043,6 +1043,22 @@ impl BigInt {
             '0'
         }
     }
+
+    fn to_hexa(&self) -> Vec<char> {
+        let mut final_vec = vec![];
+        let mut number = self.clone();
+
+        number.positive = true;
+
+        while number > 0 {
+            final_vec.push(BigInt::number_to_hexa(number.clone() % 16));
+            number /= 16;
+        }
+
+        final_vec.reverse();
+
+        final_vec
+    }
 }
 
 #[cfg(test)]
