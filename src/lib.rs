@@ -1059,6 +1059,46 @@ impl BigInt {
 
         final_vec
     }
+
+    fn create_hexa_string(&self, f: &mut fmt::Formatter<'_>) -> String {
+        let hexa = self.to_hexa();
+        let mut output = String::new();
+
+        if !self.positive {
+            output.push('-');
+        }
+
+        if f.alternate() {
+            output.push_str("0x");
+        }
+
+        for hex in hexa {
+            output.push_str(&hex.to_uppercase().to_string());
+        }
+
+        let mut right_fill = true;
+
+        if f.width().is_some() {
+            while output.len() < f.width().unwrap() {
+                match f.align() {
+                    Some(Alignment::Left) => output.push(f.fill()),
+                    Some(Alignment::Center) => {
+                        if right_fill {
+                            output.push(f.fill());
+                            right_fill = false;
+                        } else {
+                            output.insert(0, f.fill());
+                            right_fill = true;
+                        }
+                    }
+                    Some(Alignment::Right) => output.insert(0, f.fill()),
+                    _ => output.insert(0, f.fill()),
+                }
+            }
+        }
+
+        output
+    }
 }
 
 #[cfg(test)]
