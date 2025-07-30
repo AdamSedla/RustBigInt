@@ -987,6 +987,26 @@ impl BigInt {
 
         final_vec
     }
+
+    fn from_binary(binary: Vec<bool>) -> BigInt {
+        if binary.is_empty() {
+            return BigInt::default();
+        }
+
+        let positive = !binary.first().unwrap();
+
+        let mut result = BigInt::default();
+
+        for (position, bit) in binary.iter().skip(1).rev().enumerate() {
+            if *bit {
+                result += 2.pow(position);
+            }
+        }
+
+        result.positive = positive;
+
+        result
+    }
 }
 
 #[cfg(test)]
