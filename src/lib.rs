@@ -230,7 +230,15 @@ impl Binary for BigInt {
 
 impl UpperHex for BigInt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        todo!()
+        let output = self
+            .create_hexa_string(f)
+            .to_uppercase()
+            .to_string()
+            .replace("X", "x");
+
+        write!(f, "{output}")?;
+
+        Ok(())
     }
 }
 
