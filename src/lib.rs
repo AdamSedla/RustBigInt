@@ -1005,6 +1005,44 @@ impl BigInt {
 
         result
     }
+
+    fn number_to_hexa(number: BigInt) -> char {
+        if number == 0 {
+            '0'
+        } else if number == 1 {
+            '1'
+        } else if number == 2 {
+            '2'
+        } else if number == 3 {
+            '3'
+        } else if number == 4 {
+            '4'
+        } else if number == 5 {
+            '5'
+        } else if number == 6 {
+            '6'
+        } else if number == 7 {
+            '7'
+        } else if number == 8 {
+            '8'
+        } else if number == 9 {
+            '9'
+        } else if number == 10 {
+            'A'
+        } else if number == 11 {
+            'B'
+        } else if number == 12 {
+            'C'
+        } else if number == 13 {
+            'D'
+        } else if number == 14 {
+            'E'
+        } else if number == 15 {
+            'F'
+        } else {
+            '0'
+        }
+    }
 }
 
 #[cfg(test)]
