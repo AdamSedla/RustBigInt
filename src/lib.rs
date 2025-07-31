@@ -57,14 +57,14 @@ impl FromStr for BigInt {
                 return BigInt::parse_word_digits(if positive {
                     string_of_numbers.to_string()
                 } else {
-                    format!("-{}", string_of_numbers)
+                    format!("-{string_of_numbers}")
                 });
             }
 
             numbers.push(char.to_digit(10).unwrap().to_u8().unwrap());
         }
 
-        if numbers.as_slice() == &[0] {
+        if numbers.as_slice() == [0] {
             positive = true;
         }
 
@@ -147,10 +147,10 @@ impl Display for BigInt {
         let mut output = String::new();
 
         if !self.positive {
-            output.push_str("-");
+            output.push('-');
         }
         if f.sign_plus() && self.positive {
-            output.push_str("+");
+            output.push('+');
         }
 
         for digit in &self.numbers {
@@ -354,7 +354,7 @@ impl PartialOrd for BigInt {
 
 impl PartialOrd<&str> for BigInt {
     fn partial_cmp(&self, other: &&str) -> Option<Ordering> {
-        let other = BigInt::from_str(&other);
+        let other = BigInt::from_str(other);
 
         if other.is_err() {
             return None;
@@ -672,13 +672,9 @@ where
             left.numbers.push(*digit);
             new_digit = 0;
 
-            while &left >= &right {
+            while left >= right {
                 left -= right.clone();
                 new_digit += 1;
-
-                if new_digit > 10 {
-                    assert!(false);
-                }
             }
 
             result.numbers.push(new_digit);
@@ -720,7 +716,7 @@ where
         if right == 0 {
             panic!("division by zero!");
         }
-        if self == 0 || right == 1 || right == 1 {
+        if self == 0 || right == 1 {
             return 0.into();
         }
 
@@ -1038,11 +1034,7 @@ impl BigInt {
     }
 
     fn is_even(&self) -> bool {
-        if (*self.numbers.last().unwrap() % 2).is_zero() {
-            true
-        } else {
-            false
-        }
+        (*self.numbers.last().unwrap() % 2).is_zero()
     }
 
     fn to_binary(&self) -> Vec<bool> {
