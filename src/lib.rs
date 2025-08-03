@@ -1,5 +1,3 @@
-#![allow(unused)]
-
 use num_traits::{Pow, ToPrimitive, Zero};
 
 use std::cmp::Ordering;
