@@ -329,7 +329,7 @@ impl PartialOrd for BigInt {
         }
         //compare digits
         else {
-            let mut numbers_iterator = self.numbers.iter().zip(other.numbers.iter());
+            let numbers_iterator = self.numbers.iter().zip(other.numbers.iter());
 
             for (left, right) in numbers_iterator {
                 if left != right {
@@ -556,7 +556,7 @@ where
 {
     type Output = Self;
     fn mul(self, rhs: T) -> Self::Output {
-        let mut right: BigInt = rhs.into();
+        let right: BigInt = rhs.into();
 
         //X * 0 edgecase
         if self == 0 || right == 0 {
@@ -580,7 +580,7 @@ where
         let mut result = BigInt::default();
         let mut sub_total;
         let mut new_digit;
-        let mut carry = 0;
+        let mut carry;
 
         for (position, &left) in self.numbers.iter().rev().enumerate() {
             // *0 edgecase
@@ -711,7 +711,7 @@ where
 {
     type Output = Self;
     fn rem(self, rhs: T) -> Self::Output {
-        let mut right: BigInt = rhs.into();
+        let right: BigInt = rhs.into();
 
         if right == 0 {
             panic!("division by zero!");
@@ -720,7 +720,7 @@ where
             return 0.into();
         }
 
-        let mut divide_result = self.clone() / right.clone();
+        let divide_result = self.clone() / right.clone();
 
         self - divide_result * right
     }
@@ -769,7 +769,7 @@ where
 {
     type Output = Self;
     fn bitand(self, rhs: T) -> Self::Output {
-        let mut right: BigInt = rhs.into();
+        let right: BigInt = rhs.into();
 
         let mut left = self.to_binary();
         let mut right = right.to_binary();
@@ -813,7 +813,7 @@ where
 {
     type Output = Self;
     fn bitor(self, rhs: T) -> Self::Output {
-        let mut right: BigInt = rhs.into();
+        let right: BigInt = rhs.into();
 
         let mut left = self.to_binary();
         let mut right = right.to_binary();
@@ -857,7 +857,7 @@ where
 {
     type Output = Self;
     fn bitxor(self, rhs: T) -> Self::Output {
-        let mut right: BigInt = rhs.into();
+        let right: BigInt = rhs.into();
 
         let mut left = self.to_binary();
         let mut right = right.to_binary();
@@ -901,7 +901,7 @@ where
 {
     type Output = Self;
     fn shl(self, rhs: T) -> Self::Output {
-        let mut right: BigInt = rhs.into();
+        let right: BigInt = rhs.into();
 
         if right == 0 {
             return self;
@@ -928,7 +928,7 @@ where
 {
     type Output = Self;
     fn shr(self, rhs: T) -> Self::Output {
-        let mut right: BigInt = rhs.into();
+        let right: BigInt = rhs.into();
 
         if right == 0 {
             return self;
@@ -1012,7 +1012,7 @@ impl BigInt {
             .map(str::to_lowercase)
             .collect();
 
-        let mut positive;
+        let positive;
 
         if matches!(parsed.first().map(String::as_str), Some("-" | "minus")) {
             positive = false;
