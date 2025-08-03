@@ -955,22 +955,22 @@ impl BigInt {
     }
 
     pub fn to_words(&self) -> String {
-        let mut fin_str: String;
-        let mut nmr_iter = self.numbers.iter();
+        let mut final_string: String;
+        let mut number_iterator = self.numbers.iter();
 
         //print minus or first digit
         if !self.positive {
-            fin_str = "minus".to_string();
+            final_string = "minus".to_string();
         } else {
-            fin_str = BigInt::number_to_word(*nmr_iter.next().unwrap_or(&0)).to_string();
+            final_string = BigInt::number_to_word(*number_iterator.next().unwrap_or(&0)).to_string();
         }
 
         //print all digits
-        for num in nmr_iter {
-            fin_str = format!("{} {}", fin_str, BigInt::number_to_word(*num));
+        for num in number_iterator {
+            final_string = format!("{} {}", final_string, BigInt::number_to_word(*num));
         }
 
-        fin_str
+        final_string
     }
 
     fn word_to_number(word: &str) -> Result<u8, BigIntError> {
