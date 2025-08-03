@@ -1026,7 +1026,7 @@ impl BigInt {
         let numbers = numbers?;
 
         //additional check
-        if numbers.clone().is_empty() {
+        if numbers.is_empty() {
             return Err(BigIntError::NaN);
         }
 
