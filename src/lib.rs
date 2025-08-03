@@ -1005,7 +1005,7 @@ impl BigInt {
         }
     }
 
-    fn parse_word_digits(string_of_numbers: String) -> Result<BigInt, BigIntError> {
+    fn parse_word_digits(string_of_numbers: &str) -> Result<BigInt, BigIntError> {
         let mut parsed: Vec<String> = string_of_numbers
             .split_whitespace()
             .map(str::to_lowercase)
