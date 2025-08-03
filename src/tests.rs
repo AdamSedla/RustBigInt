@@ -174,7 +174,7 @@ fn not() {
     x = -x;
     assert!(x.positive);
     assert_eq!(x.to_string(), "1");
-    let mut x = BigInt::from(-22);
+    x = BigInt::from(-22);
     assert!(!x.positive);
     assert_eq!(x.to_string(), "-22");
     x = -x;
@@ -637,7 +637,7 @@ fn div() {
 fn div_by_zero() {
     let mut x = BigInt::from(10);
     let y = BigInt::from(0);
-    let z = x / y;
+    x /= y;
 }
 
 #[test]
@@ -687,22 +687,22 @@ fn reminder() {
 
 #[test]
 fn power_of() {
-    let mut x: BigInt = BigInt::from(2);
+    let x: BigInt = BigInt::from(2);
     let y = BigInt::from(2);
     let z = x.pow(y);
     assert_eq!(z, 4);
 
-    let mut x: BigInt = BigInt::from(2);
+    let x: BigInt = BigInt::from(2);
     let y = BigInt::from(1);
     let z = x.pow(y);
     assert_eq!(z, 2);
 
-    let mut x: BigInt = BigInt::from(1);
+    let x: BigInt = BigInt::from(1);
     let y = BigInt::from(1000000);
     let z = x.pow(y);
     assert_eq!(z, 1);
 
-    let mut x: BigInt = BigInt::from(3);
+    let x: BigInt = BigInt::from(3);
     let y = BigInt::from(3);
     let z = x.pow(y);
     assert_eq!(z, 27);
@@ -1005,14 +1005,12 @@ fn hexadecimal() {
 
 #[test]
 fn progtest_tests() {
-    let mut a = BigInt::new();
-    let mut b = BigInt::new();
-    a = BigInt::from(10);
+    let mut a = BigInt::from(10);
     a += BigInt::from(20);
     assert_eq!(a, 30);
     a *= BigInt::from(5);
     assert_eq!(a, 150);
-    b = a.clone() + BigInt::from(3);
+    let mut b = a.clone() + BigInt::from(3);
     assert_eq!(b, 153);
     b = a.clone() * BigInt::from(7);
     assert_eq!(b, 1050);
