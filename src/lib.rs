@@ -688,7 +688,7 @@ where
             result.numbers.remove(0);
         }
 
-        if result.numbers == vec![] {
+        if result.numbers.is_empty() {
             return BigInt::default();
         }
 
