@@ -54,11 +54,13 @@ impl FromStr for BigInt {
 
         for char in string_of_numbers.chars() {
             if !char.is_ascii_digit() {
-                return BigInt::parse_word_digits(if positive {
+                let x = if positive {
                     string_of_numbers.to_string()
                 } else {
                     format!("-{string_of_numbers}")
-                });
+                };
+
+                return BigInt::parse_word_digits(x.as_str());
             }
 
             numbers.push(char.to_digit(10).unwrap().to_u8().unwrap());
@@ -962,7 +964,8 @@ impl BigInt {
         if !self.positive {
             final_string = "minus".to_string();
         } else {
-            final_string = BigInt::number_to_word(*number_iterator.next().unwrap_or(&0)).to_string();
+            final_string =
+                BigInt::number_to_word(*number_iterator.next().unwrap_or(&0)).to_string();
         }
 
         //print all digits
