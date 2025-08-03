@@ -722,7 +722,6 @@ where
 
         let mut divide_result = self.clone() / right.clone();
 
-        //result
         self - divide_result * right
     }
 }
