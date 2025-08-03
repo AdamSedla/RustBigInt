@@ -680,7 +680,7 @@ where
             result.numbers.push(new_digit);
 
             if left.numbers == vec![0] {
-                left.numbers = vec![];
+                left.numbers.clear();
             }
         }
 
