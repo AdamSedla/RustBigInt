@@ -455,9 +455,9 @@ where
     fn sub(mut self, rhs: T) -> Self::Output {
         let mut right: BigInt = rhs.into();
 
-        // X - 0 edgecase
+        // 0 - X edgecase
         if self == 0 {
-            return right;
+            return -right;
         }
         if right == 0 {
             return self;
