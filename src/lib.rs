@@ -638,7 +638,7 @@ where
             return BigInt::default();
         }
         if right == 1 {
-            return 1.into();
+            return self;
         }
         if self == 1 {
             if right == 1 {
