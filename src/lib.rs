@@ -744,6 +744,12 @@ where
         if right == 0 {
             return 1.into();
         }
+        if !right.positive {
+            if self == 1 {
+                return 1.into();
+            }
+            return 0.into();
+        }
 
         let mut result: BigInt = 1.into();
 
