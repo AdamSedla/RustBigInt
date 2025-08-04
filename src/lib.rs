@@ -228,7 +228,7 @@ impl Binary for BigInt {
 
 impl UpperHex for BigInt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let output = self.create_hexa_string(f).to_uppercase().replace("X", "x");
+        let output = self.create_hexa_string(f, true);
 
         write!(f, "{output}")?;
 
@@ -238,7 +238,7 @@ impl UpperHex for BigInt {
 
 impl LowerHex for BigInt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let output = self.create_hexa_string(f).to_ascii_lowercase().to_string();
+        let output = self.create_hexa_string(f, false);
 
         write!(f, "{output}")?;
 
@@ -1137,7 +1137,7 @@ impl BigInt {
         final_vec
     }
 
-    fn create_hexa_string(&self, f: &mut fmt::Formatter<'_>) -> String {
+    fn create_hexa_string(&self, f: &mut fmt::Formatter<'_>, uppercase: bool) -> String {
         let hexa = self.to_hexa();
         let mut output = String::new();
 
@@ -1150,7 +1150,11 @@ impl BigInt {
         }
 
         for hex in hexa {
-            output.push_str(&hex.to_uppercase().to_string());
+            output.push(if uppercase {
+                hex.to_ascii_uppercase()
+            } else {
+                hex.to_ascii_lowercase()
+            })
         }
 
         let mut right_fill = true;
