@@ -427,7 +427,7 @@ where
             result.numbers.push(new_digit);
         }
 
-        if !carry.is_zero() {
+        if carry != 0 {
             result.numbers.push(carry);
         }
 
