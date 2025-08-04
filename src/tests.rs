@@ -706,6 +706,31 @@ fn power_of() {
     let y = BigInt::from(3);
     let z = x.pow(y);
     assert_eq!(z, 27);
+
+    let x: BigInt = BigInt::from(-3);
+    let y = BigInt::from(3);
+    let z = x.pow(y);
+    assert_eq!(z, -27);
+
+    let x: BigInt = BigInt::from(-3);
+    let y = BigInt::from(2);
+    let z = x.pow(y);
+    assert_eq!(z, 9);
+
+    let x: BigInt = BigInt::from(2);
+    let y = BigInt::from(-1);
+    let z = x.pow(y);
+    assert_eq!(z, 0);
+
+    let x: BigInt = BigInt::from(1);
+    let y = BigInt::from(-10);
+    let z = x.pow(y);
+    assert_eq!(z, 1);
+
+    let x: BigInt = BigInt::from(5);
+    let y = BigInt::from(-10);
+    let z = x.pow(y);
+    assert_eq!(z, 0);
 }
 
 #[test]
