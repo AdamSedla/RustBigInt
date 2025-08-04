@@ -36,7 +36,9 @@ impl Default for BigInt {
 
 impl FromStr for BigInt {
     type Err = BigIntError;
-    fn from_str(mut string_of_numbers: &str) -> Result<Self, Self::Err> {
+    fn from_str(string_of_numbers: &str) -> Result<Self, Self::Err> {
+        let original = string_of_numbers;
+
         //empty string edgecaase
         if string_of_numbers.is_empty() {
             return Err(BigIntError::NaN);
@@ -46,19 +48,15 @@ impl FromStr for BigInt {
         let mut numbers: Vec<u8> = Vec::new();
 
         //if negative - remove '-'
-        if !positive {
-            string_of_numbers = string_of_numbers.split_at(1).1;
-        }
+        let string_of_numbers = &string_of_numbers[!positive as usize..];
 
         for char in string_of_numbers.chars() {
             if !char.is_ascii_digit() {
-                let x = if positive {
-                    string_of_numbers.to_string()
+                return BigInt::parse_word_digits(if positive {
+                    string_of_numbers
                 } else {
-                    format!("-{string_of_numbers}")
-                };
-
-                return BigInt::parse_word_digits(x.as_str());
+                    original
+                });
             }
 
             numbers.push(char.to_digit(10).unwrap().to_u8().unwrap());
