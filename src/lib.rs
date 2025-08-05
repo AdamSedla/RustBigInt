@@ -443,6 +443,19 @@ impl PartialOrd<&str> for BigInt {
     }
 }
 
+macro_rules! assign_trait {
+    ($trait:ident, $function:ident, $operation:ident) => {
+        impl<T> $trait<T> for BigInt
+        where
+            T: Into<BigInt>,
+        {
+            fn $function(&mut self, rhs: T) {
+                *self = self.clone().$operation(rhs);
+            }
+        }
+    };
+}
+
 impl<T> Add<T> for BigInt
 where
     T: Into<BigInt>,
