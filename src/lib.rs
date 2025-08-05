@@ -372,8 +372,8 @@ where
     T: Into<BigInt>,
 {
     type Output = Self;
-    fn add(mut self, rhs: T) -> Self::Output {
-        let mut right: BigInt = rhs.into();
+    fn add(self, rhs: T) -> Self::Output {
+        let right: BigInt = rhs.into();
 
         // X + 0 edgecase
         if self == 0 {
@@ -386,12 +386,12 @@ where
         // negative numbers edgecases
         if !self.positive && right.positive {
             // -X + Y => Y - X => -(X - Y)
-            self.positive = true;
-            return right - self;
+            //self.positive = true;
+            return right - (-self);
         } else if self.positive && !right.positive {
             //X - Y
-            right.positive = true;
-            return self - right;
+            //right.positive = true;
+            return self - (-right);
         }
 
         let mut result = BigInt {
