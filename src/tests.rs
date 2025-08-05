@@ -160,6 +160,8 @@ fn display() {
     let x = BigInt::from(1003);
     assert_eq!(format!("Number is: {x:0^10}"), "Number is: 0001003000");
     let x = BigInt::from(1003);
+    assert_eq!(format!("Number is: {x:0^11}"), "Number is: 00010030000");
+    let x = BigInt::from(1003);
     assert_eq!(format!("Number is: {x:0>10}"), "Number is: 0000001003");
     let x = BigInt::from(1003);
     assert_eq!(format!("Number is: {x:0<10}"), "Number is: 1003000000");
