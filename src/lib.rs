@@ -997,7 +997,7 @@ impl BigInt {
         };
     }
 
-    fn to_hexa(&self) -> Vec<char> {
+    fn to_hexa_vec(&self) -> Vec<char> {
         let mut final_vec = vec![];
         let mut number = self.clone();
 
@@ -1014,7 +1014,7 @@ impl BigInt {
     }
 
     fn create_hexa_string(&self, f: &mut fmt::Formatter<'_>, uppercase: bool) -> String {
-        let hexa = self.to_hexa();
+        let hexa = self.to_hexa_vec();
         let mut output = String::new();
 
         if !self.positive {
