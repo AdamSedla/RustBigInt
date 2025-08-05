@@ -831,23 +831,17 @@ impl BigInt {
     }
 
     pub fn to_words(&self) -> String {
-        let mut final_string = String::new();
+        let prefix = if self.positive { vec![] } else { vec!["minus"] };
 
-        if !self.positive {
-            final_string.push_str("minus ");
-        }
-
-        let numbers_by_words = self.numbers.iter().fold(String::new(), |mut string, num| {
-            string.push_str(&BigInt::number_to_word(*num));
-            string.push(' ');
-            string
-        });
-
-        final_string.push_str(&numbers_by_words);
-
-        final_string.pop();
-
-        final_string
+        prefix
+            .into_iter()
+            .chain(
+                self.numbers
+                    .iter()
+                    .map(|&number| BigInt::number_to_word(number)),
+            )
+            .collect::<Vec<&str>>()
+            .join(" ")
     }
 
     fn word_to_number(word: &str) -> Result<u8, BigIntError> {
