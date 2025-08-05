@@ -957,21 +957,21 @@ impl BigInt {
     }
 
     pub fn to_words(&self) -> String {
-        let mut final_string: String;
-        let mut number_iterator = self.numbers.iter();
+        let mut final_string = String::new();
 
-        //print minus or first digit
         if !self.positive {
-            final_string = "minus".to_string();
-        } else {
-            final_string =
-                BigInt::number_to_word(*number_iterator.next().unwrap_or(&0)).to_string();
+            final_string.push_str("minus ");
         }
 
-        //print all digits
-        for num in number_iterator {
-            final_string = format!("{} {}", final_string, BigInt::number_to_word(*num));
-        }
+        let numbers_by_words = self.numbers.iter().fold(String::new(), |mut string, num| {
+            string.push_str(&BigInt::number_to_word(*num));
+            string.push(' ');
+            string
+        });
+
+        final_string.push_str(&numbers_by_words);
+
+        final_string.pop();
 
         final_string
     }
