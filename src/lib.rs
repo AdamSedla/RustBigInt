@@ -282,7 +282,9 @@ impl PartialEq<&str> for BigInt {
 impl Neg for BigInt {
     type Output = Self;
     fn neg(mut self) -> Self::Output {
-        self.positive = !self.positive;
+        if self != 0 {
+            self.positive = !self.positive;
+        }
         self
     }
 }
