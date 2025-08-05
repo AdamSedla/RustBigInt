@@ -9,13 +9,17 @@ use std::str::FromStr;
 #[derive(Debug)]
 enum BigIntError {
     NaN,
+    LargeNumber,
 }
 
 impl Error for BigIntError {}
 
 impl Display for BigIntError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "Not a Number")
+        match self {
+            BigIntError::NaN => write!(f, "Not a Number"),
+            BigIntError::LargeNumber => write!(f, "Too large"),
+        }
     }
 }
 
