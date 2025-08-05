@@ -938,7 +938,7 @@ impl BigInt {
     fn number_to_hexa(number: BigInt) -> char {
         let number: u8 = number.try_into().unwrap_or(0);
 
-        return match number {
+        match number {
             0 => '0',
             1 => '1',
             2 => '2',
@@ -956,7 +956,7 @@ impl BigInt {
             14 => 'E',
             15 => 'F',
             _ => unreachable!(),
-        };
+        }
     }
 
     fn to_hexa_vec(&self) -> Vec<char> {
