@@ -747,48 +747,48 @@ fn rem_of_zero() {
 #[test]
 fn binary() {
     let x = BigInt::from(11);
-    assert_eq!(format!("{x:#10b}"), "   0b01011");
+    assert_eq!(format!("{x:#10b}"), "    0b1011");
     let x = BigInt::from(4);
-    assert_eq!(format!("{x:#b}"), "0b0100");
+    assert_eq!(format!("{x:#b}"), "0b100");
     let x = BigInt::from(4);
-    assert_eq!(format!("{x:b}"), "0100");
+    assert_eq!(format!("{x:b}"), "100");
     let x = BigInt::from(4);
     assert_eq!(format!("{x:0>10b}"), "0000000100");
     let x = BigInt::from(10);
-    assert_eq!(format!("{x:#10b}"), "   0b01010");
+    assert_eq!(format!("{x:#10b}"), "    0b1010");
     let x = BigInt::from(10);
-    assert_eq!(format!("{x:x>#010b}"), "xxx0b01010");
+    assert_eq!(format!("{x:x>#010b}"), "xxxx0b1010");
     let x = BigInt::from(172);
-    assert_eq!(format!("{x:b}"), "010101100");
+    assert_eq!(format!("{x:b}"), "10101100");
     let x = BigInt::from(-17220003931_i64);
-    assert_eq!(format!("{x:#b}"), "0b110000000010011001000110100001011011");
+    assert_eq!(format!("{x:#b}"), "-0b10000000010011001000110100001011011");
 }
 
 #[test]
 fn binary_transformation() {
     let x: BigInt = BigInt::from(10);
-    let bin = x.to_binary();
-    assert_eq!(x, BigInt::from_binary(bin));
+    let (positive, binary) = x.to_binary();
+    assert_eq!(x, BigInt::from_binary(positive, binary));
 
     let x: BigInt = BigInt::from(-42);
-    let bin = x.to_binary();
-    assert_eq!(x, BigInt::from_binary(bin));
+    let (positive, binary) = x.to_binary();
+    assert_eq!(x, BigInt::from_binary(positive, binary));
 
     let x: BigInt = BigInt::from(-0);
-    let bin = x.to_binary();
-    assert_eq!(x, BigInt::from_binary(bin));
+    let (positive, binary) = x.to_binary();
+    assert_eq!(x, BigInt::from_binary(positive, binary));
 
     let x: BigInt = BigInt::from(0);
-    let bin = x.to_binary();
-    assert_eq!(x, BigInt::from_binary(bin));
+    let (positive, binary) = x.to_binary();
+    assert_eq!(x, BigInt::from_binary(positive, binary));
 
     let x: BigInt = BigInt::from(-9999);
-    let bin = x.to_binary();
-    assert_eq!(x, BigInt::from_binary(bin));
+    let (positive, binary) = x.to_binary();
+    assert_eq!(x, BigInt::from_binary(positive, binary));
 
     let x: BigInt = BigInt::from(666);
-    let bin = x.to_binary();
-    assert_eq!(x, BigInt::from_binary(bin));
+    let (positive, binary) = x.to_binary();
+    assert_eq!(x, BigInt::from_binary(positive, binary));
 }
 
 #[test]
@@ -874,30 +874,30 @@ fn bit_xor() {
     let z = x.clone() ^ y.clone(); //1000
     x ^= y;
     assert_eq!(x, z);
-    assert_eq!(z, 8);
+    assert_eq!(z, -8);
 
     let mut x = BigInt::from(10); //1010
     let y = BigInt::from(13); //1101
     let z = x.clone() ^ y.clone(); //0111
     x ^= y;
     assert_eq!(x, z);
-    assert_eq!(z, 7);
+    assert_eq!(z, -7);
 
-    let mut x = BigInt::from(172); //10101100
-    let y = BigInt::from(223); //11011111
+    let mut x = BigInt::from(-172); //10101100
+    let y = BigInt::from(-223); //11011111
     let z = x.clone() ^ y.clone(); //01110011
     x ^= y;
     assert_eq!(x, z);
-    assert_eq!(z, 115);
+    assert_eq!(z, -115);
 
     let mut x = BigInt::from(172); //10101100
-    let y = BigInt::from(1); //1
+    let y = BigInt::from(-1); //1
     let z = x.clone() ^ y.clone(); //10101101
     x ^= y;
     assert_eq!(x, z);
     assert_eq!(z, 173);
 
-    let mut x = BigInt::from(173); //10101101
+    let mut x = BigInt::from(-173); //10101101
     let y = BigInt::from(1); //1
     let z = x.clone() ^ y.clone(); //10101100
     x ^= y;
