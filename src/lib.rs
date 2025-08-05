@@ -620,8 +620,8 @@ where
     T: Into<BigInt>,
 {
     type Output = Self;
-    fn div(mut self, rhs: T) -> Self::Output {
-        let mut right: BigInt = rhs.into();
+    fn div(self, rhs: T) -> Self::Output {
+        let right: BigInt = rhs.into();
 
         if right == 0 {
             panic!("division by zero!");
@@ -639,46 +639,7 @@ where
             return BigInt::default();
         }
 
-        let mut result = BigInt {
-            positive: self.positive == right.positive,
-            numbers: vec![],
-        };
-
-        self.positive = true;
-        right.positive = true;
-
-        let mut left = BigInt {
-            positive: true,
-            numbers: vec![],
-        };
-
-        let mut new_digit;
-
-        for digit in self.numbers.iter() {
-            left.numbers.push(*digit);
-            new_digit = 0;
-
-            while left >= right {
-                left -= right.clone();
-                new_digit += 1;
-            }
-
-            result.numbers.push(new_digit);
-
-            if left.numbers == vec![0] {
-                left.numbers.clear();
-            }
-        }
-
-        while result.numbers.first().unwrap_or(&1).is_zero() {
-            result.numbers.remove(0);
-        }
-
-        if result.numbers.is_empty() {
-            return BigInt::default();
-        }
-
-        result
+        BigInt::divide_with_remainder(self, right).0
     }
 }
 
@@ -706,9 +667,7 @@ where
             return 0.into();
         }
 
-        let divide_result = self.clone() / right.clone();
-
-        self - divide_result * right
+        BigInt::divide_with_remainder(self, right).1
     }
 }
 
@@ -1148,6 +1107,55 @@ impl BigInt {
             .collect();
 
         BigInt::from_binary(bit_operation(left_positive, right_positive), result)
+    }
+
+    fn divide_with_remainder(mut left: BigInt, mut right: BigInt) -> (BigInt, BigInt) {
+        let mut result = BigInt {
+            positive: left.positive == right.positive,
+            numbers: vec![],
+        };
+
+        let mut partial_sum = BigInt {
+            positive: true,
+            numbers: vec![],
+        };
+
+        left.positive = true;
+        right.positive = true;
+
+        let mut new_digit;
+
+        for digit in left.numbers.iter() {
+            partial_sum.numbers.push(*digit);
+            new_digit = 0;
+
+            while partial_sum >= right {
+                partial_sum -= right.clone();
+                new_digit += 1;
+            }
+
+            result.numbers.push(new_digit);
+
+            if partial_sum.numbers == vec![0] {
+                partial_sum.numbers.clear();
+            }
+        }
+
+        while result.numbers.first().unwrap_or(&1).is_zero() {
+            result.numbers.remove(0);
+        }
+
+        if result.numbers.is_empty() {
+            return (BigInt::default(), partial_sum);
+        }
+
+        if partial_sum.numbers.is_empty() {
+            partial_sum = BigInt::default();
+        }
+
+        partial_sum.positive = result.positive;
+
+        (result, partial_sum)
     }
 }
 
