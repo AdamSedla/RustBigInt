@@ -127,6 +127,18 @@ fn try_into() {
     assert_eq!(10_i128, x.try_into().unwrap());
     let x = BigInt::from(10);
     assert_eq!(10_u128, x.try_into().unwrap());
+    let x = BigInt::from(-123);
+    assert_eq!(-123_i8, x.try_into().unwrap());
+    let x = BigInt::from(-123);
+    assert_eq!(123_u8, x.try_into().unwrap());
+    let x = BigInt::from(-123);
+    assert_eq!(-123_i16, x.try_into().unwrap());
+    let x = BigInt::from(-123);
+    assert_eq!(123_u32, x.try_into().unwrap());
+    let x = BigInt::from(-123);
+    assert_eq!(-123_i64, x.try_into().unwrap());
+    let x = BigInt::from(-123);
+    assert_eq!(123_u64, x.try_into().unwrap());
 }
 
 #[test]
