@@ -231,26 +231,7 @@ impl Display for BigInt {
             output.push_str(&digit.to_string());
         }
 
-        let mut right_fill = true;
-
-        if f.width().is_some() {
-            while output.len() < f.width().unwrap() {
-                match f.align() {
-                    Some(Alignment::Left) => output.push(f.fill()),
-                    Some(Alignment::Center) => {
-                        if right_fill {
-                            output.push(f.fill());
-                            right_fill = false;
-                        } else {
-                            output.insert(0, f.fill());
-                            right_fill = true;
-                        }
-                    }
-                    Some(Alignment::Right) => output.insert(0, f.fill()),
-                    _ => output.insert(0, f.fill()),
-                }
-            }
-        }
+        BigInt::add_allignment(&mut output, f);
 
         write!(f, "{output}")?;
 
@@ -282,26 +263,7 @@ impl Binary for BigInt {
             }
         }
 
-        let mut right_fill = true;
-
-        if f.width().is_some() {
-            while output.len() < f.width().unwrap() {
-                match f.align() {
-                    Some(Alignment::Left) => output.push(f.fill()),
-                    Some(Alignment::Center) => {
-                        if right_fill {
-                            output.push(f.fill());
-                            right_fill = false;
-                        } else {
-                            output.insert(0, f.fill());
-                            right_fill = true;
-                        }
-                    }
-                    Some(Alignment::Right) => output.insert(0, f.fill()),
-                    _ => output.insert(0, f.fill()),
-                }
-            }
-        }
+        BigInt::add_allignment(&mut output, f);
 
         write!(f, "{output}")?;
 
@@ -1037,26 +999,7 @@ impl BigInt {
             })
         }
 
-        let mut right_fill = true;
-
-        if f.width().is_some() {
-            while output.len() < f.width().unwrap() {
-                match f.align() {
-                    Some(Alignment::Left) => output.push(f.fill()),
-                    Some(Alignment::Center) => {
-                        if right_fill {
-                            output.push(f.fill());
-                            right_fill = false;
-                        } else {
-                            output.insert(0, f.fill());
-                            right_fill = true;
-                        }
-                    }
-                    Some(Alignment::Right) => output.insert(0, f.fill()),
-                    _ => output.insert(0, f.fill()),
-                }
-            }
-        }
+        BigInt::add_allignment(&mut output, f);
 
         output
     }
@@ -1156,6 +1099,29 @@ impl BigInt {
         partial_sum.positive = result.positive;
 
         (result, partial_sum)
+    }
+
+    fn add_allignment(output: &mut String, f: &mut fmt::Formatter<'_>) {
+        let mut right_fill = true;
+
+        if f.width().is_some() {
+            while output.len() < f.width().unwrap() {
+                match f.align() {
+                    Some(Alignment::Left) => output.push(f.fill()),
+                    Some(Alignment::Center) => {
+                        if right_fill {
+                            output.push(f.fill());
+                            right_fill = false;
+                        } else {
+                            output.insert(0, f.fill());
+                            right_fill = true;
+                        }
+                    }
+                    Some(Alignment::Right) => output.insert(0, f.fill()),
+                    _ => output.insert(0, f.fill()),
+                }
+            }
+        }
     }
 }
 
