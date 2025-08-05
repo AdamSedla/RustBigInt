@@ -1031,7 +1031,7 @@ impl BigInt {
     }
 
     fn number_to_hexa(number: BigInt) -> char {
-        let number: u8 = number.try_into().unwrap_or(0_i128) as u8;
+        let number: u8 = number.try_into().unwrap_or(0);
 
         return match number {
             0 => '0',
