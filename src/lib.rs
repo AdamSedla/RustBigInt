@@ -1023,8 +1023,11 @@ impl BigInt {
             positive = true;
         }
 
-        let numbers: Result<Vec<u8>, _> =
-            parsed.iter().map(|w| BigInt::word_to_number(w)).collect();
+        let numbers: Result<Vec<u8>, _> = parsed
+            .iter()
+            .map(String::as_str)
+            .map(BigInt::word_to_number)
+            .collect();
         let numbers = numbers?;
 
         //additional check
