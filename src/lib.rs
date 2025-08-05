@@ -853,7 +853,7 @@ impl BigInt {
             7 => "seven",
             8 => "eight",
             9 => "nine",
-            _ => "zero",
+            _ => unreachable!(),
         }
     }
 
@@ -955,7 +955,7 @@ impl BigInt {
             13 => 'D',
             14 => 'E',
             15 => 'F',
-            _ => ' ',
+            _ => unreachable!(),
         };
     }
 
