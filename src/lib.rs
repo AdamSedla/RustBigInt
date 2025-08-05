@@ -367,23 +367,6 @@ impl PartialOrd<&str> for BigInt {
     }
 }
 
-fn create_numbers_set(left: BigInt, right: BigInt) -> (Vec<u8>, Vec<u8>) {
-    let (mut longer, mut shorter) = {
-        if left.numbers.len() >= right.numbers.len() {
-            (left.numbers, right.numbers)
-        } else {
-            (right.numbers, left.numbers)
-        }
-    };
-
-    longer.reverse();
-    shorter.reverse();
-
-    shorter.extend(vec![0; longer.len() - shorter.len()]);
-
-    (shorter, longer)
-}
-
 impl<T> Add<T> for BigInt
 where
     T: Into<BigInt>,
@@ -416,7 +399,7 @@ where
             numbers: vec![],
         };
 
-        let (longer, shorter) = create_numbers_set(self, right);
+        let (longer, shorter) = BigInt::equalize_vectors_length(self.numbers, right.numbers);
 
         let numbers_set = longer.iter().zip(shorter.iter());
 
@@ -1177,6 +1160,23 @@ impl BigInt {
         }
 
         output
+    }
+
+    fn equalize_vectors_length(left: Vec<u8>, right: Vec<u8>) -> (Vec<u8>, Vec<u8>) {
+        let (mut longer, mut shorter) = {
+            if left.len() > right.len() {
+                (left, right)
+            } else {
+                (right, left)
+            }
+        };
+
+        longer.reverse();
+        shorter.reverse();
+
+        shorter.extend(vec![0; longer.len() - shorter.len()]);
+
+        (shorter, longer)
     }
 }
 
