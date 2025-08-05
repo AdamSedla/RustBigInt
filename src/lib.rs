@@ -1102,26 +1102,46 @@ impl BigInt {
     }
 
     fn add_alignment(output: &mut String, f: &mut fmt::Formatter<'_>) {
-        let mut right_fill = true;
+        let alignment = (f.width().unwrap_or(output.len()) - output.len()) as i32;
 
-        if f.width().is_some() {
-            while output.len() < f.width().unwrap() {
-                match f.align() {
-                    Some(Alignment::Left) => output.push(f.fill()),
-                    Some(Alignment::Center) => {
-                        if right_fill {
-                            output.push(f.fill());
-                            right_fill = false;
-                        } else {
-                            output.insert(0, f.fill());
-                            right_fill = true;
-                        }
-                    }
-                    Some(Alignment::Right) => output.insert(0, f.fill()),
-                    _ => output.insert(0, f.fill()),
+        if alignment > 0 {
+            match f.align() {
+                Some(Alignment::Left) => {
+                    output.push_str(f.fill().to_string().repeat(alignment as usize).as_str())
                 }
+                Some(Alignment::Center) => {
+                    output.insert_str(
+                        0,
+                        f.fill()
+                            .to_string()
+                            .repeat((alignment / 2) as usize)
+                            .as_str(),
+                    );
+                    output.push_str(
+                        f.fill()
+                            .to_string()
+                            .repeat((alignment / 2 + (alignment % 2)) as usize)
+                            .as_str(),
+                    );
+                }
+                Some(Alignment::Right) => {
+                    output.insert_str(0, f.fill().to_string().repeat(alignment as usize).as_str())
+                }
+                _ => output.insert_str(0, f.fill().to_string().repeat(alignment as usize).as_str()),
             }
         }
+
+        /*
+                           Some(Alignment::Center) => {
+                               if right_fill {
+                                   output.push(f.fill());
+                                   right_fill = false;
+                               } else {
+                                   output.insert(0, f.fill());
+                                   right_fill = true;
+                               }
+                           }
+        */
     }
 }
 
