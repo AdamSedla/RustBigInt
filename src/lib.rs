@@ -518,14 +518,7 @@ where
     }
 }
 
-impl<T> AddAssign<T> for BigInt
-where
-    T: Into<BigInt>,
-{
-    fn add_assign(&mut self, rhs: T) {
-        *self = self.clone().add(rhs);
-    }
-}
+assign_trait!(AddAssign, add_assign, add);
 
 impl<T> Sub<T> for BigInt
 where
@@ -616,14 +609,7 @@ where
     }
 }
 
-impl<T> SubAssign<T> for BigInt
-where
-    T: Into<BigInt>,
-{
-    fn sub_assign(&mut self, rhs: T) {
-        *self = self.clone().sub(rhs);
-    }
-}
+assign_trait!(SubAssign, sub_assign, sub);
 
 impl<T> Mul<T> for BigInt
 where
@@ -695,14 +681,7 @@ where
     }
 }
 
-impl<T> MulAssign<T> for BigInt
-where
-    T: Into<BigInt>,
-{
-    fn mul_assign(&mut self, rhs: T) {
-        *self = self.clone().mul(rhs);
-    }
-}
+assign_trait!(MulAssign, mul_assign, mul);
 
 impl<T> Div<T> for BigInt
 where
@@ -732,14 +711,7 @@ where
     }
 }
 
-impl<T> DivAssign<T> for BigInt
-where
-    T: Into<BigInt>,
-{
-    fn div_assign(&mut self, rhs: T) {
-        *self = self.clone().div(rhs);
-    }
-}
+assign_trait!(DivAssign, div_assign, div);
 
 impl<T> Rem<T> for BigInt
 where
@@ -760,14 +732,7 @@ where
     }
 }
 
-impl<T> RemAssign<T> for BigInt
-where
-    T: Into<BigInt>,
-{
-    fn rem_assign(&mut self, rhs: T) {
-        *self = self.clone().rem(rhs);
-    }
-}
+assign_trait!(RemAssign, rem_assign, rem);
 
 impl<T> Pow<T> for BigInt
 where
@@ -813,14 +778,7 @@ where
     }
 }
 
-impl<T> BitAndAssign<T> for BigInt
-where
-    T: Into<BigInt>,
-{
-    fn bitand_assign(&mut self, rhs: T) {
-        *self = self.clone().bitand(rhs);
-    }
-}
+assign_trait!(BitAndAssign, bitand_assign, bitand);
 
 impl<T> BitOr<T> for BigInt
 where
@@ -832,14 +790,7 @@ where
     }
 }
 
-impl<T> BitOrAssign<T> for BigInt
-where
-    T: Into<BigInt>,
-{
-    fn bitor_assign(&mut self, rhs: T) {
-        *self = self.clone().bitor(rhs);
-    }
-}
+assign_trait!(BitOrAssign, bitor_assign, bitor);
 
 impl<T> BitXor<T> for BigInt
 where
@@ -851,14 +802,7 @@ where
     }
 }
 
-impl<T> BitXorAssign<T> for BigInt
-where
-    T: Into<BigInt>,
-{
-    fn bitxor_assign(&mut self, rhs: T) {
-        *self = self.clone().bitxor(rhs);
-    }
-}
+assign_trait!(BitXorAssign, bitxor_assign, bitxor);
 
 impl<T> Shl<T> for BigInt
 where
@@ -878,14 +822,7 @@ where
     }
 }
 
-impl<T> ShlAssign<T> for BigInt
-where
-    T: Into<BigInt>,
-{
-    fn shl_assign(&mut self, rhs: T) {
-        *self = self.clone().shl(rhs);
-    }
-}
+assign_trait!(ShlAssign, shl_assign, shl);
 
 impl<T> Shr<T> for BigInt
 where
@@ -905,14 +842,7 @@ where
     }
 }
 
-impl<T> ShrAssign<T> for BigInt
-where
-    T: Into<BigInt>,
-{
-    fn shr_assign(&mut self, rhs: T) {
-        *self = self.clone().shr(rhs);
-    }
-}
+assign_trait!(ShrAssign, shr_assign, shr);
 
 impl BigInt {
     pub fn new() -> BigInt {
