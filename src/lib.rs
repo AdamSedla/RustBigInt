@@ -1004,8 +1004,9 @@ impl BigInt {
         number.positive = true;
 
         while number > 0 {
-            final_vec.push(BigInt::number_to_hexa(number.clone() % 16));
-            number /= 16;
+            let divided = BigInt::divide_with_remainder(number, 16.into());
+            final_vec.push(BigInt::number_to_hexa(divided.1));
+            number = divided.0;
         }
 
         final_vec.reverse();
