@@ -184,8 +184,15 @@ impl Display for BigInt {
 
 impl Binary for BigInt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let binary = self.to_binary();
+        let (positive, binary) = self.to_binary();
         let mut output = String::new();
+
+        if !self.positive {
+            output.push('-');
+        }
+        if f.sign_plus() && self.positive {
+            output.push('+');
+        }
 
         if f.alternate() {
             output.push_str("0b");
@@ -773,8 +780,8 @@ where
     fn bitand(self, rhs: T) -> Self::Output {
         let right: BigInt = rhs.into();
 
-        let mut left = self.to_binary();
-        let mut right = right.to_binary();
+        let (left_positive, mut left) = self.to_binary();
+        let (right_positive, mut right) = right.to_binary();
         let mut result = vec![];
 
         left.reverse();
@@ -796,7 +803,7 @@ where
 
         result.reverse();
 
-        BigInt::from_binary(result)
+        BigInt::from_binary(left_positive & right_positive, result)
     }
 }
 
@@ -817,8 +824,8 @@ where
     fn bitor(self, rhs: T) -> Self::Output {
         let right: BigInt = rhs.into();
 
-        let mut left = self.to_binary();
-        let mut right = right.to_binary();
+        let (left_positive, mut left) = self.to_binary();
+        let (right_positive, mut right) = right.to_binary();
         let mut result = vec![];
 
         left.reverse();
@@ -840,7 +847,7 @@ where
 
         result.reverse();
 
-        BigInt::from_binary(result)
+        BigInt::from_binary(left_positive | right_positive, result)
     }
 }
 
@@ -861,8 +868,8 @@ where
     fn bitxor(self, rhs: T) -> Self::Output {
         let right: BigInt = rhs.into();
 
-        let mut left = self.to_binary();
-        let mut right = right.to_binary();
+        let (left_positive, mut left) = self.to_binary();
+        let (right_positive, mut right) = right.to_binary();
         let mut result = vec![];
 
         left.reverse();
@@ -884,7 +891,7 @@ where
 
         result.reverse();
 
-        BigInt::from_binary(result)
+        BigInt::from_binary(left_positive ^ right_positive, result)
     }
 }
 
@@ -1042,9 +1049,9 @@ impl BigInt {
         (*self.numbers.last().unwrap() % 2).is_zero()
     }
 
-    fn to_binary(&self) -> Vec<bool> {
+    fn to_binary(&self) -> (bool, Vec<bool>) {
         if *self == 0 {
-            return vec![false];
+            return (true, vec![false]);
         }
 
         let mut final_vec = vec![];
@@ -1063,27 +1070,19 @@ impl BigInt {
             number /= 2;
         }
 
-        if positive {
-            final_vec.push(false);
-        } else {
-            final_vec.push(true);
-        }
-
         final_vec.reverse();
 
-        final_vec
+        (positive, final_vec)
     }
 
-    fn from_binary(binary: Vec<bool>) -> BigInt {
+    fn from_binary(positive: bool, binary: Vec<bool>) -> BigInt {
         if binary.is_empty() {
             return BigInt::default();
         }
 
-        let positive = !binary.first().unwrap();
-
         let mut result = BigInt::default();
 
-        for (position, bit) in binary.iter().skip(1).rev().enumerate() {
+        for (position, bit) in binary.iter().rev().enumerate() {
             if *bit {
                 result += 2.pow(position);
             }
@@ -1154,6 +1153,9 @@ impl BigInt {
 
         if !self.positive {
             output.push('-');
+        }
+        if f.sign_plus() && self.positive {
+            output.push('+');
         }
 
         if f.alternate() {
