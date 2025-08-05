@@ -156,49 +156,65 @@ fn create_new_digit(position: usize, number: &u8) -> u64 {
     number * 10_u64.pow(position as u32)
 }
 
-impl TryInto<i128> for BigInt {
-    type Error = BigIntError;
-    fn try_into(self) -> Result<i128, Self::Error> {
-        if self > i128::MAX {
-            return Err(BigIntError::LargeNumber);
-        }
-        if self == 0 {
-            return Ok(0_i128);
-        }
+macro_rules! try_into_uint {
+    ($($t:ty),*) => {
+        $(impl TryInto<$t> for BigInt{
+            type Error = BigIntError;
+            fn try_into(self) -> Result<$t, Self::Error> {
 
-        let mut result: i128 = 0;
+                if self > <$t>::MAX {
+                    return Err(BigIntError::LargeNumber);
+                }
+                if self == 0 {
+                    return Ok(0 as $t);
+                }
 
-        for (position, number) in self.numbers.iter().rev().enumerate() {
-            result += create_new_digit(position, number) as i128;
-        }
+                let mut result: $t = 0;
 
-        if !self.positive {
-            result *= -1;
-        }
+                for (position, number) in self.numbers.iter().rev().enumerate() {
+                    result += create_new_digit(position, number) as $t;
+                }
 
-        Ok(result)
-    }
+                Ok(result)
+            }
+        })*
+
+    };
 }
 
-impl TryInto<u128> for BigInt {
-    type Error = BigIntError;
-    fn try_into(self) -> Result<u128, Self::Error> {
-        if self > u128::MAX {
-            return Err(BigIntError::LargeNumber);
-        }
-        if self == 0 {
-            return Ok(0_u128);
-        }
+macro_rules! try_into_int {
+    ($($t:ty),*) => {
+        $(impl TryInto<$t> for BigInt{
+            type Error = BigIntError;
+            fn try_into(self) -> Result<$t, Self::Error> {
 
-        let mut result: u128 = 0;
+                if self > <$t>::MAX {
+                    return Err(BigIntError::LargeNumber);
+                }
+                if self == 0 {
+                    return Ok(0 as $t);
+                }
 
-        for (position, number) in self.numbers.iter().rev().enumerate() {
-            result += create_new_digit(position, number) as u128;
-        }
+                let mut result: $t = 0;
 
-        Ok(result)
-    }
+                for (position, number) in self.numbers.iter().rev().enumerate() {
+                    result += create_new_digit(position, number) as $t;
+                }
+
+                if !self.positive {
+                   result *= -1;
+                }
+
+
+                Ok(result)
+            }
+        })*
+
+    };
 }
+
+try_into_uint!(u8, u16, u32, u64, u128);
+try_into_int!(i8, i16, i32, i64, i128);
 
 impl Display for BigInt {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
