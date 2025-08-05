@@ -782,7 +782,6 @@ where
 
         let (left_positive, mut left) = self.to_binary();
         let (right_positive, mut right) = right.to_binary();
-        let mut result = vec![];
 
         left.reverse();
         right.reverse();
@@ -797,11 +796,7 @@ where
 
         let binary_set = longer.iter().zip(shorter.iter());
 
-        for (left, right) in binary_set {
-            result.push(left & right);
-        }
-
-        result.reverse();
+        let result: Vec<bool> = binary_set.rev().map(|(left, right)| left & right).collect();
 
         BigInt::from_binary(left_positive & right_positive, result)
     }
@@ -826,7 +821,6 @@ where
 
         let (left_positive, mut left) = self.to_binary();
         let (right_positive, mut right) = right.to_binary();
-        let mut result = vec![];
 
         left.reverse();
         right.reverse();
@@ -841,11 +835,7 @@ where
 
         let binary_set = longer.iter().zip(shorter.iter());
 
-        for (left, right) in binary_set {
-            result.push(left | right);
-        }
-
-        result.reverse();
+        let result: Vec<bool> = binary_set.rev().map(|(left, right)| left | right).collect();
 
         BigInt::from_binary(left_positive | right_positive, result)
     }
@@ -870,7 +860,6 @@ where
 
         let (left_positive, mut left) = self.to_binary();
         let (right_positive, mut right) = right.to_binary();
-        let mut result = vec![];
 
         left.reverse();
         right.reverse();
@@ -885,11 +874,7 @@ where
 
         let binary_set = longer.iter().zip(shorter.iter());
 
-        for (left, right) in binary_set {
-            result.push(left ^ right);
-        }
-
-        result.reverse();
+        let result: Vec<bool> = binary_set.rev().map(|(left, right)| left ^ right).collect();
 
         BigInt::from_binary(left_positive ^ right_positive, result)
     }
