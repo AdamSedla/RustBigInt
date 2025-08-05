@@ -1130,18 +1130,6 @@ impl BigInt {
                 _ => output.insert_str(0, f.fill().to_string().repeat(alignment as usize).as_str()),
             }
         }
-
-        /*
-                           Some(Alignment::Center) => {
-                               if right_fill {
-                                   output.push(f.fill());
-                                   right_fill = false;
-                               } else {
-                                   output.insert(0, f.fill());
-                                   right_fill = true;
-                               }
-                           }
-        */
     }
 }
 
