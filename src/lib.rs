@@ -231,7 +231,7 @@ impl Display for BigInt {
             output.push_str(&digit.to_string());
         }
 
-        BigInt::add_allignment(&mut output, f);
+        BigInt::add_alignment(&mut output, f);
 
         write!(f, "{output}")?;
 
@@ -263,7 +263,7 @@ impl Binary for BigInt {
             }
         }
 
-        BigInt::add_allignment(&mut output, f);
+        BigInt::add_alignment(&mut output, f);
 
         write!(f, "{output}")?;
 
@@ -999,7 +999,7 @@ impl BigInt {
             })
         }
 
-        BigInt::add_allignment(&mut output, f);
+        BigInt::add_alignment(&mut output, f);
 
         output
     }
@@ -1101,7 +1101,7 @@ impl BigInt {
         (result, partial_sum)
     }
 
-    fn add_allignment(output: &mut String, f: &mut fmt::Formatter<'_>) {
+    fn add_alignment(output: &mut String, f: &mut fmt::Formatter<'_>) {
         let mut right_fill = true;
 
         if f.width().is_some() {
