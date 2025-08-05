@@ -191,10 +191,10 @@ impl Binary for BigInt {
         let (positive, binary) = self.to_binary();
         let mut output = String::new();
 
-        if !self.positive {
+        if !positive {
             output.push('-');
         }
-        if f.sign_plus() && self.positive {
+        if f.sign_plus() && positive {
             output.push('+');
         }
 
