@@ -761,27 +761,7 @@ where
 {
     type Output = Self;
     fn bitand(self, rhs: T) -> Self::Output {
-        let right: BigInt = rhs.into();
-
-        let (left_positive, mut left) = self.to_binary();
-        let (right_positive, mut right) = right.to_binary();
-
-        left.reverse();
-        right.reverse();
-
-        let (longer, mut shorter) = if left.len() > right.len() {
-            (left, right)
-        } else {
-            (right, left)
-        };
-
-        shorter.extend(vec![false; longer.len() - shorter.len()]);
-
-        let binary_set = longer.iter().zip(shorter.iter());
-
-        let result: Vec<bool> = binary_set.rev().map(|(left, right)| left & right).collect();
-
-        BigInt::from_binary(left_positive & right_positive, result)
+        BigInt::binary_operation(self, rhs, |left, right| left & right)
     }
 }
 
@@ -800,27 +780,7 @@ where
 {
     type Output = Self;
     fn bitor(self, rhs: T) -> Self::Output {
-        let right: BigInt = rhs.into();
-
-        let (left_positive, mut left) = self.to_binary();
-        let (right_positive, mut right) = right.to_binary();
-
-        left.reverse();
-        right.reverse();
-
-        let (longer, mut shorter) = if left.len() > right.len() {
-            (left, right)
-        } else {
-            (right, left)
-        };
-
-        shorter.extend(vec![false; longer.len() - shorter.len()]);
-
-        let binary_set = longer.iter().zip(shorter.iter());
-
-        let result: Vec<bool> = binary_set.rev().map(|(left, right)| left | right).collect();
-
-        BigInt::from_binary(left_positive | right_positive, result)
+        BigInt::binary_operation(self, rhs, |left, right| left | right)
     }
 }
 
@@ -839,27 +799,7 @@ where
 {
     type Output = Self;
     fn bitxor(self, rhs: T) -> Self::Output {
-        let right: BigInt = rhs.into();
-
-        let (left_positive, mut left) = self.to_binary();
-        let (right_positive, mut right) = right.to_binary();
-
-        left.reverse();
-        right.reverse();
-
-        let (longer, mut shorter) = if left.len() > right.len() {
-            (left, right)
-        } else {
-            (right, left)
-        };
-
-        shorter.extend(vec![false; longer.len() - shorter.len()]);
-
-        let binary_set = longer.iter().zip(shorter.iter());
-
-        let result: Vec<bool> = binary_set.rev().map(|(left, right)| left ^ right).collect();
-
-        BigInt::from_binary(left_positive ^ right_positive, result)
+        BigInt::binary_operation(self, rhs, |left, right| left ^ right)
     }
 }
 
@@ -1177,6 +1117,37 @@ impl BigInt {
         shorter.extend(vec![0; longer.len() - shorter.len()]);
 
         (shorter, longer)
+    }
+
+    fn binary_operation<F, T>(self, rhs: T, bit_operation: F) -> BigInt
+    where
+        F: Fn(bool, bool) -> bool,
+        T: Into<BigInt>,
+    {
+        let right: BigInt = rhs.into();
+
+        let (left_positive, mut left) = self.to_binary();
+        let (right_positive, mut right) = right.to_binary();
+
+        left.reverse();
+        right.reverse();
+
+        let (longer, mut shorter) = if left.len() > right.len() {
+            (left, right)
+        } else {
+            (right, left)
+        };
+
+        shorter.extend(vec![false; longer.len() - shorter.len()]);
+
+        let binary_set = longer.iter().zip(shorter.iter());
+
+        let result: Vec<bool> = binary_set
+            .rev()
+            .map(|(left, right)| bit_operation(*left, *right))
+            .collect();
+
+        BigInt::from_binary(bit_operation(left_positive, right_positive), result)
     }
 }
 
