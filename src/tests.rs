@@ -110,6 +110,36 @@ fn from_string_words_from_str_digits() {
 }
 
 #[test]
+fn try_into() {
+    let x = BigInt::from(666);
+    assert_eq!(666_i128, x.try_into().unwrap());
+    let x = BigInt::from(666);
+    assert_eq!(666_u128, x.try_into().unwrap());
+    let x = BigInt::from(-666);
+    assert_eq!(-666_i128, x.try_into().unwrap());
+    let x = BigInt::from(-666);
+    assert_eq!(666_u128, x.try_into().unwrap());
+    let x = BigInt::from(0);
+    assert_eq!(0_i128, x.try_into().unwrap());
+    let x = BigInt::from(0);
+    assert_eq!(0_u128, x.try_into().unwrap());
+}
+
+#[test]
+#[should_panic]
+fn try_into_panic_i128() {
+    let x = BigInt::from_str("999999999999999999999999999999999999999999999999999999999").unwrap();
+    assert_eq!(666_i128, x.try_into().unwrap());
+}
+
+#[test]
+#[should_panic]
+fn try_into_panic_u128() {
+    let x = BigInt::from_str("999999999999999999999999999999999999999999999999999999999").unwrap();
+    assert_eq!(666_u128, x.try_into().unwrap());
+}
+
+#[test]
 fn display() {
     let x = BigInt::from(1003);
     assert_eq!(format!("Number is: {x:0^10}"), "Number is: 0001003000");
