@@ -144,18 +144,6 @@ macro_rules! from_uint {
 from_int!(i8, i16, i32, i64, i128);
 from_uint!(u8, u16, u32, u64, u128);
 
-fn create_new_digit(position: usize, number: &u8) -> u64 {
-    let number = *number as u64;
-
-    if number == 0 {
-        return match position {
-            0 => 0,
-            _ => 10.pow(position),
-        } as u64;
-    }
-    number * 10_u64.pow(position as u32)
-}
-
 macro_rules! try_into_uint {
     ($($t:ty),*) => {
         $(impl TryInto<$t> for BigInt{
@@ -172,7 +160,7 @@ macro_rules! try_into_uint {
                 let mut result: $t = 0;
 
                 for (position, number) in self.numbers.iter().rev().enumerate() {
-                    result += create_new_digit(position, number) as $t;
+                    result += BigInt::create_new_digit(position, number) as $t;
                 }
 
                 Ok(result)
@@ -198,7 +186,7 @@ macro_rules! try_into_int {
                 let mut result: $t = 0;
 
                 for (position, number) in self.numbers.iter().rev().enumerate() {
-                    result += create_new_digit(position, number) as $t;
+                    result += BigInt::create_new_digit(position, number) as $t;
                 }
 
                 if !self.positive {
@@ -1130,6 +1118,18 @@ impl BigInt {
                 _ => output.insert_str(0, f.fill().to_string().repeat(alignment as usize).as_str()),
             }
         }
+    }
+
+    fn create_new_digit(position: usize, number: &u8) -> u64 {
+        let number = *number as u64;
+
+        if number == 0 {
+            return match position {
+                0 => 0,
+                _ => 10.pow(position),
+            } as u64;
+        }
+        number * 10_u64.pow(position as u32)
     }
 }
 
