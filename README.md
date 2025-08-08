@@ -10,6 +10,7 @@ My own implementation of BigInt (type of integer with unlimited size) as project
 
 ```rs
 use RustBigInt::BigInt;
+use std::str::FromStr;
 
 //from
 let x: BigInt = 66.into();
