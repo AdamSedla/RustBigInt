@@ -1,5 +1,5 @@
 [package]
-name = "big_int"
+name = "rust_big_int"
 version = "0.1.0"
 edition = "2024"
 
