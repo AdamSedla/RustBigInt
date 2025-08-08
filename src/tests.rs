@@ -1,7 +1,3 @@
-
-
-
-
 use std::str::FromStr;
 
 use num_traits::Pow;
@@ -35,10 +31,7 @@ fn from() {
     assert!(!x.positive);
     assert_eq!(
         x.numbers,
-        [
-            3, 2, 0, 0, 2, 0, 0, 0, 0, 9, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0
-        ]
-        .to_vec()
+        [3, 2, 0, 0, 2, 0, 0, 0, 0, 9, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0].to_vec()
     );
     let x = BigInt::from(0);
     assert!(x.positive);
@@ -63,10 +56,7 @@ fn from_string_numbers() {
     assert!(!x.positive);
     assert_eq!(
         x.numbers,
-        [
-            3, 2, 0, 0, 2, 0, 0, 0, 0, 9, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0
-        ]
-        .to_vec()
+        [3, 2, 0, 0, 2, 0, 0, 0, 0, 9, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0].to_vec()
     );
     let x = BigInt::from_str("-0").unwrap();
     assert!(x.positive);
