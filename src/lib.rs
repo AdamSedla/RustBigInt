@@ -7,7 +7,7 @@ use std::ops::*;
 use std::str::FromStr;
 
 #[derive(Debug)]
-enum BigIntError {
+pub enum BigIntError {
     NaN,
     LargeNumber,
 }
@@ -24,7 +24,7 @@ impl Display for BigIntError {
 }
 
 #[derive(Clone, Eq, Debug)]
-struct BigInt {
+pub struct BigInt {
     positive: bool,
     numbers: Vec<u8>,
 }
