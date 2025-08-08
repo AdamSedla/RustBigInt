@@ -1,3 +1,7 @@
+
+
+
+
 use std::str::FromStr;
 
 use num_traits::Pow;
@@ -689,7 +693,7 @@ fn div_by_zero() {
 }
 
 #[test]
-fn reminder() {
+fn remainder() {
     let mut x: BigInt = BigInt::from(10000);
     let y = BigInt::from(10);
     let z = x.clone() % y.clone();
